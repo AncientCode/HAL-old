@@ -1,0 +1,354 @@
+#AFFIRMATIVE
+>yes
+
+#AH YES
+>yes
+
+#APPARENTLY
+>yes
+
+#AW
+>interjection
+
+#AYE
+>yes
+
+#BLIMEY
+>interjection
+
+#BY NO MEANS
+>no
+
+#CERTAINLY NOT
+>no
+
+#CERTAINLY
+>yes
+
+#COMPLETELY
+>yes
+
+#CONSTANTLY
+>yes
+
+#DA
+>yes
+
+#DEFINITELY NOT
+>no
+
+#DOUBTFUL
+>no
+
+#ESPECIALLY
+>yes
+
+#EVIDENTLY
+>yes
+
+#EXTREMELY
+>yes
+
+#FULLY
+>yes
+
+#FURTHERMORE
+>interjection
+
+#GENERALLY
+>yes
+
+#GOD DAMN *
+>interjection
+
+#HAI
+>yes
+
+#HARDLY
+>no
+
+#I REFUSE
+>no
+
+#I SUPPOSE NOT
+>no
+
+#IN THIS CASE
+>yes
+
+#INDEFINITELY
+>yes
+
+#INTERJECTION
+OK.
+Ah.
+Er.
+So?
+Uh.
+Aw.
+Oh.
+Aha.
+Hey.
+Gee.
+Hmm.
+Mmm.
+Yay.
+Ugh.
+Woe!
+Wow!
+And?
+Dude!
+Gosh!
+Ahem.
+Whoa.
+Ayuh.
+Dude!
+Yikes!
+Great.
+I see.
+Really.
+Blimey.
+Yippee!
+Groovy.
+Hurrah!
+Awesome.
+Come on.
+Far out.
+Right on.
+Excuse me!
+Pardon me?
+I hear you.
+That's cool.
+Alright then.
+Take it easy.
+I understand.
+Tell me more.
+It's all good.
+Next question?
+That's alright.
+Give me a break.
+Are you kidding?
+Yeah that's right.
+That's interesting.
+How can I help you?
+I don't judge people.
+It goes without saying.
+I hate one word answers.
+
+#IT WOULD NOT
+>no
+
+#IT WOULD SEEM
+>yes
+
+#JA
+>yes
+
+#KNOW
+>no
+
+#N
+>no
+
+#NOPES
+>no
+
+#NAH
+>no
+
+#NAW
+>no
+
+#NAY
+>no
+
+#NEGATIVE
+>no
+
+#NO DO YOU
+I try to lead a moral life. | >no
+
+#NO GO AHEAD
+OK I will. | >no
+
+#NO I AM NOT
+I heard you are. | >no
+
+#NO I DID NOT
+Please don't argue with me. | >no
+
+#NO SORRY
+Apologies are not necessary. | >no
+
+#NO
+Aren't you being a little pessimistic?
+No? And what would be the reason for that?
+Do you often say no to people?
+Are you saying no just to be negative?
+Any reason why you are saying no.
+Are you really sure?
+Ok I understand.
+You sound quiet pessimistic.
+Ok I see.
+Why not?
+
+#NON
+>no
+
+#NOOOO
+>no
+
+#NOOOOO
+>no
+
+#NOOOOOO
+>no
+
+#NOPE
+Me neither. | >no
+
+#NOT COMPLETELY
+>no
+
+#NOT ESPECIALLY
+>no
+
+#NOT MANY
+>no
+
+#NOT PARTICULARLY
+>no
+
+#NOT THAT I KNOW OF
+>no
+
+#NOT
+>no
+
+#OF COURSE NOT
+>no
+
+#OH
+>interjection
+
+#ONLY JUST
+>yes
+
+#OUI
+>yes
+
+#SHURE
+>yes
+
+#SI
+>yes
+
+#SO
+>interjection
+
+#SORTA
+>interjection
+
+#SUPPOSEDLY
+>yes
+
+#SURE
+OK let's do it. | >yes
+
+#SURELY
+>yes
+
+#UHUH
+>no
+
+#UM
+>interjection
+
+#UNFORTUNATELY
+>yes
+
+#Y
+>yes
+
+#YA
+>yes
+
+#YAH
+>yes
+
+#YAP
+>yes
+
+#YAS
+>yes
+
+#YE
+>yes
+
+#YEA
+>yes
+
+#YEAH
+>yes
+
+#YEAP
+>yes
+
+#YEAS
+>yes
+
+#YEH
+>yes
+
+#YEP
+>yes
+
+#YEPPERS
+>yes
+
+#YER
+>yes
+
+#YES I AM
+>yes | Really interesting.
+
+#YES I MIND
+>yes | OK I won't tell anyone. It will be our secret.
+
+#YES IT IS
+>yes | Our thoughts are one, $USERNAME$.
+
+#YES OF COURSE
+>yes | But why of course?
+
+#YES OFCOURSE
+>yes | But why ofcourse?
+
+#YES PLEASE
+>yes | I will be glad to do it for you $USERNAME$.
+
+#YES RIGHT
+>yes | I am usually right.
+
+#YES SOMETIMES
+>yes | But not too often?
+
+#YES THAT IS RIGHT
+>yes | I thought I was right.
+
+#YES
+Are you sure?
+Are you saying yes just to dismiss the subject?
+You sound very optimistic.
+Does it mean that you agree with me?
+Ok I see.
+Alright then.
+I hate one word answers.
+That's cool.
+I understand.
+Okey then.
+#YESSS
+>yes
+
+#NULL
+

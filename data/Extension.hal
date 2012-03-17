@@ -1,0 +1,11 @@
+#TIME *
+It's now $TIME$.
+
+#DATE *
+It's now $DATE$.
+
+#DATETIME
+It's now $ISOTIME$.
+it's now $DATETIME$.
+
+#NULL

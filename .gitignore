@@ -1,0 +1,15 @@
+*.exe
+/HAL
+/build
+/python
+
+/standard
+/releases
+/updater
+/data/old
+/data/temp
+/old
+/dll
+*.dll
+*.pyd
+/site/
