@@ -13,3 +13,9 @@
 *.dll
 *.pyd
 /site/
+/portable
+/temp
+/test
+/updater
+*.pyc
+/compact
