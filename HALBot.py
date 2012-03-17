@@ -11,7 +11,7 @@ except:
     _user = None
 
 class HAL(object):
-    version = '0.010'
+    version = '0.011'
     def __init__(self, username=None, path='data', write=False):
         if username is None:
             if _user is None:

@@ -16,8 +16,13 @@ copy HALnative.pyd standard
 python -O -m compileall standard -q
 
 cd standard
+mkdir data
+copy ..\data\*.hal data
+copy ..\data\*.chal data
 del *.py
+copy ..\latest.txt Version.halconfig
 
 7za a HAL_SE_%VERSION%.7z *
+del ..\releases\HAL_SE_%VERSION%.7z
 move HAL_SE_%VERSION%.7z ..\releases
 echo Done
