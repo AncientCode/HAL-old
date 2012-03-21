@@ -2,8 +2,10 @@ from getpass import getuser
 
 from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
-from HALdatetime import is_datetime, answer_datetime
+import HALdatetime
 import equation
+import HALwiki
+from HALapi import HALcannotHandle
 
 try:
     _user = getuser()
@@ -12,6 +14,7 @@ except:
 
 class HAL(object):
     version = '0.011'
+    handlers = [equation, HALdatetime, HALwiki]
     def __init__(self, username=None, path='data', write=False):
         if username is None:
             if _user is None:
@@ -41,13 +44,18 @@ class HAL(object):
             return []
         
         for sentence in sentence_split(question):
-            if equation.check(sentence):
-                answers.append(equation.answer(sentence))
-            elif is_datetime(sentence):
-                answers.append(answer_datetime(sentence))
-            else:
+            handle = False
+            for handler in self.handlers:
+                if handler.check(sentence):
+                    try:
+                        ans = handler.answer(sentence)
+                    except HALcannotHandle:
+                        continue
+                    else:
+                        answers.append(ans)
+                        handle = True
+                        break
+            if not handle:
                 # Let C++ handle it
                 answers.append(self.intel.Ask(sentence))
         return answers
-
-        

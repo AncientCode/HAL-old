@@ -1,4 +1,5 @@
 from datetime import date, time, datetime
+from HALapi import HALcannotHandle
 
 _remove = '.?!'
 
@@ -7,11 +8,11 @@ def remove(input):
         input = input.replace(i, '')
     return input
 
-def is_datetime(input):
+def check(input):
     words = remove(input).replace("'s", ' is').split()
     return ('date' in words or 'time' in words or 'datetime' in words) and 'is' in words
 
-def answer_datetime(input):
+def answer(input):
     words = remove(input).replace("'s", ' is').split()
     if ('date' in words and 'time' in words or 'datetime' in words) and 'is' in words:
         # Datetime
@@ -21,4 +22,4 @@ def answer_datetime(input):
     elif 'time' in words and 'is' in words:
         return datetime.now().strftime('It is now %H:%M:%S.')
     else:
-        return None
+        raise HALcannotHandle

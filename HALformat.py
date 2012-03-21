@@ -16,6 +16,8 @@ def sentence_split(input):
         while z in input:
             input = input.replace(z, i)
     
+    input = input.strip()
+    
     strs = []
     str = ''
     

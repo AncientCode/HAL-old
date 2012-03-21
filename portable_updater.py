@@ -25,6 +25,7 @@ while True:
 
 if version == current: 
     subprocess.call(['HAL'])
+    raise SystemExit
 
 url = format % version 
 file_name = url.split('/')[-1] 
