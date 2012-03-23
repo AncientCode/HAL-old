@@ -4,10 +4,13 @@ import difflib
 import json
 from urllib import quote
 import re
-from HALformat import sentence_split
-from HALapi import HALcannotHandle
 from urllib import quote_plus
 from httplib import IncompleteRead
+from Queue import Queue
+from threading import Thread
+
+from HALformat import sentence_split
+from HALapi import HALcannotHandle
 
 wpformat = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=%s&prop=revisions&rvprop=content&redirects'
 wtformat = 'http://en.wiktionary.org/w/api.php?format=json&action=query&titles=%s&prop=revisions&rvprop=content&redirects'
@@ -20,15 +23,20 @@ relist = [(re.compile(r'\[\[Image\:.*?\]\]', re.S), ''),
           (re.compile(r'\[\[[^\|]*?\|([^\]]*?)\]\]'), lambda m: m.group(1)),
           #(re.compile(r'\[\[([A-Za-z0-9 _]+?)\]\]'), lambda m: m.group(1)),
           (re.compile(r"(?P<name>'{2,5})(.*?)(?P=name)"), lambda m: m.group(2)),
-          (re.compile(r"<ref[^>]*?>[^<]*?(?:<\/ref>)?", re.S), ''),
+          (re.compile(r"<ref[^>]*?>[^<]*?<\/ref>", re.S), ''),
           (re.compile(r"<ref.*?/>", re.S), ''),
-          (re.compile(r"{{.*?}?}?", re.S), ''),
+          (re.compile(r"<ref[^>]*?>.*", re.S), ''),
+          (re.compile(r"[,;]?\s*{{.*?}}\s*[,;]?", re.S), ''),
+          (re.compile(r"{{.*", re.S), ''),
           (re.compile(r"\s*\(\)\s*"), ' '),
+          (re.compile(r"<[^>]*?>"), ''),
           (re.compile(r'<!--.*?-->', re.S), '')]
 
 resentence = re.compile('(\. |^|!|\?)([A-Z][^;\.<>@\^&/\[\]]*(\.|!|\?) )', re.M)
 recomment = re.compile(r'<!--.*?-->', re.S)
-relink = re.compile('\[\[([^\]\|]+?)\]\]')
+relink = re.compile(r'\*\s*\[\[([^\]\|]+?)\]\]')
+
+web_cache = {}
 
 def init():
     if not header:
@@ -49,60 +57,6 @@ def answer(input):
         if a is not None:
             return a
     raise HALcannotHandle
-
-def wikipedia(name, sentence_count=2):
-    init()
-    url = wpformat%quote(name)
-    req = urllib2.Request(url, headers=header)
-    resp = json.loads(urllib2.urlopen(req).read())
-    page = resp['query']['pages'].items()[0][1]
-    if 'missing' in page:
-        return None
-    if 'did you mean' in page:
-        return None
-    if 'related searches' in page:
-        return None
-    content = page['revisions'][0]['*']
-    firstline = ''
-    for line in content.split('\n'):
-        if not line:
-            continue
-        if line[0] in '|<{}[]~!@#$%^&*()_+=-\\|`/:;.,<>?':
-            continue
-        firstline = line
-        break
-    line = re.sub(r'\[\[[A-Za-z0-9 _#\(\):]*?\|([A-Za-z0-9 _\(\):\']*?)\]\]', lambda m: m.group(1), firstline)
-    line = re.sub(r'\[\[([A-Za-z0-9 _]+?)\]\]', lambda m: m.group(1), line)
-    line = re.sub(r"(?P<name>'{2,5})(.*?)(?P=name)", lambda m: m.group(2), line)
-    line = re.sub(r"<ref.*?/>", '', line)
-    line = re.sub(r"<ref.*?>(.+)<\/ref>", '', line)
-    line = re.sub(r"{{(.+)}}", '', line)
-    line = line.replace('&nbsp;', ' ')
-    sentences = sentence_split(line)
-    return ''.join(sentences[:sentence_count])
-    #return ' '.join(re.split(r'("[A-Z].*?\.) ', line)[1:3])
-
-def wiktionary(name):
-    init()
-    url = wtformat%quote(name)
-    req = urllib2.Request(url, headers=header)
-    resp = json.loads(urllib2.urlopen(req).read())
-    page = resp['query']['pages'].items()[0][1]
-    if 'missing' in page:
-        return None
-    content = page['revisions'][0]['*']
-    if '==English==' not in content:
-        return None
-    start = False
-    defin = ''
-    for line in content.split('\n'):
-        if line == '==English==':
-            start = True
-        elif re.match('==[A-Z0-9a-z]+==', line):
-            break
-        elif False:
-            pass
-    return content
 
 def most_relavent(list, to):
    #print list
@@ -137,26 +91,55 @@ def get_wikipedia_page(name):
     #    return None
     #if 'may refer to:' in l:
     #    return None
-    if '{{disambig}}:' in l or '{{disambiguation}}' in l:
+    if '{{disambig}}' in l or '{{disambiguation}}' in l:
         return title, get_wikipedia_page(disambig(content))[1]
     return title, recomment.sub('', content).replace('{{pi}}', 'pi')
 
 def clean_wikipedia(text):
     for re, subst in relist:
         text = re.sub(subst, text)
+        #print re.pattern, subst, text.encode('mbcs', 'replace')
     return text.replace('&nbsp;', ' ')
+
+def cached_fetch_wiki(title):
+    try:
+        return title, web_cache[title]
+    except KeyError:
+        real, data = get_wikipedia_page(title)
+        web_cache[title] = data
+        if real != title:
+            web_cache[real] = data
+        return real, data
+
+def sentence_split(text):
+    sentence_ = resentence.split(text)
+    sentence = []
+    end = ':,!.?'
+    for i in sentence_:
+        #print i
+        if not i:
+            continue
+        if i and i[0] in end and sentence and sentence[-1][-1] not in end:
+            sentence[-1] = (sentence[-1]+i).strip()
+            continue
+        sentence.append(i.strip())
+    #print sentence
+    return sentence
 
 def wikipedia(key):
     bing = urllib2.urlopen('http://www.bing.com/search?q=%s'%quote_plus(key+' wikipedia')).read()
-    result = re.findall('http://en.wikipedia.org/wiki/([^"#]+?)"', bing)[:3]
+    #result = re.findall('http://en.wikipedia.org/wiki/([^"#]+?)"', bing)[:2]
+    result = re.findall('http://en.wikipedia.org/wiki/([^"#]+?)"', bing)
     if not result:
         return None
-    print result
+    result = result[0].replace('_', ' ')
+    #print result
     pages = {}
-    for page in result:
+    #for page in result:
+    for page in [result]:
         head = None
         buf = ''
-        a = get_wikipedia_page(page)
+        a = cached_fetch_wiki(page)
         if a is None:
             continue
         page, p = a
@@ -177,7 +160,7 @@ def wikipedia(key):
             else:
                 buf += line + '\n'
         if head is not None:
-            id = '%s#%s'%(page, head)
+            id = '%s %s'%(page, head)
         else:
             id = page
         pages[id] = buf
@@ -195,16 +178,31 @@ def wikipedia(key):
             continue
         if line[0] in ' |<{}[]~!@#$%^&*()_+=-\\`/:;.,<>?':
             continue
+        if line[-1] in ':':
+            continue
         firstline = line
         break
-    #sentences = sentence_split(clean_wikipedia(firstline))
-    sentences = resentence.split(clean_wikipedia(firstline))
+    sentences = sentence_split(clean_wikipedia(firstline))
+    #sentences = resentence.split(clean_wikipedia(firstline))
     sentences = [i for i in sentences if i and i[0] != '.']
-    str =  ''.join(sentences[:2])
-    if str and str[-1] != '.':
+    str = ' '.join(sentences[:2]).strip()
+    if str and str[-1] not in '!.,?:':
         str += '.'
     return str
     #return str(sentences)
+
+def get_most_relevant_subsection(pagetitle, subsection):
+    diff = difflib.SequenceMatcher()
+    diff.set_seq1(pagetitle)
+    diff.set_seq2(subsection)
+    diff.ratio()
+    ratio = diff.ratio()
+    print ratio
+    if ratio > 0.25:
+        if re.sub("\D", ', ' , pagetitle).replace(',', ' ').strip() == re.sub("\D", ', ' , subsection).replace(',', ' ').strip():
+            ratio = ratio + 0.075
+        else:
+            print ratio
 
 if __name__ == '__main__':
     while True:
