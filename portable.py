@@ -8,8 +8,8 @@ sys.argv.append('py2exe')
 
 setup(console=['HALcon.py'], data_files=[('data', glob('data/*.hal')+glob('data/*.chal'))],
       options={
-        'py2exe': {'ascii': True, 'dist_dir': 'portable', 'optimize': 2,
-                   'excludes': ['_ssl', 'unittest', 'doctest', 'difflib', 'inspect'],
+        'py2exe': {'ascii': False, 'dist_dir': 'portable', 'optimize': 2,
+                   'excludes': ['_ssl', 'unittest', 'doctest', 'inspect'],
                    },
       }
 )

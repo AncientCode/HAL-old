@@ -8,7 +8,8 @@ echo Copy bytecode file...
 copy equation.py standard
 copy HALBot.py standard
 copy HALcon.py standard
-copy HALdatetime.py standard
+copy HALwiki.py standard
+copy HALapi.py standard
 copy HALformat.py standard
 copy HALmain.py standard
 copy boost_python-vc100-mt-1_47.dll standard

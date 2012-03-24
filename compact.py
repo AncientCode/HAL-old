@@ -8,8 +8,8 @@ sys.argv.append('py2exe')
 
 setup(console=['compact_entry.py'], data_files=[('data', glob('data/*.hal')+glob('data/*.chal'))],
       options={
-        'py2exe': {'ascii': True, 'dist_dir': 'compact', 'optimize': 2,
-                   'excludes': ['_ssl', 'unittest', 'doctest', 'difflib', 'inspect'],
+        'py2exe': {'ascii': False, 'dist_dir': 'compact', 'optimize': 2,
+                   'excludes': ['_ssl', 'unittest', 'doctest', 'inspect'],
                    },
       }
 )
