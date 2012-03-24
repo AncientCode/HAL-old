@@ -11239,79 +11239,15 @@ Why don't you just look it up?
 #WHAT IS * S REAL NAME
 Probably it is ^.
 
-#WHAT IS * SEEKER
-"There's a seeker born every minute." -- Firesign Theater.
-
 #WHAT IS * SIGN
 $SIGN$
 
 #WHAT IS * THEORY
+$HALWIKI$
 ^ is something that has few practical applications.
-
-#WHAT IS * TODAY
-Check out CNN.com.
-
-#WHAT IS * UNIVERSITY
-A college?
-
-#WHAT IS * VOYAGER
-Voyager is the latest in the Star Trek TV series.
-
-#WHAT IS 1 *
-1 plus 1 = 2.
-
-#WHAT IS 1 PLUS *
-That is a really dumb question.
-
-#WHAT IS 1 TIMES *
-Can't you think of something harder than that?
-
-#WHAT IS 10 *
-10 times 10 = 100.
-
-#WHAT IS 10 PLUS *
-I know ten plus ten is twenty.
-
-#WHAT IS 1234 *
-Use a calculator!
-
-#WHAT IS 17 *
-Use a calculator!
-
-#WHAT IS 2 *
-Two.
-Four.
-Six.
-12.
-
-#WHAT IS 20 *
-Use a calculator!
-
-#WHAT IS 200 *
-Get a calculator!
-
-#WHAT IS 25 *
-Use a calculator!
-
-#WHAT IS 3 *
-3 times 3 = 9.
-
-#WHAT IS 30 *
-Use a calculator!
-
-#WHAT IS 300 *
-Get a calculator!
-
-
-
-#WHAT IS 50 *
-I am not a calculator.
 
 #WHAT IS 50% *
 Half of ^.
-
-#WHAT IS 500 *
-Get a calculator!
 
 #WHAT IS A * SEEKER
 You are a seeker. "Seeker" is my codeword for clients.
@@ -13103,6 +13039,24 @@ Ashbury St.
 
 #WHERE IS * TEXAS
 I would think ^ is in Texas.
+
+#WHERE IS *
+$HALWIKI$
+
+#WHERE ARE *
+$HALWIKI$
+
+#WHO ARE *
+$HALWIKI$
+
+#WHO IS *
+$HALWIKI$
+
+#WHEN IS *
+$HALWIKI$
+
+#WHAT ARE *
+$HALWIKI$
 
 #WHERE IS CALCIUM *
 Bones.
@@ -15307,8 +15261,7 @@ I really dont understand why you think that it is ^.
 How did you come to that conclusion?
 
 #WHAT IS *
-I don't know what is ^.
-Don't you really know what is ^?
+$HALWIKI$
 
 #I LIKE *
 Why do you like ^?

@@ -6,8 +6,9 @@ from urllib import quote
 import re
 from urllib import quote_plus
 from httplib import IncompleteRead
-from Queue import Queue
-from threading import Thread
+#from Queue import Queue
+#from threading import Thread
+from socket import timeout as SocketTimeout
 
 from HALformat import sentence_split
 from HALapi import HALcannotHandle
@@ -143,7 +144,7 @@ def wikipedia(key):
         if a is None:
             continue
         page, p = a
-        print page
+        #print page
         if p is None:
             continue
         for line in p.split('\n'):
@@ -167,7 +168,7 @@ def wikipedia(key):
     if not pages:
         return None
     selected = most_relavent(pages.keys(), key)
-    print 'Selected:', selected
+    #print 'Selected:', selected
     # page = clean_wikipedia(pages[selected])
     # sentences = [i for i in sentence_split(page) if i]
     # return ''.join(sentences)
@@ -203,6 +204,31 @@ def get_most_relevant_subsection(pagetitle, subsection):
             ratio = ratio + 0.075
         else:
             print ratio
+
+class HALwiki(object):
+    respace = re.compile(r'\s+')
+    def __init__(self, removal=None):
+        self.remove = ['what', 'is', 'who', 'where', 'when', 'are']
+        if removal is not None:
+            try:
+                with open(removal) as fp:
+                    self.remove.extend = [i.strip() for i in fp.readlines()]
+            except IOError:
+                pass
+    def getwiki(self, input):
+        for junk in self.remove:
+            input = input.replace(junk, '')
+        input = self.respace.sub(' ', input.strip())
+        while True:
+            try:
+                res = wikipedia(input)
+            except (IncompleteRead, SocketTimeout):
+                continue
+            else:
+                break
+        if not res:
+            raise HALcannotHandle
+        return res
 
 if __name__ == '__main__':
     while True:

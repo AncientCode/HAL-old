@@ -9,7 +9,8 @@ typedef boost::fast_pool_allocator<string> string_pool;
 typedef list<string, string_pool> HALanswerList;
 typedef boost::fast_pool_allocator<HALanswerList> HALanswerList_pool;
 //typedef unordered_map<string, HALanswerList, HALanswerList_pool> HALintel;
-typedef tuple<string, regex, HALanswerList> HALdataEntry;
+// HALdataEntry: Key, Regex, Answer List, Thinkset
+typedef tuple<string, regex, HALanswerList, string> HALdataEntry;
 typedef boost::fast_pool_allocator<HALdataEntry> HALdataEntry_pool;
 typedef list<HALdataEntry, HALdataEntry_pool> HALintel;
 typedef unordered_set<string> HALintelList;
@@ -39,13 +40,14 @@ public:
 protected:
     HALintel data;
     mt19937 rng;
-    HALintelList datalist;
+    //HALintelList datalist;
     HALMacroList macros;
     HALMacroList simple_word_subst;
     HALMacroList readable_subst;
     HALWordList generic_answer;
     HALWordList word_removal;
     fstream learn_file;
+    string prev_thinkset;
     
     static const regex wildcard2regex;
     static const regex caret_replace;

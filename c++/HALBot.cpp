@@ -58,7 +58,7 @@ void read_into_sequence(sequence& data, const string& file, const string& purpos
 void HALBot::Initialize(const string& path, const string& username, bool write) {
     // Initialize the data structure
     HALanswerList replies;
-    string key;
+    string key, thinkset;
     list<string> files;
     //GetDirContents(path, files);
     MatchFile(path+"\\*.hal", files);
@@ -73,16 +73,20 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
             //throw new IOException(string("Can't open file: ")+*i);
         while (file.getline(temp, 1024, '\n')) {
             switch (temp[0]) {
+            case '%':
+                // New Thinkset
+                thinkset = temp+1;
+                break;
             case '#':
                 // New Command
                 if (!key.empty()) {
                     regex reg(word_boundary+regex_replace(key, wildcard2regex, string("\\b(.*)\\b"))+word_boundary,
                               regex_constants::ECMAScript|regex_constants::icase/*|
                               regex_constants::optimize*/);
-                    HALdataEntry entry(key, reg, replies);
+                    HALdataEntry entry(key, reg, replies, thinkset);
                     data.push_back(entry);
                     replies.clear();
-                    datalist.insert(key);
+                    //datalist.insert(key);
                 }
                 key = temp+1;
                 if (key[0] == '_') {
@@ -90,11 +94,6 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
                     key[1] = '*';
                 }
                 break;
-            //case '>':
-                /*string ptrkey(temp+1);
-                if (datalist.count(ptrkey)) {
-
-                }*/
             case '\0':
                 break;
             default:
@@ -103,6 +102,7 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
             }
         }
         key.clear();
+        thinkset.clear();
         replies.clear();
         file.close();
     }
@@ -113,8 +113,8 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
     InitMacro(username);
     
     // Generic Answer
-    read_into_sequence(generic_answer, path + "\\generic.chal", "generic answers", write);
-    generic_answer.push_back("I can't seem to understand.");
+    //read_into_sequence(generic_answer, path + "\\generic.chal", "generic answers", write);
+    //generic_answer.push_back("I can't seem to understand.");
     
     // Learning File
     learn_file.open(path+"\\learn.dat", ios_base::out|ios_base::app);
@@ -156,45 +156,60 @@ void trim(string& str) {
     boost::algorithm::trim(str);
 }
 
+inline void clean_possible(const string& question, vector<tuple<string, string, size_t, string> >& possible) {
+    int best = 0xFFFFFFFF;
+    for (auto i = possible.cbegin(); i < possible.cend(); ++i) {
+        //if (get<1>(*i).length() < best)
+        //  best = get<1>(*i).length();
+        if (question.length() - get<2>(*i) < best)
+            best = question.length() - get<2>(*i);
+    }
+    for (auto i = possible.begin(); i < possible.end();) {
+        //if (get<1>(*i).length() > best) {
+        boost::algorithm::trim(get<1>(*i));
+        if (question.length() - get<2>(*i) > best) {
+            i = possible.erase(i);
+        } else if (get<0>(*i).find("^") != string::npos && !get<1>(*i).length()) {
+            i = possible.erase(i);
+        } else {
+            ++i;
+        }
+    }
+}
+
 string HALBot::Ask(const string& question_) {
     string question(regex_replace(question_, space_normalize, string(" ")));
     for (auto i = readable_subst.cbegin(); i != readable_subst.cend(); ++i)
         boost::algorithm::ireplace_all(question, i->first, i->second);
     for (auto i = word_removal.cbegin(); i != word_removal.cend(); ++i)
         boost::algorithm::ireplace_all(question, *i, "");
-    typedef tuple<string, string, size_t> entry;
-    vector<entry> possible;
+    // Name, Wildcard, Magnitude of Specificness (migher = more), Thinkset
+    typedef tuple<string, string, size_t, string> entry;
+    vector<entry> possible, best_possible;
     smatch results;
     for (auto i = data.cbegin(); i != data.cend(); ++i) {
         if (regex_search(question, results, get<1>(*i))) {
             const HALanswerList &answers = get<2>(*i);
-            for (auto j = answers.cbegin(); j != answers.cend(); ++j)
-                possible.push_back(entry(*j, results[1], get<0>(*i).length()));
-        }
-    }
-    if (possible.empty()) {
-        //return "I can't seem to understand.";
-        size_t index = uniform_int_distribution<size_t>(0, generic_answer.size()-1)(rng);
-        return Format(generic_answer[index], "");
-    } else {
-        int best = 0xFFFFFFFF;
-        for (auto i = possible.cbegin(); i < possible.cend(); ++i) {
-            //if (get<1>(*i).length() < best)
-            //  best = get<1>(*i).length();
-            if (question.length() - get<2>(*i) < best)
-                best = question.length() - get<2>(*i);
-        }
-        for (auto i = possible.begin(); i < possible.end();) {
-            //if (get<1>(*i).length() > best) {
-            boost::algorithm::trim(get<1>(*i));
-            if (question.length() - get<2>(*i) > best) {
-                i = possible.erase(i);
-            } else if (get<0>(*i).find("^") != string::npos && !get<1>(*i).length()) {
-                i = possible.erase(i);
+            if (!prev_thinkset.empty() && get<3>(*i) == prev_thinkset) {
+                for (auto j = answers.cbegin(); j != answers.cend(); ++j)
+                    best_possible.push_back(entry(*j, results[1], get<0>(*i).length(), get<3>(*i)));
             } else {
-                ++i;
+                for (auto j = answers.cbegin(); j != answers.cend(); ++j)
+                    possible.push_back(entry(*j, results[1], get<0>(*i).length(), get<3>(*i)));
             }
         }
+    }
+    if (best_possible.empty() && possible.empty()) {
+        //return "I can't seem to understand.";
+        //size_t index = uniform_int_distribution<size_t>(0, generic_answer.size()-1)(rng);
+        //return Format(generic_answer[index], "");
+        return "$RAISE_HALCANNOTHANDLE$";
+    } else {
+        clean_possible(question, best_possible);
+        clean_possible(question, possible);
+        if (!best_possible.empty())
+            possible = best_possible;
+        
         size_t index = uniform_int_distribution<size_t>(0, possible.size()-1)(rng);
         string &answer = get<0>(possible[index]);
         string &matched = get<1>(possible[index]);
@@ -214,6 +229,7 @@ string HALBot::Ask(const string& question_) {
         }
         if (answer.front() == '>')
             return Ask(answer.c_str()+1);
+        prev_thinkset = get<3>(possible[index]);
         return Format(answer, matched);
     }
 }
@@ -280,9 +296,9 @@ void HALBot::Learn(const string& question, const HALanswerList& answers) {
 
     regex reg(regex_replace(key, wildcard2regex, string("(.*)")),
               regex_constants::ECMAScript|regex_constants::icase);
-    HALdataEntry entry(key, reg, answers);
+    HALdataEntry entry(key, reg, answers, "");
     data.push_back(entry);
-    datalist.insert(key);
+    //datalist.insert(key);
     learn_file << '#' << key << '\n';
     for (auto i = answers.cbegin(); i != answers.cend(); ++i)
         learn_file << *i << '\n';
