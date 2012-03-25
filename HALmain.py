@@ -3,6 +3,7 @@ import os.path
 import sys
 import os
 import platform
+import codecs
 
 def get_system_info():
     if os.name == 'nt':
@@ -25,6 +26,7 @@ def get_main_dir():
             return dirname
 
 def main(data=None):
+    sys.stdout = codecs.getwriter('mbcs')(sys.stdout, 'replace')
     if data is None:
         data = os.path.join(get_main_dir(), 'data')
     if not os.path.exists(data):

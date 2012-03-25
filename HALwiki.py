@@ -75,7 +75,8 @@ def disambig(page):
     return relink.search(page).group(1)
 
 def get_wikipedia_page(name):
-    url = wpformat%quote(name)
+    url = wpformat%quote(name.encode('utf-8'))
+    #print name
     req = urllib2.Request(url, headers=header)
     resp = json.loads(urllib2.urlopen(req, timeout=5).read())
     page = resp['query']['pages'].items()[0][1]
@@ -93,7 +94,11 @@ def get_wikipedia_page(name):
     #if 'may refer to:' in l:
     #    return None
     if '{{disambig}}' in l or '{{disambiguation}}' in l:
-        return title, get_wikipedia_page(disambig(content))[1]
+        #print disambig(content)
+        temp = get_wikipedia_page(disambig(content))
+        if temp is None:
+            return None
+        return title, temp[1]
     return title, recomment.sub('', content).replace('{{pi}}', 'pi')
 
 def clean_wikipedia(text):
@@ -106,7 +111,10 @@ def cached_fetch_wiki(title):
     try:
         return title, web_cache[title]
     except KeyError:
-        real, data = get_wikipedia_page(title)
+        temp = get_wikipedia_page(title)
+        if temp is None:
+            return None
+        real, data = temp
         web_cache[title] = data
         if real != title:
             web_cache[real] = data
@@ -231,6 +239,8 @@ class HALwiki(object):
         return res
 
 if __name__ == '__main__':
+    import codecs, sys
+    sys.stdout = codecs.getwriter('mbcs')(sys.stdout, 'replace')
     while True:
         print wikipedia(raw_input('--> ')).encode('mbcs', 'replace')
         print

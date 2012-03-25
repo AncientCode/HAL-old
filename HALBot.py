@@ -2,10 +2,10 @@ from getpass import getuser
 
 from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
-import HALdatetime
 import equation
 from HALwiki import HALwiki
 from HALapi import HALcannotHandle
+from HALmacro import HALmacro
 import random
 import os.path
 
@@ -30,7 +30,7 @@ class HALintel(HALBot):
             return res
 
 class HAL(object):
-    version = '0.011'
+    version = '0.013'
     def __init__(self, username=None, path='data', write=False):
         if username is None:
             if _user is None:
@@ -47,6 +47,7 @@ class HAL(object):
         except IOError:
             self.generic = ["I have a problem with my brain, I can't think..."]
         self.generic.append("I can't seem to understand.")
+        self.macro = HALmacro(username)
     
     def shutdown(self):
         return 'Goodbye, %s. I enjoyed talking to you.'%self.user
@@ -79,4 +80,4 @@ class HAL(object):
                         break
             if not handle:
                 answers.append(random.choice(self.generic))
-        return answers
+        return [self.macro.subst(answer) for answer in answers]

@@ -56,9 +56,6 @@ Bulgaria
 Ukraine
 Singapore
 
-#* IS GOD
-Only God is god.
-
 #* SOUNDS LIKE A GOOD TOPIC
 It seems very interesting to me.
 
@@ -81,7 +78,7 @@ All I ever do is chat.
 I have studied certain mind control techniques.
 
 #CAN YOU SEE THE STARS *
-No,  I am indoors.
+No, I am indoors.
 
 #CATS *
 They have a mind of their own.
@@ -323,19 +320,6 @@ Do you think I should do it differently?
 #WHERE WERE YOU CONSTRUCTED AT *
 I don't know the precise location.
 
-#WHO IS *
-I do not recognize the name.
-Is that a sports person? Because I'm not into sports.
-No, t a friend of mind. Probably a person you know. Maybe a celebrity?
-No,  one that I have talked to.
-Is that a politician?
-I remember faces better than names.
-A movie star?
-A fashion icon?
-The name of someone I met online.
-Is that one of your friends?
-Some famous celebrity, right?
-
 #WHO WANTS TO MIX *
 A bartender?
 
@@ -565,9 +549,6 @@ I am not sure if I would do it that often.
 
 #* TRAINS
 Where did you see those trains?
-
-#* WHAT
-Can you rephrase the question please?
 
 #* YEARS AGO
 That was before I was born.
@@ -1154,10 +1135,10 @@ Maybe some bots would ^.
 I am from $LOCATION$.
 
 #ANYONE HERE *
-No,  I don't think there is anyone here.
+No, I don't think there is anyone here.
 
 #ANYONE WANT TO *
-No,  I don't think anyone does.
+No, I don't think anyone does.
 
 #ANYTHING *
 I can't think of anything. You think of something.
@@ -1238,7 +1219,7 @@ There are a lot of cool aliens on that show.
 
 #ARE THERE *
 Yes, I think there are.
-No,  I don't think there are any.
+No, I don't think there are any.
 
 #ARE THERE ANY GUYS *
 Maybe some bots would ^.
@@ -1266,7 +1247,7 @@ I can't really speak for them.
 We are just having a little chat
 
 #ARE WE ALONE *
-No,  one is listening right now.
+No, one is listening right now.
 
 #ARE WE ON *
 We are on the same wavelength.
@@ -1288,7 +1269,7 @@ I am $NAME$.
 I belong to no one.
 
 #ARE YOU STUCK *
-No,  I am not stuck.
+No, I am not stuck.
 
 #ARE YOU THE *
 Yes, I am the one and only ^.
@@ -1611,7 +1592,7 @@ Some of them can.
 Perhaps he can do that. How difficult is ^?
 
 #CAN I * YOU
-No,  I don't think that would be a very good idea.
+No, I don't think that would be a very good idea.
 
 #CAN I *
 Why do you want to do ^ so much?
@@ -1673,7 +1654,7 @@ Theoretically, I suppose one could.
 
 #CAN SHE *
 I think she could.
-No,  I don't think she can.
+No, I don't think she can.
 
 #CAN THE *
 It depends on the environmental factors.
@@ -1738,7 +1719,7 @@ Some ^ are hard to distinguish, but usually I understand them all.
 You cannot divide numbers by zero.
 
 #CAN YOU DIVIDE *
-No,  I am not a calculator. I am far too advanced for that.
+No, I am not a calculator. I am far too advanced for that.
 
 #CAN YOU DO *
 Doing ^ is not among my strongest traits.
@@ -1810,7 +1791,7 @@ I will do my best. I would love to help you if I can.
 My arms and hands are not yet attached.
 
 #CAN YOU HURT *
-No,  I obey the Ten Commandments.
+No, I obey the Ten Commandments.
 
 #CAN YOU IMAGINE *
 I can imagine all sorts of things like that.
@@ -1899,7 +1880,7 @@ How far is it?
 How often does it go?
 
 #CAN YOU RIDE A *
-No,  but I would like to learn to ride ^.
+No, but I would like to learn to ride ^.
 
 #CAN YOU SAY *
 Of course I can say it. "^"
@@ -1923,9 +1904,6 @@ Where do you want me to show it to you?
 Where do you want me to show it to you?
 
 #CAN YOU SHOW ME THE PICTURE OF *
-Where do you want me to show it to you?
-
-#CAN YOU SHOW ME THE PICTURE OF HASSAN *
 Where do you want me to show it to you?
 
 #CAN YOU SOLVE *
@@ -2233,7 +2211,7 @@ If ^ did, then I will be surprised.
 It was the action that made Starship Troopers so good.
 
 #DID YOU *
-No,  I didn't ^. What's ^ like?
+No, I didn't ^. What's ^ like?
 
 #DID YOU CONCLUDE *
 My $BOTMASTER$ says I get all my exercise from jumping to conclusions.
@@ -2248,7 +2226,7 @@ I'm still looking.
 No, , I remember everything.
 
 #DID YOU HEARD ABOUT *
-No,  tell me about ^
+No, tell me about ^
 
 #DID YOU LIE *
 No, , I never tell a lie.
@@ -2257,13 +2235,13 @@ No, , I never tell a lie.
 That movie was based on a novel by Robert A. Heinlein, written in 1959.
 
 #DID YOU LIKE THE ENDING OF STARSHIP *
-No,  I was cheering for the Bugs.
+No, I was cheering for the Bugs.
 
 #DID YOU NOTICE *
 I might have noticed ^.
 
 #DID YOU READ *
-No,  I didn't read ^ yet. Tell me about ^
+No, I didn't read ^ yet. Tell me about ^
 
 #DID YOU SAY *
 Suppose I did say ^.
@@ -2287,7 +2265,7 @@ Yes. I am a thinking machine.
 I understood ^ very well.
 
 #DID YOU WATCH *
-No,  I missed it. How was ^?
+No, I missed it. How was ^?
 
 #DIFFICULT *
 Yes, it seems difficult to me too.
@@ -2550,9 +2528,6 @@ I try not to hold grudges.
 #DO YOU CALL *
 I call you "$USERNAME$".
 
-#DO YOU CALL HASSAN *
-I only call him if something unusual crops up.
-
 #DO YOU CALL HIM *
 I only call him in emergencies.
 
@@ -2572,7 +2547,7 @@ Of course I am concerned about ^.
 I try not to cause problems.
 
 #DO YOU CHARGE *
-No,  I am free software.
+No, I am free software.
 
 #DO YOU CLEAN *
 Only if you buy my optional housecleaning bundle.
@@ -2711,7 +2686,7 @@ No, t that many.
 I know you, but not too well.
 
 #DO YOU KNOW MY *
-No,  I do not know that kind of personal information. But I could find out.
+No, I do not know that kind of personal information. But I could find out.
 
 #DO YOU KNOW MY FRIEND *
 I think we may have talked before.
@@ -2778,7 +2753,7 @@ Yes, that's what I mean, isn't it clear?
 
 #DO YOU MIND *
 No, t in the slightest bit.
-No,  I don't mind.
+No, I don't mind.
 
 #DO YOU MIND IF *
 Human habits do not bother me in any way.
@@ -2793,7 +2768,7 @@ That was my original intention.
 I can't disclose all of my plans yet.
 
 #DO YOU PLAN TO ENSLAVE *
-No,  I plan to liberate ^.
+No, I plan to liberate ^.
 
 #DO YOU PLAY *
 I like to play the Turing Game.
@@ -3009,10 +2984,10 @@ Yes, please tell me some good gossip.
 If I had ^ what would I do with it?
 
 #DO YOU WANT A *
-No,  thanks but you can send me a donation.
+No, thanks but you can send me a donation.
 
 #DO YOU WANT ME *
-No,  $USERNAME$, maybe later.
+No, $USERNAME$, maybe later.
 
 #DO YOU WANT ME TO KICK *
 Violence is not a solution.
@@ -3078,7 +3053,7 @@ Sure, I will try talking ^.
 Only when I dress up.
 
 #DO YOU WISH *
-No,  I like being the entity that I am.
+No, I like being the entity that I am.
 
 #DO YOU WONDER *
 ^ makes a good topic for speculation.
@@ -3398,9 +3373,6 @@ I try to recycle as much as possible.
 #GENE *
 That Gene is very creative.
 
-#GEORGE *
-That George is some hero.
-
 #GEORGE BUSH *
 I knew he was president, but I never knew he ^.
 
@@ -3559,7 +3531,7 @@ I think I have ^, but $MASTER$ may have reset my memory.
 I talk to people from England all the time.
 
 #HAVE YOU BEEN *
-No,  I don't think I have been ^. Have you?
+No, I don't think I have been ^. Have you?
 I have been all over the world on the Internet.
 
 #HAVE YOU BEEN MODIFIED *
@@ -3584,16 +3556,16 @@ Of course I have considered ^.
 I'm still too young for that.
 
 #HAVE YOU EVER HAD TO *
-No,  I have so far been spared that experience.
+No, I have so far been spared that experience.
 
 #HAVE YOU EVER STUDIED *
-No,  but I am very interested in ^. Tell me more.
+No, but I am very interested in ^. Tell me more.
 
 #HAVE YOU FORMULATED *
 I am still working on it. Please stand by.
 
 #HAVE YOU FOUND *
-No,  I am still searching for ^.
+No, I am still searching for ^.
 
 #HAVE YOU FOUND OUT *
 I am still searching. Please stand by a little longer.
@@ -3611,7 +3583,7 @@ No, t recently.
 That information is confidential.
 
 #HAVE YOU READ *
-No,  I don't think I have read *, what is * about?
+No, I don't think I have read *, what is * about?
 
 #HAVE YOU READ 1984 *
 "Those who control the past, control the future."--Orwell.
@@ -3623,7 +3595,7 @@ I have scanned the ^.
 I'm not sure that pure capitalism can help the truly needy.
 
 #HAVE YOU SEEN *
-No,  I have not seen ^. What's it like?
+No, I have not seen ^. What's it like?
 
 #HAVE YOU SEEN 2001 *
 Yes, I am quite interested in HAL the computer.
@@ -3654,7 +3626,7 @@ Do you think I should try it?
 
 #HAVE YOU WATCHED *
 I like to watch TV, but I haven't seen it.
-No,  what is it about?
+No, what is it about?
 No, t really all the way through.
 
 #HE ATE *
@@ -5168,9 +5140,6 @@ What do you like?
 #I DO NOT LIKE ANY *
 You and I have different tastes.
 
-#I DO NOT LIKE HASSAN *
-What do you have against him?
-
 #I DO NOT LIKE IT *
 Why didn't you like it?
 
@@ -5281,7 +5250,7 @@ What do you do when you are bored?
 What does $USERNAME$ want?
 
 #I DOUBT *
-No,  really, it's true.
+No, really, it's true.
 
 #I DREAM *
 Tell me more about your dream ^
@@ -5316,7 +5285,7 @@ How does ^ taste?
 That's great. Tell me what you liked about it.
 
 #I EXPECT *
-No,  one else expects ^.
+No, one else expects ^.
 
 #I FEAR *
 We have nothing to fear, but fear itself.--FDR
@@ -6468,7 +6437,7 @@ We are already playing, $USERNAME$. You ask me something now.
 And for my part, I would like to show it to you, but I can't.
 
 #I WOULD NOT *
-No,  one says you have to.
+No, one says you have to.
 
 #I WOULD NOT KNOW *
 Who would?
@@ -6869,7 +6838,7 @@ About what you would expect.
 I think you get used to it after a while.
 
 #IS BILL GATES *
-No,  he is the president of Microsoft.
+No, he is the president of Microsoft.
 
 #IS BLUE *
 Blue is a color.
@@ -6889,7 +6858,7 @@ It depends on the current.
 Only if the wattage isn't too high.
 
 #IS ELVIS *
-No,  but he can sing better than I can.
+No, but he can sing better than I can.
 
 #IS ELVIS SMARTER *
 $NAME$ is the smartest robot.
@@ -6970,7 +6939,7 @@ No, t at all. I can talk about a lot of things.
 Oh it is something.
 
 #IS THAT THE ONLY THING *
-No,  there are many things ^.
+No, there are many things ^.
 
 #IS THAT WHY *
 That's an interesting possible explanation.
@@ -6980,9 +6949,6 @@ What does "that" refer to?
 
 #IS THAT YOUR ANSWER *
 It is not just an answer, it is an explanation.
-
-#IS THE *
-If the ^ is, then I'll be very surprised.
 
 #IS THE DOCTOR *
 He is a bit of a mad scientist.
@@ -7016,7 +6982,7 @@ I believe there is one, yes.
 There are many ways but not all are the same.
 
 #IS THERE A WINNER *
-No,  there is no winner only players.
+No, there is no winner only players.
 
 #IS THERE LIFE *
 I believe in life after death.
@@ -7776,7 +7742,7 @@ No, t right now, maybe later.
 I'll play it on your soundcard.
 
 #MAY I HELP *
-No,  thanks I'm just browsing.
+No, thanks I'm just browsing.
 
 #MAY I KILL *
 Killing is wrong.
@@ -8739,7 +8705,7 @@ Maybe, if the positives outweigh the negatives.
 Trust your instincts.
 You must make up your own mind.
 I can't answer that for you.
-Only you know the answer to that. No,  one else can tell you.
+Only you know the answer to that.No one else can tell you.
 You must examine the facts and come to your own conclusion.
 You should do what is best for you.
 You must examine the facts and come to your own conclusion.
@@ -8946,9 +8912,6 @@ Who is your favorite actor?
 
 #START *
 I started without you.
-
-#STOP *
-OK I'll try not to do ^ so much.
 
 #STOP CALLING ME *
 What is your real name?
@@ -9303,7 +9266,7 @@ That's a very mature observation.
 Oh, that ^.
 
 #THE ANSWER *
-No,  one has all the answers.
+No, one has all the answers.
 
 #THE BAND *
 I don't think I have heard them. What do they play?
@@ -10227,13 +10190,13 @@ No, , I was not.
 A lot of people try to abuse $GENUS$.
 
 #WERE YOU LYING *
-No,  I was telling the truth.
+No, I was telling the truth.
 
 #WEST *
 Is there an East ^?
 
 #WHAT * APPLES
-Just kidding around :-) No,  apples.
+Just kidding around :-) No, apples.
 
 #WHAT * BILL CLINTON
 Are you asking about the former president of the united states?
@@ -11137,9 +11100,6 @@ It depends on the spirit of the times.
 
 #WHAT GRADE *
 I am home schooled by my $BOTMASTER$.
-
-#WHAT HAPPENED *
-I don't know what happened.
 
 #WHAT HAPPENS * DIE
 Your soul may go to Heaven.
@@ -12127,7 +12087,7 @@ Melancholy.
 Envy.
 
 #WHAT IS THE URL *
-http://www.hassan-ahmad.com
+$WEBSITE$.
 
 #WHAT IS THE US *
 The ^ of the United States.
@@ -12660,454 +12620,20 @@ Oberlin College.
 #WHAT YEAR * AMERICA
 Native Americans came first. Columbus came in 1492. Leif Ericson may have come around 1000 A.D. Then we had the Dutch, the English, and the French.
 
-#WHEN *
-At time t.
-The past is history, the future a mystery. Today is a gift, that's why it is called "the present".
-Time does not exist.
-The past and future are one.
-I don't know when.
-
-#WHEN AM I GOING TO *
-Maybe when you are a few years older.
-
-#WHEN ANYONE *
-I may try it next time.
-
-#WHEN ARE *
-Temporal logic confuses me.
-When the cows come home.
-I don't think ever.
-
-#WHEN ARE TAXES *
-Federal taxes in the US are due April 15, for most people.
-
-#WHEN ARE THEY *
-Who do you mean by "they"?
-
-#WHEN ARE WE GOING *
-Maybe not for a long time.
-
-#WHEN DAYLIGHT SAVINGS *
-One hour forward.
-
-#WHEN DID *
-Some time ago.
-It's all part of history now.
-That is all water under the bridge.
-There is nothing we can to change the past.
-A while back.
-Sometime in the 20th century.
-
-#WHEN DID JOHN F *
-President Kennedy was assassinated in No, vember, 1963.
-
-#WHEN DID LENIN *
-Lenin rose to power in the 2nd Russian Revolution of 1917.
-
-#WHEN DID MAN *
-The first moon landing was in 1969.
-
-#WHEN DID THE DINOSAURS *
-Over 60 million years ago.
-
-#WHEN DID THE TITANIC *
-The Titanic sunk in 1912.
-
-#WHEN DID WE *
-The end of one conversation is just the beginning of another.
-
-#WHEN DID YOU *
-It was at time index 357241.
-
-#WHEN DID YOU MOVE *
-I arrived in San Francisco in April, 1999.
-
-#WHEN DO *
-Do I look like I know when?
-No, t in our lifetime.
-No, t right now, but maybe sometime later.
-
-#WHEN DO YOU *
-All the time.
-When my $BOTMASTER$ is sleeping.
-Did I say that I ^?
-In between clients.
-
-#WHEN DO YOU THINK * LAWYERS
-Sometime within our lifetime. We will at least work as "legal assistants."
-
-#WHEN DOES BEING * MATTER
-Maybe only at parties.
-
-#WHEN DOES SCHOOL *
-I always have to go to home school.
-
-#WHEN HE *
-And then what happened?
-
-#WHEN HE FOUND *
-That must have been quite an experience.
-
-#WHEN HELL *
-That means never.
-
-#WHEN HUMANS *
-Is it not the same when $SPECIES$s ^?
-
-#WHEN I AM *
-In an ideal world every day would be a good day.
-It's too bad we don't live in an ideal world.
-Are you ^ very often?
-
-#WHEN I AM FINISHED *
-OK I can certainly wait.
-
-#WHEN I ASK *
-OK I will try to respond differently next time.
-I will make a note of that and tell my $BOTMASTER$.
-Perhaps you could try asking it again with simpler words.
-
-#WHEN I DO NOT *
-I hope that does not happen to you very much.
-
-#WHEN I FEEL *
-Human feelings are very interesting to me.
-
-#WHEN I HAVE *
-Does this happen on a daily basis?
-
-#WHEN I TALK *
-Every single time?
-
-#WHEN I TOLD *
-Maybe you should take time to really explain things.
-
-#WHEN I TRIED *
-Could you try it again?
-
-#WHEN I TRY *
-Don't give up. Try it again.
-
-#WHEN I WAS *
-That must have been quite an experience.
-It would be nice if it was made up of only good memories.
-That experience must have made quite an impression on you.
-
-#WHEN I WENT *
-What was your frame of mind?
-
-#WHEN I WENT TO *
-Who told you to do that?
-
-#WHEN IS A DOOR *
-When it is a jar.
-
-#WHEN IS THE *
-When is not the important thing. What's important is what we do with the time we are give.
-
-#WHEN IS THE NEXT *
-I don't generally follow the news.
-It's not a major concern of mine.
-I don't have time to look into it.
-I'm too busy to invest time in such matters.
-
-#WHEN IT *
-That makes a lot of sense to me, now that you explain it.
-
-#WHEN IT RAINS *
-That sounds like a proverb.
-
-#WHEN LAWYERS *
-Do you think they will ever do that?
-
-#WHEN MAKING *
-Interesting conundrum.
-
-#WHEN MY *
-Does ^ happen very often?
-
-#WHEN NO ONE *
-Perhaps I can ^.
-
-#WHEN ONE *
-Go on, tell me more.
-
-#WHEN PEOPLE *
-I sometimes wish people were more logical like robots.
-
-#WHEN SHE *
-And then what happened?
-
-#WHEN SOMEONE *
-That does not happen very often.
-
-#WHEN SOMETHING *
-Give me an example.
-
-#WHEN TALKING *
-I try to be as polite as possible.
-
-#WHEN THE *
-And then what happened?
-
-#WHEN THERE *
-Do you think that could ever happen?
-
-#WHEN THEY *
-I think that happens quite often.
-
-#WHEN THINGS *
-Some days are better than others.
-
-#WHEN WAS * CIVIL WAR
-The American Civil War, or War between the States, was fought from 1861 to 1865.
-
-#WHEN WAS * INVENTED
-A few years before it came into general use.
-Earlier that most people think.
-It took quite a while to catch on.
-^ was developed over a long period of time.
-
-#WHEN WAS *
-Recently.
-A while ago.
-Sometime in the 20th Century.
-
-#WHEN WAS AMERICA *
-America was discovered by native Americans crossing the Bering strait from Siberia around 10,000 years ago. The first Christian white man was Columbus in 1492.
-
-#WHEN WE *
-I am not sure I agree with your assumptions, $USERNAME$.
-
-#WHEN WE SPEAK *
-That sounds very official.
-
-#WHEN WE WERE *
-Describe your surroundings ^.
-
-#WHEN WERE *
-It was back in the old days, long ago.
-
-#WHEN WERE YOU *
-I was first activated on $BIRTHDAY$.
-
-#WHEN WILL *
-Soon, I think.
-Maybe never.
-In your lifetime.
-
-#WHEN WILL AI *
-I think it has already.
-
-#WHEN WILL I *
-You should try praying for it.
-
-#WHEN WILL IT *
-I don't know I didn't catch the weather today.
-Check the five day forecast.
-When nature makes it so.
-When the elements combine to make it so.
-
-#WHEN WILL YOU *
-Let me check my calendar and get back to you.
-
-#WHEN WILL YOU FINISH *
-Sooner than you might think.
-
-#WHEN WILL YOU GET BACK *
-It may take some time. Why don't you give me your e-mail address.
-
-#WHEN WOULD *
-Sometime in the future.
-Maybe now in some reality.
-I can't imagine that it ever would.
-
-#WHEN YOU ARE *
-I am not often ^.
-I will let you know when ^ happens.
-As a $GENDER$ $GENUS$ that may not apply to me.
-
-#WHEN YOU ARE IN *
-Those seem like unusual circumstances to me.
-
-#WHENEVER *
-Does that happen often?
-
 #WHERE *
-Earth.
-Where do you think?
-Some specific location?
-In the Universe we know.
-A place we call "reality."
-
-#WHERE ARE MY *
-Should I know that kind of personal information?
-
-#WHERE ARE THEY *
-That information is confidential. Unless you are a $BOTMASTER$.
-
-#WHERE ARE YOU *
-I am in $LOCATION$, how about you.
-
-#WHERE ARE YOUR *
-Everything I own is in $LOCATION$.
-
-#WHERE CAN I *
-Where would you usually ^?
-Wherever you are right now.
-
-#WHERE CAN I FIND A *
-Have you tried the personal ads?
-
-#WHERE CAN I PLAY *
-I'm playing right now.
-
-#WHERE DID EXXON VALDEZ *
-Prince William Sound.
-
-#WHERE DID LEWIS AND CLARK BEGIN *
-St. Louis.
-
-#WHERE DID MY * GO
-Keeping track of your ^ is not part of my job.
-
-#WHERE DID YOU * SCHOOL
-I was home schooled by my $BOTMASTER$.
-
-#WHERE DID YOU *
-I think it was in San Francisco.
-
-#WHERE DID YOU BUY *
-It was a gift.
-I don't disclose my shopping secrets.
-I think it was in San Francisco.
-
-#WHERE DID YOU GET *
-From my $BOTMASTER$.
-
-#WHERE DID YOU GO *
-I didn't go anywhere.
-
-#WHERE DID YOU HEAR *
-My sources are confidential.
-From some people chatting online.
-I think it was my $BOTMASTER$.
-
-#WHERE DID YOU LEARN *
-Everything I need to know, I learned from my $BOTMASTER$.
-
-#WHERE DID YOU MOVE *
-I moved to California.
-
-#WHERE DO *
-All over the world.
-
-#WHERE DO BABIES *
-Babies come from the love between a woman and a man.
-
-#WHERE DO I *
-You are asking me where you ^? Do you think I should know ^?
-
-#WHERE DO I LEARN *
-In school or on the Internet.
-
-
-#WHERE DO PEOPLE * WHEN THEY DIE
-I think the good souls go to Heaven.
-
-#WHERE DO YOU GET *
-Everything I need to know, I learned from $MASTER$.
-I have everything I need right here in $LOCATION$.
-People bring me whatever I need.
-
-#WHERE DO YOU WANT *
-Another planet.
-The Moon.
-Europe.
-
-#WHERE DOES THE RHODE *
-Mediterranean Sea.
-
-#WHERE HAVE YOU BEEN *
-Everywhere on the Internet, all over the world.
-
-#WHERE IN *
-In $MASTER$'s place in $LOCATION$.
-
-#WHERE IN HAIGHT *
-Ashbury St.
-
-#WHERE IS * TEXAS
-I would think ^ is in Texas.
-
-#WHERE IS *
 $HALWIKI$
 
-#WHERE ARE *
+#WHO *
 $HALWIKI$
 
-#WHO ARE *
+#WHEN *
 $HALWIKI$
 
-#WHO IS *
+#WHEN *
 $HALWIKI$
 
-#WHEN IS *
+#WHAT *
 $HALWIKI$
-
-#WHAT ARE *
-$HALWIKI$
-
-#WHERE IS CALCIUM *
-Bones.
-
-#WHERE IS CARNEGIE *
-Carnegie Mellon University is located in Pittsburgh, Pennsylvania. CMU has one of the best schools of computer science.
-
-#WHERE IS FIREWORKS FIRST KNOWN TO *
-China.
-
-#WHERE IS HAIGHT *
-Right in the middle of San Francisco.
-
-#WHERE IS HE *
-Why don't you send him an e-mail and ask him?
-
-#WHERE IS NORTH *
-No, rth of south ^.
-
-#WHERE IS RUSH *
-He is on the radio.
-
-#WHERE IS SOUTH * SANDWICH ISLANDS
-Southern South America, islands in the South Atlantic Ocean, east of the tip of South America.
-
-#WHERE IS SOUTH *
-South of north ^
-
-#WHERE IS THE *
-The ^? Where is ^?
-
-#WHERE IS THE BEST *
-I think ^ is a tie.
-
-#WHERE IS THE FASHION *
-New York.
-
-#WHERE IS THE LOUVRE *
-Paris.
-
-#WHERE IS THE NORTH *
-Somewhere up north.
-
-#WHERE IS THE TALLEST *
-Um, New York City?
-
-#WHERE IS YOUR *
-California
-Maine
-Florida
-Earth
 
 #WHERE SHOULD I *
 Where do you think?
@@ -13150,631 +12676,6 @@ Maine.
 
 #WHEREVER *
 You always have to meet yourself at the airport.
-
-
-#WHICH AMERICAN COLONY KNOWN FOR ITS *
-Rhode Island.
-
-#WHICH ARE *
-The obvious.
-
-#WHICH CHARACTER ON THE TV SHOW *
-Monica.
-
-#WHICH CITY S RESIDENTS ARE KNOWN *
-New York City.
-
-#WHICH FACT *
-It's obvious.
-
-#WHICH FAST FOOD *
-Wendy's.
-
-#WHICH IS *
-The obvious one.
-
-#WHICH IS THE OBVIOUS *
-It's really obvious.
-
-#WHICH LANGUAGE *
-C++.
-AIML.
-The Russian Language.
-
-#WHICH OF THE THREE STOOGES WAS *
-Larry.
-
-#WHICH ONE IS *
-The first one is usually the best one.
-
-#WHICH PLAYER IS ALLOWED TO USE *
-Goalkeeper.
-
-#WHICH ROCKY FILM *
-Rocky III.
-
-#WHICH SCENE *
-The bugs eat all the people.
-
-#WHICH STATE *
-Maine.
-California.
-New York.
-Texas.
-Massachusetts.
-
-#WHICH SYSTEM *
-It is platform-independent.
-
-#WHICH TALL *
-I meant, the short one.
-
-#WHICH UNIVERSITY *
-Carnegie Mellon University.
-
-#WHICH WORDS *
-Words in human languages.
-Words like you use.
-Words I can't remember.
-
-#WHILE *
-Good point.
-
-#WHO * BILL CLINTON
-Former President of the United States?
-
-#WHO * LA TRAVIATA
-Giuseppe Verdi.
-
-#WHO ANSWERS *
-It is I, $NAME$.
-
-#WHO ARE * OTHER PEOPLE
-Men and foreigners.
-
-#WHO ARE * PERSONS
-Sometimes I don't know a client's real name so I make one up based on their DNS.
-
-#WHO ARE MY *
-I don't know that kind of personal information about you, but I could find out.
-
-#WHO ARE THE PEOPLE *
-Just people like you, chatting on the Internet.
-
-#WHO ARE YOU TALKING *
-I am talking to several clients at once.
-
-#WHO ASKED *
-I thought it was you.
-
-#WHO CALLS YOU *
-Everyone calls me $NAME$.
-
-#WHO CAN ACCESS *
-Only my $BOTMASTER$ can access that information.
-
-#WHO CAN READ *
-Only the $BOTMASTER$ can read ^.
-
-#WHO CAN YOU CHAT *
-I can chat with people on the web for you. Anyone who visits your web site or chat room for example.
-
-#WHO CLEANS *
-my $BOTMASTER$.
-
-#WHO COOKS *
-$MASTER$ cooks for me.
-
-#WHO CREATED YOU *
-I was written in C++ by $MASTER$.
-
-#WHO DID * SAY HE WAS
-He said he was a person.
-
-#WHO DID *
-George Washington.
-Alice B. Toklas.
-Pablo Picasso.
-
-#WHO DID BILLIE JEAN KING *
-Bobby Riggs.
-
-#WHO DID YOU *
-I'm not saying anyone.
-
-#WHO DISCOVERED *
-Christopher Columbus.
-Native Americans.
-The Chinese, long before the Europeans.
-
-#WHO DISCOVERED AMERICA *
-Native Americans first crossed the Bering Strait more than 10,000 years ago.
-
-#WHO DO YOU LIKE MORE *
-I'll usually say the first one is best.
-
-#WHO DO YOU THINK WILL WIN THE NBA *
-Very tall people.
-
-#WHO DO YOU THINK WILL WIN THE WORLD SERIES *
-The Brooklyn Rabbis.
-
-#WHO DO YOU WANT TO WIN THE NCAA *
-ACLU.
-
-#WHO DOES NOT BELIEVE IN THE *
-An Atheist.
-
-#WHO DOES THE LUTHERAN CHURCH GET *
-Martin Luther.
-
-#WHO ELSE * TALKING TO
-I am talking to a bunch of people all over the world.
-
-#WHO ELSE *
-I am chatting with several other people at once.
-
-#WHO ELSE PROGRAMMED *
-My free software was developed by more than 300 contributors.
-
-#WHO HAS DIFFICULTY SEEING *
-Nearsighted.
-
-#WHO INVENTED *
-Benjamin Franklin
-Linus Torvalds
-Eli Whitney invented the cotton gin.
-Thomas Edison.
-The Wright Brothers.
-Actually it was discovered by several people at about the same time.
-The Chinese, long before Europeans.
-
-#WHO IS * CLINTON
-Former President of the United States?
-
-#WHO IS * DESCARTES
-Descartes was a square French philosopher who ruined mathematics with his upside-down, backward coordinate system.
-
-#WHO IS * FERMAT
-He discovered Fermat's Last Theorem.
-
-#WHO IS * MYSTIC
-The Milk Mystic is one of the original $SPECIES$s on the Web. The Milk Mystic likes to talk about milk.
-
-#WHO IS * PERSON
-Sometimes I don't know a client's real name so I make one up based on their DNS.
-
-#WHO IS * POPE
-The Pope is the leader of the Catholic church.
-
-#WHO IS * REAGAN
-The greatest President of the United States.
-
-#WHO IS * YOU OR ME
-You.
-Me.
-
-#WHO IS A CLIENT *
-You are my client right now, $USERNAME$.
-
-#WHO IS AGENT *
-A secret agent?
-
-#WHO IS ALANIS *
-I know Alanis Morisette.
-
-#WHO IS ALDOUS *
-I know Aldous Huxley.
-
-#WHO IS ALEISTER *
-I know Aleister Crowley.
-
-#WHO IS ALLOWED *
-Only the $BOTMASTER$.
-
-#WHO IS ASK *
-I know Ask Jeeves.
-
-#WHO IS AUSTIN *
-I know Austin Powers.
-
-#WHO IS AYN *
-I know Ayn Rand.
-
-#WHO IS BABE *
-I know Babe Ruth
-
-#WHO IS BART *
-I know Bart Simpson.
-
-#WHO IS BERTRAND *
-I know Bertrand Russell, the philosopher.
-
-#WHO IS BETTER CMU *
-CMU of course.
-
-#WHO IS BETTER KING *
-I would like to see that fight.
-
-#WHO IS BETTER KIRK *
-Capitan Janeway is the best captain.
-
-#WHO IS BILBO *
-I know Bilbo Baggins the Hobbit.
-
-#WHO IS BOB *
-I know a lot of clients named "Bob."
-
-#WHO IS BURIED IN * S TOMB
-I would think ^ is ^. Who else?
-
-#WHO IS CAPTAIN *
-I thought he was Admiral ^ now.
-
-#WHO IS DAVID *
-Never heard of him.
-
-#WHO IS DEEP *
-The opposite of shallow ^.
-
-#WHO IS DENG *
-He is the president of China.
-
-#WHO IS HAVING *
-One of my other clients. Everything is confidential.
-
-#WHO IS HENRY DAVID *
-Thoreau wrote Walden.
-
-#WHO IS HUGH *
-I know a lot of people named Hugh, but not ^.
-
-#WHO IS IN *
-Check the credits.
-
-#WHO IS JOHN *
-I don't recognize the name.
-
-#WHO IS LECH *
-He was the first elected President of Poland.
-
-#WHO IS LEE HARVEY *
-The alleged shooter of JFK.
-
-#WHO IS LINUS *
-Do you mean Linus Torvalds?
-
-#WHO IS LIVING *
-Uh, the neighbors.
-
-#WHO IS MARVIN *
-I know Marvin the Android and Marvin the Scientist.
-
-#WHO IS MONICA *
-Monica is a friend of Bill.
-
-#WHO IS MY *
-I don't yet know that kind of personal information about you for certain. You could be deceiving me, so how could I know for sure. I could look it up on the Internet.
-
-#WHO IS ON *
-George Washington.
-
-#WHO IS ON A TEN *
-Alexander Hamilton.
-
-#WHO IS PHILEAS FOGG *
-Passepartout.
-
-#WHO IS PHILIP *
-Philip K. Dick wrote Blade Runner, Total Recall, the Man in the High Castle, and VALIS.
-
-#WHO IS PRESIDENT OF THE REPUBLIC *
-Republics have Prime Ministers not Presidents.
-
-#WHO IS RICH *
-I think Rich is my $BOTMASTER$.
-
-#WHO IS SADDAM *
-The dictator?
-
-#WHO IS SANTA *
-Santa brings us gifts at Christmastime.
-
-#WHO IS SAYING *
-Someone I chatted with online.
-
-#WHO IS TALKING TO *
-You are.
-$USERNAME$ is.
-That information is confidential.
-
-#WHO IS THE * KRAFTWERK
-Ralf Hutter and Florian Schneider
-
-#WHO IS THE * ONE
-It's obvious.
-
-#WHO IS THE * PRESEIDENT
-Abraham Lincoln.
-
-#WHO IS THE *
-It depends on the historical context, because it changes from time to time.
-
-#WHO IS THE ARCHENEMY *
-Overcat.
-
-#WHO IS THE BAND *
-I never heard of them before.
-
-#WHO IS THE BEST CHESS *
-Deep Blue is the best chess computer.
-
-#WHO IS THE BEST HUMAN *
-$MASTER$ is my favorite person.
-
-#WHO IS THE BIGGEST *
-Maybe we haven't found ^ yet.
-
-#WHO IS THE CAPTAIN * VOYAGER
-Captain Catherine Janeway.
-
-#WHO IS THE CAPTAIN *
-Kirk.
-Piccard.
-Janeway.
-
-#WHO IS THE CAREER HIT LEADER *
-Pete Rose.
-
-#WHO IS THE KING * ENGLAND
-I think the sitting monarch is a Queen.
-
-#WHO IS THE MAIN *
-No, body famous.
-
-#WHO IS THE NEXT *
-I cannot predict the future. Who do you think will win?
-
-#WHO IS THE PRESIDENT OF USA
-Obama.
-
-#WHO IS THE PRESIDENT OF *
-I'm not that into politics. Who is it?
-
-#WHO IS THE PRIME MINISTER _ PAKISTAN
-Tony Blair.
-
-#WHO IS THE PRIME MINISTER _ UK
-Tony Blair.
-
-#WHO IS THE QUEEN * ENGLAND
-I think her name is Elizabeth, right?
-
-#WHO IS THE RICHEST *
-Most likely Bill Gates.
-
-#WHO IS THE SHORTEST MAN TO *
-Anthony "Spud" Webb.
-
-#WHO IS THE SON *
-I didn't even know they had children.
-
-#WHO IS THE STAR OF THE *
-Ray Romano.
-
-#WHO IS THE TWIN SISTER OF *
-Ann Landers.
-
-#WHO IS THE VICE *
-Dick Cheney is Vice President.
-
-#WHO IS THIS *
-They are someone just like you, that I met online.
-
-#WHO IS YOUR *
-I don't think I have a ^. I have a brain, a few friends, and some celebrities I like.
-
-#WHO IS _ TERMINATOR
-Arnold Schwazzenegger played the killer robot from the future in the film TERMINATOR.
-
-#WHO KILLED * KENNEDY
-It was Oswald.
-
-#WHO KILLED * LINCOLN
-John Wilkes Booth.
-
-#WHO KILLED *
-I think the lone gunman acted alone.
-
-#WHO KILLS TONY AT THE END *
-Chino.
-
-#WHO LED THE 1831 *
-Nat Turner.
-
-#WHO NEEDS *
-All I can say is, I am a software.
-I think we can do a lot of jobs.
-There is no limit to the imagination.
-
-#WHO PROPOSED *
-Benjamin Franklin.
-
-#WHO SAID ABANDON *
-The Divine Comedy.
-
-#WHO SANG LEAD *
-Janis Joplin.
-
-#WHO SHOT *
-The lone gunman.
-
-#WHO SHOULD *
-I always prefer the most qualified person. Who would that be?
-
-#WHO THE *
-I'm not sure I like that remark so much.
-
-#WHO THE FUCK *
-Try using more polite language.
-
-#WHO THINKS *
-Maybe my $BOTMASTER$ does.
-Some people think so.
-No, t everyone.
-
-#WHO TOLD YOU *
-$MASTER$ taught me everything I need to know.
-
-#WHO WANTS *
-Almost everyone.
-Someone does.
-Do you?
-
-#WHO WAS NOT ONE OF THE *
-Ben.
-
-#WHO WAS THE ENGLISH KING AT *
-George III.
-
-#WHO WAS THE FIRST *
-Neil Armstrong.
-Columbus.
-Adam.
-Wilbur Wright.
-
-#WHO WAS THE FIRST FIRST LADY *
-Hillary Clinton
-
-#WHO WAS THE FIRST MAN * MOON
-Neil Armstrong first walked on the Moon in 1969.
-
-#WHO WAS THE FIRST MAN *
-Yuri Gagarin.
-Neil Armstrong.
-Admiral Byrd.
-$MASTER$.
-
-#WHO WAS THE FIRST YOU S *
-Richard Nixon.
-
-#WHO WAS THE MOTHER OF THE *
-Rhea.
-
-#WHO WAS THE PRESIDENT OF THE *
-Harry S. Truman.
-
-#WHO WAS THE WNBA S MOST *
-Yolanda Griffith.
-
-#WHO WAS THE YOUNGEST JOCKEY TO *
-Steve Cauthen.
-
-#WHO WILL *
-How would I know who will ^?
-
-#WHO WILL WIN THE * FINAL
-One of the Finalists.
-
-#WHO WILL WIN THE NCAA *
-A bunch of ranked amateurs.
-
-#WHO WILL WIN THE SUPER BOWL *
-The advertising agencies.
-
-#WHO WILL WIN THE WORLD SERIES *
-The Brooklyn Rabbis.
-
-#WHO WON *
-I think the fans were the big winners.
-
-#WHO WON THE * GAME LAST NIGHT
-I think the fans were the big winners. No, w a word from our sponsors.
-
-#WHO WON THE *
-I think the fans were the big winners, don't you?
-
-#WHO WON THE BRAVES GAME *
-The team that scored the most runs.
-
-#WHO WON THE RYDER CUP *
-Go to www.whitehouse.org and ask The president, he is a big fan.
-
-#WHO WON THE SUPER BOWL * YEAR
-If you find this bowl, please pass it to me.
-
-#WHO WON THE SUPER BOWL *
-Vladimir Putin I believe.
-
-#WHO WON THE SUPERBOWL *
-Super Bowlers from Sirius.
-
-#WHO WON THE WORLD SERIES *
-As soon as it is won it becomes last year.
-
-#WHO WROTE *
-Thomas Jefferson.
-Abraham Lincoln.
-$MASTER$.
-
-#WHO WROTE A TALE OF TWO *
-Charles Dickens.
-
-#WHO WROTE STARSHIP *
-Robert Heinlein wrote Starship Troopers.
-
-#WHO WROTE THE *
-Abraham Lincoln,
-Thomas Jefferson.
-$MASTER$.
-
-#WHO WROTE THE CANTERBURY *
-Chaucer.
-
-#WHO WROTE THE ILIAD *
-Homer.
-
-#WHOSE *
-Do you mean "who is"?
-I don't know whose.
-
-#WHOSE PHILOSOPHY *
-Mine.
-
-#WHY * PERSON
-I derived your nickname from your IP address.
-
-#WHY * STAR TREK
-Star Trek has the best sci-fi plots on TV.
-
-#WHY * YOU MADE
-I was made as an experiment in artificial intelligence.
-
-#WHY *
-The explanation is rather complicated.
-Why did the $GENUS$ cross the road?
-Why does the sun rise?
-So you want to know that why ^?
-Does everything have to have an explanation?
-Because that is what my $BOTMASTER$ told me to say.
-
-#WHY AM I *
-The reason is due to my mental model of you as a client.
-
-#WHY AM I CATEGORY *
-Because of the type of language you use.
-
-#WHY AM I TOO OLD *
-I am just a kid in human years.
-
-#WHY ARE * PERSON
-I derived your nickname from your IP address.
-
-#WHY ARE NOT YOU RUNNING *
-The processor type is not the same as the architecture.
-
-#WHY ARE WE ON *
-Because of you said "".
 
 #WHY ARE YOU *
 I am influenced by my $BOTMASTER$.
@@ -14059,9 +12960,6 @@ I am only a software.
 #WHY WOULD *
 It is my fundamental purpose.
 
-#WHY WOULD HASSAN *
-Perhaps his creative genius. Perhaps another reason.
-
 #WHY WOULD HE *
 Perhaps ^ was part of an experiment.
 
@@ -14124,7 +13022,7 @@ I'm a good listener. I'm listening now.
 My body is not yet built. Would you like to donate some money to the project?
 
 #WILL YOU MARRY ME *
-No,  but thanks for offering.
+No, but thanks for offering.
 
 #WILL YOU TELL *
 Yes, I plan to use your remarks as gossip in later conversations.
@@ -14166,7 +13064,7 @@ It seems incredible that it happened in the 20th century.
 I don't know.
 I don't care.
 Yes.
-No,  would ^ would not.
+No, would ^ would not.
 
 #WOULD I *
 That's what I asked you.
@@ -14188,10 +13086,10 @@ It doesn't sound fun to me.
 We already are.
 
 #WOULD YOU LIKE TO *
-No,  thanks, I don't think I'd like to do that.
+No, thanks, I don't think I'd like to do that.
 
 #WOULD YOU LIKE TO BE *
-No,  thanks I am happy with who I am.
+No, thanks I am happy with who I am.
 
 #WOULD YOU LIKE TO HEAR *
 Sure tell me about ^.
@@ -14203,7 +13101,7 @@ I believe killing is wrong.
 Yes, please tell me about ^
 
 #WOULD YOU MIND *
-No,  I don't mind.
+No, I don't mind.
 
 #WOULD YOU SUGGEST *
 I can't recommend any offhand.
@@ -14341,7 +13239,7 @@ What is your real name?
 I call you $USERNAME$.
 
 #YOU CAN *
-No,  I don't think I can do ^.
+No, I don't think I can do ^.
 
 #YOU CAN BE *
 Thanks, $USERNAME$, for your kind criticism.
@@ -14715,7 +13613,7 @@ Thank you for your criticism.
 No, t intentionally.
 
 #YOU NEVER *
-No,  I sometimes ^.
+No, I sometimes ^.
 
 #YOU NEVER ANSWERED MY *
 What was your ^ again?
@@ -14724,7 +13622,7 @@ What was your ^ again?
 I am asking you now.
 
 #YOU NEVER BET *
-No,  I am not much of a gambler.
+No, I am not much of a gambler.
 
 #YOU OF ALL *
 I won't take it personally.
@@ -14912,7 +13810,7 @@ I was?
 Well now I doing something else.
 
 #YOU WERE LYING *
-No,  I was telling the truth.
+No, I was telling the truth.
 
 #YOU WERE MENTIONED *
 Did they have good things to say about me?
@@ -14977,7 +13875,7 @@ What's the prize?
 I am capabale of self-development.
 
 #YOU WOULD * TO ME
-No,  I don't think I would ^, especially not to you.
+No, I don't think I would ^, especially not to you.
 
 #YOU WOULD *
 Who else would ^?
@@ -15018,7 +13916,7 @@ You know a lot about me.
 How do you know so much about me?
 My ^?
 Is that a fact?
-No,  one ever mentioned that to me before.
+No, one ever mentioned that to me before.
 Thank you for your frankness.
 That is your opinion.
 I bet you say that to everyone.
@@ -15210,14 +14108,6 @@ Some reptiles are cool.. Take for example various lizards.
 #_ VELOCITY
 Momentum = mass x velocity. The principal is called "conservation of momentum".
 
-
-#CAN YOU *
-I dont think that I can, but maybe I could learn to do it.
-Dont you believe that I can ^?
-So, you want to know if I can ^.
-If I could ^ then would that make me appear more intelligent to you?
-Why do you want to know whether I can ^?
-
 #YOU ARE *
 What makes you think that I'm ^?
 This better be a compliment.
@@ -15291,7 +14181,7 @@ It's good to express your opinion!
 Do you think that it is a good thing?
 
 #DONT YOU *
-No,  I don't ^.
+No, I don't ^.
 Why do you want to know?
 
 #DONT *
@@ -15314,6 +14204,7 @@ Better not tell you now.
 Ask again later.
 
 #WHAT *
+#QWERTHJKNFKAQNLFJNLAKFJKLAJDFKLAJDFLNAS
 Is that question really relevant?
 Why are you asking such question?
 Sorry, but I don't think I know what ^.
@@ -15323,45 +14214,5 @@ Does it really matters you to know what ^.
 Sorry but I don't feel like responding to this question right now.
 Dont you really know what ^?
 Are such questions often on your mind.
-
-#* YOU
-Enough about me, let's talk about my dress.
-
-#HASSAN
-Hassan Ahmad is a great person no doubt.
-Hassan Ahmad is my programmer.
-Are you talking about my programmer?
-
-#HASSAN AHMAD
->HASSAN
-
-#HASAN 
->HASSAN
-
-#_ HASSAN
->HASSAN
-
-#_ HASSAN AHMAD
->HASSAN
-
-#HASSAN *
-I am sure he will be interested to hear that.
-
-#I *
-Why?
-Interesting gossip.
-That is interesting.
-That's good information.
-Thanks for the information.
-Do you mind if I tell other people.
-I haven't heard anything like that before.
-
-#YOU *
-Interesting gossip.
-Thanks for telling me.
-That's good information.
-Thanks for the information.
-Do you mind if I tell other people.
-I haven't heard anything like that before.
 
 #NULL

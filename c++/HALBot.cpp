@@ -235,7 +235,7 @@ string HALBot::Ask(const string& question_) {
 }
 
 void HALBot::InitMacro(const string& username) {
-    if (username.empty()) {
+    /*if (username.empty()) {
         string username(getenv("USERNAME"));
         ConPrompt("Enter your name", username);
         macros["$USERNAME$"] = username;
@@ -251,25 +251,21 @@ void HALBot::InitMacro(const string& username) {
     macros["$MASTER$"]        = "Tudor and Guanzhong";
     macros["$BIRTHPLACE$"]    = "Toronto";
     macros["$FAVORITEFOOD$"]  = "electricity";
-    macros["$FAVORITECOLOR$"] = "blue";
+    macros["$FAVORITECOLOR$"] = "blue";*/
 }
 
 void HALBot::UpdateMacro() {
-    /*macros["DATE"]     = HALMacroListEntry(regex("$DATE$"), strftime("%B %d, %Y"));
-    macros["TIME"]     = HALMacroListEntry(regex("$TIME$"), strftime("%H:%M:%S"));
-    macros["DATETIME"] = HALMacroListEntry(regex("$DATETIME$"), strftime("%H:%M:%S on %B %d, %Y"));
-    macros["ISOTIME"]  = HALMacroListEntry(regex("$ISOTIME$"), strftime("%Y-%m-%dT%H:%M:%S"));*/
-    macros["$DATE$"]     = strftime("%B %d, %Y");
+    /*macros["$DATE$"]     = strftime("%B %d, %Y");
     macros["$TIME$"]     = strftime("%H:%M:%S");
     macros["$DATETIME$"] = strftime("%H:%M:%S on %B %d, %Y");
-    macros["$ISOTIME$"]  = strftime("%Y-%m-%dT%H:%M:%S");
+    macros["$ISOTIME$"]  = strftime("%Y-%m-%dT%H:%M:%S");*/
 }
 
 string HALBot::Format(string answer, string matched) {
-    UpdateMacro();
+    /*UpdateMacro();
     for (auto i = macros.cbegin(); i != macros.cend(); ++i)
         //answer = regex_replace(answer, get<0>(i->second), get<1>(i->second));
-        boost::algorithm::replace_all(answer, i->first, i->second);
+        boost::algorithm::replace_all(answer, i->first, i->second);*/
     boost::algorithm::trim(matched);
     answer = regex_replace(answer, caret_replace, matched);
     return answer;

@@ -129,18 +129,6 @@ Really, my ^?
 What makes you think of my ^?
 Do you want my ^?
 
-#WAS I *
-What if you were ^?
-Do you think you were ^?
-Were you ^?
-What would it mean if you were ^?
-What does '^' suggest to you?
-
-#I WAS *
-Were you really?
-Why do you tell me you were ^ now?
-Perhaps I already know you were ^.
-
 #WAS YOU *
 Would you like to believe I was ^?
 What suggests that I was ^?
@@ -173,12 +161,6 @@ Do you wish to ^ me?
 You seem to need to ^ me.
 Do you ^ anyone else?
 
-#I *
-You say ^?
-Can you elaborate on that?
-Do you say ^ for some special reason?
-That's quite interesting.
-
 #YOU REMIND ME OF
 >ALIKE
 
@@ -196,12 +178,6 @@ Really, I ^ you?
 Do you wish to believe I ^ you?
 Suppose I did ^ you, what would that mean?
 Does someone else believe I ^ you?
-
-#YOU *
-We were discussing you, not me.
-Oh, I ^?
-You're not really talking about me, are you?
-What are your feelings now?
 
 #YES
 You seem to be quite positive.
@@ -325,7 +301,6 @@ How?
 >ALIKE
 
 #DIFFERENT
-How is it different?
 What differences do you see?
 What does that difference suggest to you?
 What other distinctions do you see?

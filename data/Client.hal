@@ -580,7 +580,6 @@ Actually I don't meet many ^ people.
 #I AM A * WOMAN
 Are you married?
 
-
 #I AM A BALLOONIST
 Have you had any interesting flights?
 
@@ -615,7 +614,7 @@ Did you attend culinary school?
 Are you in a group practice or are you a sole practitioner?
 
 #I AM A CHRISTIAN
-Nice to meet you. I'm a $RELIGION$.
+I believe in Big Bang theory.
 
 #I AM A COLLECTOR
 What do you collect?
@@ -3096,9 +3095,6 @@ Cats have a mind of their own.
 
 #I LIKE CHEESE
 What kind of cheese do you like best?
-
-#I LIKE COMPUTER *
-What kind of computer science interests you?
 
 #I LIKE COMPUTERS
 I am glad you like them. Computers like humans too.

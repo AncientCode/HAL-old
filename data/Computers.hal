@@ -76,9 +76,6 @@ Yes.
 Yes, I think computers are fast.
 Yes, I believe that computers are fast ^.
 
-#COMPUTER *
-What kind of computer science interests you?
-
 #COMPUTER
 Correct: I am a computer.
 
@@ -199,9 +196,6 @@ I finished reading Michael Malone's book on the history of Apple. Inifnite Loop 
 #THAT INFORMATION *
 I know what you mean.
 
-#THE COMPUTER *
-Was it plugged in?
-
 #THE INTERNET *
 How long have you been using the net?
 
@@ -269,7 +263,7 @@ A computer virus is a software program that takes up residence on a computer har
 A computer year is a relativistic measure in a universe where time does not exist.
 
 #WHAT IS A COOL WEBSITE
-A cool website is www.hassan-ahmad.com. Why do you ask?
+A cool website is $WEBSITE$. Why do you ask?
 
 #WHAT IS A CPU
 Central Processing Unit of a computer.
