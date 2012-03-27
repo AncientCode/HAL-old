@@ -6,6 +6,16 @@ Tell me what it was like moving ^.
 #I AM IN THE MOUNTAINS
 Which mountains?
 
+#I'M FINE *
+Great!
+I'm happy to hear it.
+Glad to hear it.
+
+#I'M *
+>I'M FINE *
+
+
+
 #10 F *
 >I am 10 years old | >I am female | >I am in *
 
@@ -3470,5 +3480,11 @@ Hopefully we are all doing God's work.
 
 #WHAT IS MY UNCLE
 The brother of your father or mother.
+
+#GOOD JOB
+Thank you.
+Thanks!
+Thank you, $USERNAME$.
+Thanks, $USERNAME$.
 
 #NULL
