@@ -8,6 +8,8 @@ from HALapi import HALcannotHandle
 from HALmacro import HALmacro
 import random
 import os.path
+#import language
+import HALspeak
 
 try:
     _user = getuser()
@@ -30,8 +32,8 @@ class HALintel(HALBot):
             return res
 
 class HAL(object):
-    version = '0.013'
-    def __init__(self, username=None, path='data', write=False):
+    version = '0.014'
+    def __init__(self, username=None, path='data', write=False, speak=False):
         if username is None:
             if _user is None:
                 self.user = raw_input('Enter a username: ')
@@ -48,12 +50,19 @@ class HAL(object):
             self.generic = ["I have a problem with my brain, I can't think..."]
         self.generic.append("I can't seem to understand.")
         self.macro = HALmacro(username)
+        self.speak = speak
+        self.sphandle = None
     
     def shutdown(self):
         return 'Goodbye, %s. I enjoyed talking to you.'%self.user
     
     def ask(self, question):
         answers = []
+        
+        #lang = language.detect_lang(question)
+        #is_foreign = lang is not None and lang != 'en'
+        #if is_foreign:
+        #    question = language.translate(question, lang).encode('utf-8')
         
         if question is None:
             return []
@@ -80,4 +89,13 @@ class HAL(object):
                         break
             if not handle:
                 answers.append(random.choice(self.generic))
-        return [self.macro.subst(answer) for answer in answers]
+        #answers = [self.macro.subst(answer) for answer in answers]
+        answers = [self.macro.subst(answer) for answer in answers]
+        if self.speak:
+            HALspeak.stop_speaking(self.sphandle)
+            self.sphandle = HALspeak.speak(' '.join(answers), False)
+        return answers
+        #if is_foreign:
+        #    return [language.translate(i, 'en', lang) for i in answers]
+        #else:
+        #    return answers

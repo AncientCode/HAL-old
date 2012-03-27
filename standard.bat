@@ -12,8 +12,11 @@ copy HALwiki.py standard
 copy HALapi.py standard
 copy HALformat.py standard
 copy HALmain.py standard
+copy HALmacro.py standard
+copy HALspeak.py standard
 copy boost_python-vc100-mt-1_47.dll standard
 copy HALnative.pyd standard
+cp -r espeak standard
 python -O -m compileall standard -q
 
 cd standard

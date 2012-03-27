@@ -7,6 +7,7 @@ md portable
 portable.py
 
 cd portable
+if not exist espeak cp -r ..\espeak espeak
 copy ..\latest.txt Version.halconfig
 
 7za a HAL_PE_%VERSION%.7z *

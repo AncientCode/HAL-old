@@ -6,7 +6,7 @@ import os
 import msvcrt
 sys.argv.append('py2exe')
 
-setup(console=['compact_entry.py'], data_files=[('data', glob('data/*.hal')+glob('data/*.chal'))],
+setup(console=['compact_entry.py'], data_files=[('data', glob('data/*.hal')+glob('data/*.chal')), ('espeak', glob('espeak/*'))],
       options={
         'py2exe': {'ascii': False, 'dist_dir': 'compact', 'optimize': 2,
                    'excludes': ['_ssl', 'unittest', 'doctest', 'inspect'],

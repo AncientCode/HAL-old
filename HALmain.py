@@ -34,7 +34,7 @@ def main(data=None):
     print '[SYSTEM]', 'Booted on', get_system_info(), '[/SYSTEM]'
     print
     print '[SYSTEM]'
-    hal = HAL(write=True)
+    hal = HAL(write=True, speak=True)
     print '[/SYSTEM]'
     print
     print '-HAL: Hello %s. I am HAL %s.'%(hal.user, hal.version)
