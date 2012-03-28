@@ -6,7 +6,8 @@ import os
 import msvcrt
 sys.argv.append('py2exe')
 
-setup(console=['HALcon.py'], data_files=[('data', glob('data/*.hal')+glob('data/*.chal'))],
+setup(console=['HALcon.py'], windows=['HALgui.pyw'],
+      data_files=[('data', glob('data/*.hal')+glob('data/*.chal'))],
       options={
         'py2exe': {'ascii': False, 'dist_dir': 'portable', 'optimize': 2,
                    'excludes': ['_ssl', 'unittest', 'doctest', 'inspect'],

@@ -30,12 +30,27 @@ def stop_speaking(handle):
     except OSError:
         pass
 
+# def speak(text, block=True):
+    # cmd = [espeak_path, '-v', 'en-us']
+    # si = subprocess.STARTUPINFO()
+    # si.dwFlags = subprocess.STARTF_USESHOWWINDOW
+    # si.dwFlags = subprocess.SW_HIDE
+    # handle = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=null_file, stderr=null_file, startupinfo=si)
+    # handle.stdin.write(text)
+    # if block:
+        # return not handle.wait()
+    # else:
+        # return handle
+
 def speak(text, block=True):
-    cmd = [espeak_path, '-v', 'en-us', text]
+    cmd = [espeak_path, '-v', 'en-us', text.encode('ascii', 'ignore')]
+    si = subprocess.STARTUPINFO()
+    si.dwFlags = subprocess.STARTF_USESHOWWINDOW
+    si.dwFlags = subprocess.SW_HIDE
     if block:
-        return not subprocess.call(cmd, stdin=null_file, stdout=null_file, stderr=null_file)
+        return not subprocess.call(cmd, stdin=null_file, stdout=null_file, stderr=null_file, startupinfo=si)
     else:
-        return subprocess.Popen(cmd, stdin=null_file, stdout=null_file, stderr=null_file)
+        return subprocess.Popen(cmd, stdin=null_file, stdout=null_file, stderr=null_file, startupinfo=si)
 
 if __name__ == '__main__':
-    speak("Open a file, returning an object of the file type described in section File Objects. If the file cannot be opened, IOError is raised. When opening a file, it's preferable to use open() instead of invoking the file constructor directly.", False)
+    speak("Open a file, returning an object of the file type described in section File Objects. If the file cannot be opened, IOError is raised. When opening a file, it's preferable to use open() instead of invoking the file constructor directly.")
