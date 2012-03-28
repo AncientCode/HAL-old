@@ -5,18 +5,7 @@ del /q standard
 md standard
 
 echo Copy bytecode file...
-copy equation.py standard
-copy HALBot.py standard
-copy HALcon.py standard
-copy HALwiki.py standard
-copy HALapi.py standard
-copy HALformat.py standard
-copy HALmain.py standard
-copy HALmacro.py standard
-copy HALspeak.py standard
-copy boost_python-vc100-mt-1_47.dll standard
-copy HALnative.pyd standard
-cp -r espeak standard
+cp -r equation.py HALBot.py HALcon.py HALwiki.py HALapi.py HALformat.py HALmain.py HALmacro.py HALspeak.py boost_python-vc100-mt-1_47.dll HALnative.pyd HALgui.py HALgui.pyw espeak standard
 python -O -m compileall standard -q
 
 cd standard

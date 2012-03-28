@@ -25,7 +25,7 @@ class MainWin(wx.Frame):
         # begin wxGlade: MainWin.__init__
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
-        self.label_1 = wx.StaticText(self, -1, _("HAL - The Chatter Bot"), style=wx.ALIGN_CENTRE)
+        self.label_1 = wx.StaticText(self, -1, _("HAL, the Heurisic ALgorithmic Computer"), style=wx.ALIGN_CENTRE)
         self.output = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_WORDWRAP)
         self.input = wx.TextCtrl(self, 5, "", style=wx.TE_PROCESS_ENTER)
         self.ask_btn = wx.Button(self, 1, _("&Ask"))
@@ -46,7 +46,7 @@ class MainWin(wx.Frame):
 
     def __set_properties(self):
         # begin wxGlade: MainWin.__set_properties
-        self.SetTitle(_("HAL - The Chatter Bot"))
+        self.SetTitle(_("HAL, the Heurisic ALgorithmic Computer"))
         self.SetSize((640, 480))
         self.SetBackgroundColour(wx.Colour(240, 240, 240))
         self.label_1.SetForegroundColour(wx.Colour(255, 0, 0))

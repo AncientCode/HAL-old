@@ -32,7 +32,7 @@ class HALintel(HALBot):
             return res
 
 class HAL(object):
-    version = '0.014'
+    version = '0.015'
     def __init__(self, username=None, path='data', write=False, speak=False):
         if username is None:
             if _user is None:
