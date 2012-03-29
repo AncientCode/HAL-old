@@ -109,16 +109,9 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
 
     if (write)
         cout << flush;
-    // Macro
-    InitMacro(username);
     
     // Learning File
-    learn_file.open(path+"\\learn.dat", ios_base::out|ios_base::app);
-    
-    // Word Removal
-    read_into_sequence(word_removal, path + "\\remove.chal", "word removal", write);
-    
-    cout << flush;
+    //learn_file.open(path+"\\learn.dat", ios_base::out|ios_base::app);
     
     // Initialize RNG
     rng.seed(rngsource());
@@ -151,8 +144,6 @@ inline void clean_possible(const string& question, vector<tuple<string, string, 
 
 string HALBot::Ask(const string& question_) {
     string question(regex_replace(question_, space_normalize, string(" ")));
-    for (auto i = word_removal.cbegin(); i != word_removal.cend(); ++i)
-        boost::algorithm::ireplace_all(question, *i, "");
     // Name, Wildcard, Magnitude of Specificness (migher = more), Thinkset
     typedef tuple<string, string, size_t, string> entry;
     vector<entry> possible, best_possible;
@@ -204,33 +195,6 @@ string HALBot::Ask(const string& question_) {
     }
 }
 
-void HALBot::InitMacro(const string& username) {
-    /*if (username.empty()) {
-        string username(getenv("USERNAME"));
-        ConPrompt("Enter your name", username);
-        macros["$USERNAME$"] = username;
-    } else
-        macros["$USERNAME$"] = username;
-    macros["$USER$"] = macros["$USERNAME$"];
-    int age = uniform_int_distribution<>(15, 40)(rng);
-    macros["$AGE$"]           = int2str(age);
-    macros["$GENDER$"]        = "male";
-    macros["$GENUS$"]         = "robot";
-    macros["$SPECIES$"]       = "chatterbot";
-    macros["$NAME$"]          = "HAL";
-    macros["$MASTER$"]        = "Tudor and Guanzhong";
-    macros["$BIRTHPLACE$"]    = "Toronto";
-    macros["$FAVORITEFOOD$"]  = "electricity";
-    macros["$FAVORITECOLOR$"] = "blue";*/
-}
-
-void HALBot::UpdateMacro() {
-    /*macros["$DATE$"]     = strftime("%B %d, %Y");
-    macros["$TIME$"]     = strftime("%H:%M:%S");
-    macros["$DATETIME$"] = strftime("%H:%M:%S on %B %d, %Y");
-    macros["$ISOTIME$"]  = strftime("%Y-%m-%dT%H:%M:%S");*/
-}
-
 string HALBot::Format(string answer, string matched) {
     /*UpdateMacro();
     for (auto i = macros.cbegin(); i != macros.cend(); ++i)
@@ -245,42 +209,4 @@ HALBot::~HALBot() {
     boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(string)>::release_memory();
     boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(HALanswerList)>::release_memory();
     boost::singleton_pool<boost::fast_pool_allocator_tag, sizeof(HALdataEntry)>::release_memory();
-}
-
-void HALBot::Learn(const string& question, const string& answer) {
-    HALanswerList list;
-    list.push_back(answer);
-    Learn(question, list);
-}
-
-void HALBot::Learn(const string& question, const HALanswerList& answers) {
-    string key(question);
-    if (simple_word_subst.empty())
-        InitWordSubst();
-    for (auto i = simple_word_subst.cbegin(); i != simple_word_subst.cend(); ++i)
-        boost::algorithm::ireplace_all(key, i->first, i->second);
-
-    regex reg(regex_replace(key, wildcard2regex, string("(.*)")),
-              regex_constants::ECMAScript|regex_constants::icase);
-    HALdataEntry entry(key, reg, answers, "");
-    data.push_back(entry);
-    //datalist.insert(key);
-    learn_file << '#' << key << '\n';
-    for (auto i = answers.cbegin(); i != answers.cend(); ++i)
-        learn_file << *i << '\n';
-    learn_file << endl;
-}
-
-void HALBot::InitWordSubst() {
-    simple_word_subst["the"] = "*";
-    simple_word_subst["there"] = "*";
-    simple_word_subst["they"] = "*";
-    simple_word_subst["then"] = "*";
-    simple_word_subst["their"] = "*";
-    simple_word_subst["them"] = "*";
-    simple_word_subst["this"] = "*";
-    simple_word_subst["won't"] = "will not";
-    simple_word_subst["shan't"] = "shall not";
-    simple_word_subst["haven't"] = "have not";
-    simple_word_subst["can't"] = "can not";
 }

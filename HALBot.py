@@ -57,6 +57,7 @@ class HAL(object):
         self.debug_write = write
         
         self._init_readable()
+        self._init_remove()
     
     def _init_readable(self):
         self.readable = {}
@@ -73,9 +74,25 @@ class HAL(object):
                 regex = re.compile(re.escape(fields[0]), re.IGNORECASE)
                 self.readable[regex] = fields[1]
     
+    def _init_remove(self):
+        self.remove = []
+        word_removal_path = os.path.join(self.data_folder, 'remove.chal')
+        if self.debug_write:
+            print 'Reading', word_removal_path, 'for word removal...'
+        try:
+            file = open(word_removal_path)
+        except IOError:
+            print 'Failed to read', word_removal_path, 'for word removal!!!'
+        else:
+            for line in file:
+                regex = re.compile(re.escape(line.strip()), re.IGNORECASE)
+                self.remove.append(regex)
+    
     def _clean_text(self, text):
         for regex, replacement in self.readable.iteritems():
             text = regex.sub(replacement, text)
+        for regex in self.remove:
+            text = regex.sub('', text)
         return text
     
     def shutdown(self):

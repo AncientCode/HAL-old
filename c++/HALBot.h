@@ -26,27 +26,27 @@ public:
     HALBot(const string& path, const string& username, bool write=false);
     void Initialize(const string& path, const string& username="", bool write=false);
     string Ask(const string& question);
-    void Learn(const string& question, const string& answer);
-    void Learn(const string& question, const HALanswerList& answer);
-#ifdef BUILD_PYTHON
+    //void Learn(const string& question, const string& answer);
+    //void Learn(const string& question, const HALanswerList& answer);
+/*#ifdef BUILD_PYTHON
     void Learn(const string& question, const boost::python::list& answer) {
         HALanswerList answers;
         for (int i = 0; i < boost::python::len(answer); ++i)
             answers.push_back(boost::python::extract<string>(answer[i]));
         Learn(question, answers);
     }
-#endif
+#endif*/
     ~HALBot();
 protected:
     HALintel data;
     mt19937 rng;
     //HALintelList datalist;
-    HALMacroList macros;
-    HALMacroList simple_word_subst;
-    HALMacroList readable_subst;
-    HALWordList generic_answer;
-    HALWordList word_removal;
-    fstream learn_file;
+    //HALMacroList macros;
+    //HALMacroList simple_word_subst;
+    //HALMacroList readable_subst;
+    //HALWordList generic_answer;
+    //HALWordList word_removal;
+    //fstream learn_file;
     string prev_thinkset;
     
     static const regex wildcard2regex;
@@ -54,9 +54,9 @@ protected:
     static const regex space_normalize;
     static const string word_boundary;
     
-    void InitMacro(const string& username);
-    void InitWordSubst();
-    void UpdateMacro();
+    //void InitMacro(const string& username);
+    //void InitWordSubst();
+    //void UpdateMacro();
     string Format(string answer, string matched);
 private:
 };
