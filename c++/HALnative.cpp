@@ -12,6 +12,8 @@ BOOST_PYTHON_MODULE(HALnative) {
     
     class_<HALBot, boost::noncopyable>("HALBot", init<const std::string&, const std::string&>())
         .def(init<const std::string&, const std::string&, bool>())
-        .def("Ask", &HALBot::Ask)
+        //.def("Ask", &HALBot::Ask)
+        .def("Ask", &HALBot::pyAsk)
+        .add_property("thinkset", &HALBot::pyGetThinkSet, &HALBot::pySetThinkSet)
     ;
 }

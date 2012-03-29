@@ -38,6 +38,8 @@ const regex HALBot::wildcard2regex("\\s*\\*\\s*", regex_constants::ECMAScript|re
 const regex HALBot::caret_replace("\\^", regex_constants::ECMAScript|regex_constants::optimize);
 const regex HALBot::space_normalize("\\s+", regex_constants::ECMAScript|regex_constants::optimize);
 const string HALBot::word_boundary("\\b");
+// .* to match blanks...
+const string HALBot::rewildcard("\\b(.+)\\b");
 
 template<class sequence>
 void read_into_sequence(sequence& data, const string& file, const string& purpose, bool write=true) {
@@ -141,6 +143,31 @@ inline void clean_possible(const string& question, vector<tuple<string, string, 
         }
     }
 }
+
+#ifdef BUILD_PYTHON
+boost::python::tuple HALBot::pyAsk(const string& question) {
+    // Name, Wildcard, Magnitude of Specificness (migher = more), Thinkset
+    smatch results;
+    boost::python::list best_possible, possible;
+    for (auto i = data.cbegin(); i != data.cend(); ++i) {
+        if (regex_search(question, results, get<1>(*i))) {
+            const HALanswerList &answers = get<2>(*i);
+            boost::python::list submatches, ans;
+            //for (auto i = results.cbegin(); i != results.cend(); ++i)
+            for (size_t k = 1; k < results.length(); ++k)
+                //if (results[k] != "") // Comment to make 0 the matched part
+                    submatches.append(string(results[k]));
+            for (auto j = answers.cbegin(); j != answers.cend(); ++j)
+                ans.append(*j);
+            if (!prev_thinkset.empty() && get<3>(*i) == prev_thinkset)
+                best_possible.append(boost::python::make_tuple(get<0>(*i), get<3>(*i), ans, submatches));
+            else
+                possible.append(boost::python::make_tuple(get<0>(*i), get<3>(*i), ans, submatches));
+        }
+    }
+    return boost::python::make_tuple(best_possible, possible);
+}
+#endif
 
 string HALBot::Ask(const string& question_) {
     string question(regex_replace(question_, space_normalize, string(" ")));

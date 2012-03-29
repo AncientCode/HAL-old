@@ -28,14 +28,15 @@ public:
     string Ask(const string& question);
     //void Learn(const string& question, const string& answer);
     //void Learn(const string& question, const HALanswerList& answer);
-/*#ifdef BUILD_PYTHON
-    void Learn(const string& question, const boost::python::list& answer) {
-        HALanswerList answers;
-        for (int i = 0; i < boost::python::len(answer); ++i)
-            answers.push_back(boost::python::extract<string>(answer[i]));
-        Learn(question, answers);
+#ifdef BUILD_PYTHON
+    boost::python::tuple pyAsk(const string& question);
+    void pySetThinkSet(const string& thinkset) {
+        prev_thinkset = thinkset;
     }
-#endif*/
+    string pyGetThinkSet() {
+        return prev_thinkset;
+    }
+#endif
     ~HALBot();
 protected:
     HALintel data;
@@ -53,6 +54,7 @@ protected:
     static const regex caret_replace;
     static const regex space_normalize;
     static const string word_boundary;
+    static const string rewildcard;
     
     //void InitMacro(const string& username);
     //void InitWordSubst();

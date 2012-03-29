@@ -2,6 +2,7 @@ from getpass import getuser
 import random
 import os.path
 import re
+import difflib
 
 from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
@@ -17,20 +18,69 @@ try:
 except:
     _user = None
 
+
+# TODO: Combine multiple matches into one
+# i.e. 2 #HELLO sections will be combined into in pick_match()
 class HALintel(HALBot):
+    junks = '!@#$%^()_~`./\\?,'
+    regroups = re.compile(r'\\g<([1-9][0-9]*?)>')
     def __init__(self, path, *args, **kwargs):
         HALBot.__init__(self, path, *args, **kwargs)
         self.wiki = HALwiki(os.path.join(os.path.split(path)[0], 'clean.chal'))
     def check(self, input):
         return True
+    def pick_match(self, ques, array):
+        diff = difflib.SequenceMatcher(a=ques.upper(), isjunk=lambda x: x in self.junks)
+        sorted = []
+        for possible in array:
+            diff.set_seq2(possible[0])
+            match = diff.ratio()
+            sorted.append((match,) + possible)
+        best = max(sorted, key=lambda a: a[0])
+        return best
+    def pick_ans(self, ques, best):
+        match, pattern, thinkset, answers, groups = best
+        answers = [i.replace('^', r'\g<1>') for i in answers]
+        groups = [i.strip() for i in groups]
+        filtered = []
+        for answer in answers:
+            ids = [int(i) for i in self.regroups.findall(answer)]
+            is_ok = True
+            for id in ids:
+                if not (id < len(groups) and groups[id]):
+                    is_ok = False
+                    break
+            if not is_ok:
+                continue
+            filtered.append(answer)
+        answers = filtered
+        answer = random.choice(answers)
+        return thinkset, answer, groups
+    def subst_groups(self, ans, groups):
+        #func = lambda a: groups[int(a.group(1))]
+        #print (ans, groups)
+        return self.regroups.sub(lambda a: groups[int(a.group(1))], ans)
+        #return re.sub(r'\g<([1-9][0-9]*?)>', lambda a: groups[int(a.group(1))], ans)
     def answer(self, question):
-        res = self.Ask(question)
-        if res == '$RAISE_HALCANNOTHANDLE$':
+        best, other = self.Ask(question)
+        if best:
+            ans = self.pick_match(question, best)
+            if ans[0] < 0.3:
+                other.append(ans[1:])
+            else:
+                other = []
+        if other:
+            ans = self.pick_match(question, other)
+        try:
+            ans
+        except NameError:
+            # ans not defined
             raise HALcannotHandle
-        elif '$HALWIKI$' in res:
+        thinkset, answer, groups = self.pick_ans(question, ans)
+        answer = self.subst_groups(answer, groups)
+        if '$HALWIKI$' in answer:
             return self.wiki.getwiki(question)
-        else:
-            return res
+        return answer
 
 class HAL(object):
     version = '0.015'
