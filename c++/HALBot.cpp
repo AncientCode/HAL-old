@@ -112,36 +112,8 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
     // Macro
     InitMacro(username);
     
-    // Generic Answer
-    //read_into_sequence(generic_answer, path + "\\generic.chal", "generic answers", write);
-    //generic_answer.push_back("I can't seem to understand.");
-    
     // Learning File
     learn_file.open(path+"\\learn.dat", ios_base::out|ios_base::app);
-    
-    // Computer Readable Substitition
-    string line;
-    string readable_subst_path(path + "\\readable.chal");
-    vector<string> readable_subst_temp;
-    if (write)
-        cout << "Reading " << readable_subst_path << " for Computer Readable Substitition...\r";
-    fstream readable_subst_file(readable_subst_path);
-    auto tab = boost::is_any_of("\t");
-    if (write)
-        if (readable_subst_file.is_open())
-            cout << endl;
-        else
-            cout << "WARNING: Failed to open " << readable_subst_path << " for Computer Readable Substitition!!!" << endl;
-    if (readable_subst_file.is_open()) {
-        while (getline(readable_subst_file, line)) {
-            boost::split(readable_subst_temp, line, tab);
-            if (readable_subst_temp.size() != 2) {
-                cout << "Syntax Error: near " << line << endl;
-                continue;
-            }
-            readable_subst[readable_subst_temp[0]] = readable_subst_temp[1];
-        }
-    }
     
     // Word Removal
     read_into_sequence(word_removal, path + "\\remove.chal", "word removal", write);
@@ -179,8 +151,6 @@ inline void clean_possible(const string& question, vector<tuple<string, string, 
 
 string HALBot::Ask(const string& question_) {
     string question(regex_replace(question_, space_normalize, string(" ")));
-    for (auto i = readable_subst.cbegin(); i != readable_subst.cend(); ++i)
-        boost::algorithm::ireplace_all(question, i->first, i->second);
     for (auto i = word_removal.cbegin(); i != word_removal.cend(); ++i)
         boost::algorithm::ireplace_all(question, *i, "");
     // Name, Wildcard, Magnitude of Specificness (migher = more), Thinkset

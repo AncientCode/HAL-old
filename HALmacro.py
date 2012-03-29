@@ -2,6 +2,14 @@ import re
 import time
 from getpass import getuser
 import random
+import urllib2
+import socket
+
+def get_ip():
+    try:
+        return urllib2.urlopen('http://automation.whatismyip.com/n09230945.asp').read().strip()
+    except urllib2.HTTPError:
+        return socket.gethostbyname(socket.gethostname())
 
 class HALmacro(object):
     redate = re.compile(r'\$DATE\$')
@@ -29,6 +37,7 @@ class HALmacro(object):
             '$BOTMASTER$'     : 'creator',
             '$WEBSITE$'       : 'dev.halbot.co.cc',
             '$RELIGION$'      : 'atheist',
+            '$IP$'            : get_ip(),
         }
         self.extended = {
             self.redate:      lambda m: time.strftime('%B %d, %Y'),

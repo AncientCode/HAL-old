@@ -1,4 +1,7 @@
 from getpass import getuser
+import random
+import os.path
+import re
 
 from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
@@ -6,8 +9,6 @@ import equation
 from HALwiki import HALwiki
 from HALapi import HALcannotHandle
 from HALmacro import HALmacro
-import random
-import os.path
 #import language
 import HALspeak
 
@@ -46,12 +47,36 @@ class HAL(object):
         try:
             with open(os.path.join(path, 'generic.chal')) as fp:
                 self.generic = [i.strip() for i in fp.readlines() if i.strip() and i[0] != '#']
+            self.generic.append("I can't seem to understand.")
         except IOError:
             self.generic = ["I have a problem with my brain, I can't think..."]
-        self.generic.append("I can't seem to understand.")
         self.macro = HALmacro(username)
         self.speak = speak
         self.sphandle = None
+        self.data_folder = path
+        self.debug_write = write
+        
+        self._init_readable()
+    
+    def _init_readable(self):
+        self.readable = {}
+        readable_subst_path = os.path.join(self.data_folder, 'readable.chal')
+        if self.debug_write:
+            print 'Reading', readable_subst_path, 'for computer readable substitution...'
+        try:
+            file = open(readable_subst_path)
+        except IOError:
+            print 'Failed to read', readable_subst_path, 'for Computer Readable Substitition!!!'
+        else:
+            for line in file:
+                fields = line.strip('\n').split('\t')
+                regex = re.compile(re.escape(fields[0]), re.IGNORECASE)
+                self.readable[regex] = fields[1]
+    
+    def _clean_text(self, text):
+        for regex, replacement in self.readable.iteritems():
+            text = regex.sub(replacement, text)
+        return text
     
     def shutdown(self):
         return 'Goodbye, %s. I enjoyed talking to you.'%self.user
@@ -74,6 +99,8 @@ class HAL(object):
         if check_for_end(question):
             self.running = False
             return []
+        
+        question = self._clean_text(question)
         
         for sentence in sentence_split(question):
             handle = False
