@@ -1,9 +1,16 @@
 import re
+import imp
 import time
-from getpass import getuser
+import uuid
 import random
-import urllib2
 import socket
+import urllib2
+import os.path
+import traceback
+from glob import glob
+from getpass import getuser
+
+from HALapi import get_main_dir
 
 def get_ip():
     try:
@@ -60,6 +67,24 @@ class HALmacro(object):
             self.readvitime:  lambda m: time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(time.time()+int(m.group(1)))),
             self.rerandint:   lambda m: str(random.randint(int(m.group(1)), int(m.group(2)))),
         }
+        
+        # Plugin interface
+        dir = os.path.join(get_main_dir(), 'plugins/macro')
+        files = os.path.join(dir, '*.py')
+        files = [os.path.basename(i).replace('.py', '') for i in glob(files)]
+        for file in files:
+            try:
+                data = imp.find_module(file, [dir])
+                module = imp.load_module(str(uuid.uuid1()), *data)
+                if hasattr(module, 'basic'):
+                    self.basic.update(module.basic)
+                if hasattr(module, 'extended'):
+                    self.extended.update(module.extended)
+            except:
+                print 'Error in macro extension', file
+                traceback.print_exc()
+        #for i, j in self.extended.iteritems():
+        #    print i.pattern, ':', j
     def update_basic(self):
         pass
     def update_extended(self):

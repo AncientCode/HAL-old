@@ -154,8 +154,9 @@ boost::python::tuple HALBot::pyAsk(const string& question) {
             const HALanswerList &answers = get<2>(*i);
             boost::python::list submatches, ans;
             //for (auto i = results.cbegin(); i != results.cend(); ++i)
-            for (size_t k = 1; k < results.length(); ++k)
-                //if (results[k] != "") // Comment to make 0 the matched part
+            //for (size_t k = 1; k < results.length(); ++k)
+            for (size_t k = 0; k < results.length(); ++k)
+                //if (results[k] != "") // Remove empty
                     submatches.append(string(results[k]));
             for (auto j = answers.cbegin(); j != answers.cend(); ++j)
                 ans.append(*j);

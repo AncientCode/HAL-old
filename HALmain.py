@@ -2,28 +2,8 @@ from HALBot import HAL
 import os.path
 import sys
 import os
-import platform
 import codecs
-
-def get_system_info():
-    if os.name == 'nt':
-        ver, sp, build, type = platform.win32_ver()
-        arch = platform.machine()
-        pyver = platform.python_version()
-        impl = platform.python_implementation()
-        return 'Windows {ver} {sp}, NT {build} on {arch} Python {pyver} ({impl}).'.format(ver=ver, sp=sp, build=build, arch=arch, pyver=pyver, impl=impl)
-
-def main_is_frozen():
-    import imp
-    return (hasattr(sys, "frozen") or # new py2exe
-            hasattr(sys, "importers") # old py2exe
-            or imp.is_frozen("__main__")) # tools/freeze
-def get_main_dir():
-    if main_is_frozen():
-        return os.path.dirname(sys.executable)
-    for dirname in sys.path:
-        if os.path.exists(os.path.join(dirname, __file__)):
-            return dirname
+from HALapi import get_main_dir, get_system_info
 
 def main(data=None):
     sys.stdout = codecs.getwriter('mbcs')(sys.stdout, 'replace')
