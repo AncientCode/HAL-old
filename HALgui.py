@@ -4,7 +4,10 @@
 
 import wx
 import sys
+import time
+import random
 import os.path
+import threading
 
 from HALmain import get_main_dir, get_system_info
 from HALspeak import stop_speaking
@@ -25,7 +28,8 @@ class MainWin(wx.Frame):
         # begin wxGlade: MainWin.__init__
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
-        self.label_1 = wx.StaticText(self, -1, _("HAL, the Heurisic ALgorithmic Computer"), style=wx.ALIGN_CENTRE)
+        self.hal_title = wx.StaticBitmap(self, -1, wx.NullBitmap)
+        self.hal_icon = wx.StaticBitmap(self, -1, wx.NullBitmap)
         self.output = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_WORDWRAP)
         self.input = wx.TextCtrl(self, 5, "", style=wx.TE_PROCESS_ENTER)
         self.ask_btn = wx.Button(self, 1, _("&Ask"))
@@ -42,15 +46,20 @@ class MainWin(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.stop_talking, id=3)
         self.Bind(wx.EVT_BUTTON, self.clear_output, id=4)
         # end wxGlade
-        self.start_hal()
+        threading.Thread(target=self.start_hal).start()
+        self.hal_title.SetBitmap(wx.Bitmap(os.path.join(get_main_dir(), 'Logo_V1.png'), wx.BITMAP_TYPE_PNG))
+        self.normaleye = wx.Bitmap(os.path.join(get_main_dir(), 'Normal.png'), wx.BITMAP_TYPE_PNG)
+        self.inverteye = wx.Bitmap(os.path.join(get_main_dir(), 'Buffering.png'), wx.BITMAP_TYPE_PNG)
+        self.hal_icon.SetBitmap(self.normaleye)
+        threading.Thread(target=self.blink).start()
 
     def __set_properties(self):
         # begin wxGlade: MainWin.__set_properties
         self.SetTitle(_("HAL, the Heurisic ALgorithmic Computer"))
-        self.SetSize((640, 480))
+        self.SetSize((700, 530))
         self.SetBackgroundColour(wx.Colour(240, 240, 240))
-        self.label_1.SetForegroundColour(wx.Colour(255, 0, 0))
-        self.label_1.SetFont(wx.Font(20, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
+        self.hal_title.SetMinSize((392, 119))
+        self.hal_icon.SetMinSize((119, 119))
         self.input.SetFocus()
         # end wxGlade
 
@@ -61,7 +70,11 @@ class MainWin(wx.Frame):
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_1.Add(self.label_1, 0, wx.EXPAND, 0)
+        sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_6.Add(self.hal_title, 0, 0, 0)
+        sizer_6.Add((0, 119), 1, 0, 0)
+        sizer_6.Add(self.hal_icon, 0, 0, 0)
+        sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
         sizer_3.Add(self.output, 1, wx.EXPAND, 0)
         sizer_4.Add(self.input, 1, wx.EXPAND, 0)
         sizer_4.Add(self.ask_btn, 0, 0, 0)
@@ -79,11 +92,13 @@ class MainWin(wx.Frame):
     def start_hal(self):
         data = os.path.join(get_main_dir(), 'data')
         sys.stdout = RedirectText(self.output)
+        print '[SYSTEM]', 'Booted on', get_system_info(), '[/SYSTEM]'
+        print
+        print 'Loading data files...'
         self.hal = HAL(speak=True)
         if not os.path.exists(data):
             print 'Your need a full package with the data folder'
             self.ask_btn.Enabled(False)
-        print '[SYSTEM]', 'Booted on', get_system_info(), '[/SYSTEM]'
         print
         print '-HAL: Hello %s. I am HAL %s.'%(self.hal.user, self.hal.version)
         print
@@ -126,6 +141,15 @@ class MainWin(wx.Frame):
 
     def input_enter(self, event):  # wxGlade: MainWin.<event_handler>
         self.Ask(event)
+    
+    def blink(self):
+        while True:
+            if not random.randint(0, 5):
+                self.hal_icon.SetBitmap(self.inverteye)
+                time.sleep(0.05)
+                self.hal_icon.SetBitmap(self.normaleye)
+            time.sleep(1)
+                
 
 # end of class MainWin
 class HALGUI(wx.App):
