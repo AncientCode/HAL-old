@@ -43,4 +43,10 @@ $HALWIKI$
 #WHERE
 $HALWIKI$
 
+#WHERE AM I
+You are in $LOCATION$.
+
+#WHAT IS MY IP
+Your IP is $IP$.
+
 #NULL

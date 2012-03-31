@@ -54,6 +54,8 @@ class HALintel(HALBot):
                 continue
             filtered.append(answer)
         answers = filtered
+        if not answers:
+            raise HALcannotHandle
         answer = random.choice(answers)
         return thinkset, answer, groups
     def subst_groups(self, ans, groups):
@@ -72,12 +74,15 @@ class HALintel(HALBot):
         if other:
             ans = self.pick_match(question, other)
         try:
-            ans
+            if not ans:
+                raise HALcannotHandle
         except NameError:
             # ans not defined
             raise HALcannotHandle
         thinkset, answer, groups = self.pick_ans(question, ans)
         answer = self.subst_groups(answer, groups)
+        if answer[0] == '>':
+            return self.answer(answer[1:])
         if '$HALWIKI$' in answer:
             return self.wiki.getwiki(question)
         return answer

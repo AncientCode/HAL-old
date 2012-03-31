@@ -11,6 +11,15 @@ def get_ip():
     except urllib2.HTTPError:
         return socket.gethostbyname(socket.gethostname())
 
+def get_location():
+    page = urllib2.urlopen('http://www.tracemyip.org').read().replace('&nbsp;', '')
+    recity = re.compile('<td valign="top" class="tID_01"><b>Hub City:</b>(.*?)<br>', re.S)
+    reloc = re.compile('<td class="tID_01"><b>State:</b></td>(.*?)</tr>', re.S)
+    reclean = re.compile('<.*?>') 
+    city = reclean.sub('', recity.search(page).group(1).replace(' ', '')).strip()
+    location = reclean.sub('', reloc.search(page).group(1).replace(' ', '')).strip()
+    return '%s, %s'%(city, location)
+
 class HALmacro(object):
     redate = re.compile(r'\$DATE\$')
     retime = re.compile(r'\$TIME\$')
@@ -38,6 +47,7 @@ class HALmacro(object):
             '$WEBSITE$'       : 'dev.halbot.co.cc',
             '$RELIGION$'      : 'atheist',
             '$IP$'            : get_ip(),
+            '$LOCATION$'      : get_location(),
         }
         self.extended = {
             self.redate:      lambda m: time.strftime('%B %d, %Y'),
