@@ -46,12 +46,15 @@ class MainWin(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.stop_talking, id=3)
         self.Bind(wx.EVT_BUTTON, self.clear_output, id=4)
         # end wxGlade
-        threading.Thread(target=self.start_hal).start()
+        thread = threading.Thread(target=self.start_hal)
+        thread.daemon = True
+        thread.start()
         self.hal_title.SetBitmap(wx.Bitmap(os.path.join(get_main_dir(), 'Logo_V1.png'), wx.BITMAP_TYPE_PNG))
         self.normaleye = wx.Bitmap(os.path.join(get_main_dir(), 'Normal.png'), wx.BITMAP_TYPE_PNG)
         self.inverteye = wx.Bitmap(os.path.join(get_main_dir(), 'Buffering.png'), wx.BITMAP_TYPE_PNG)
         self.hal_icon.SetBitmap(self.normaleye)
-        threading.Thread(target=self.blink).start()
+        thread = threading.Thread(target=self.blink)
+        thread.start()
 
     def __set_properties(self):
         # begin wxGlade: MainWin.__set_properties
@@ -149,7 +152,6 @@ class MainWin(wx.Frame):
                 time.sleep(0.05)
                 self.hal_icon.SetBitmap(self.normaleye)
             time.sleep(1)
-                
 
 # end of class MainWin
 class HALGUI(wx.App):
