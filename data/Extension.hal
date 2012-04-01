@@ -55,4 +55,7 @@ Your IP is $IP$.
 #WHAT IS THE * ELEMENT
 @@The \g<1> element is $ENAMEFNUM<\g<1>>$.
 
+#WHAT IS THE ATOMIC WEIGHT OF *
+@@The atomic weight of \g<1> is $EWEIGHT<\g<1>>$.
+
 #NULL
