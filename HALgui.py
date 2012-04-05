@@ -16,6 +16,97 @@ from HALBot import HAL
 # begin wxGlade: extracode
 # end wxGlade
 
+
+class HALOptions(wx.Dialog):
+    def __init__(self, *args, **kwds):
+        # begin wxGlade: HALOptions.__init__
+        kwds["style"] = wx.DEFAULT_DIALOG_STYLE
+        wx.Dialog.__init__(self, *args, **kwds)
+        self.options_tabs = wx.Notebook(self, -1, style=0)
+        self.speech_tab = wx.Panel(self.options_tabs, -1)
+        self.label_2 = wx.StaticText(self.speech_tab, -1, _("Language: "))
+        self.language = wx.Choice(self.speech_tab, -1, choices=[_("English")])
+        self.mute = wx.CheckBox(self.speech_tab, 1, _("Mute"))
+        self.gender = wx.RadioBox(self.speech_tab, -1, _("Gender"), choices=[_("Male"), _("Female")], majorDimension=0, style=wx.RA_SPECIFY_ROWS)
+        self.label_3 = wx.StaticText(self.speech_tab, -1, _("Volume: "))
+        self.volume = wx.Slider(self.speech_tab, -1, 100, 0, 200, style=wx.SL_HORIZONTAL | wx.SL_LABELS)
+        self.label_4 = wx.StaticText(self.speech_tab, -1, _("Speed:"))
+        self.speed = wx.Slider(self.speech_tab, -1, 175, 80, 450, style=wx.SL_HORIZONTAL | wx.SL_LABELS)
+        self.apply_btn = wx.Button(self.speech_tab, 2, _("&Apply"))
+        self.save_btn = wx.Button(self.speech_tab, 3, _("&Save"))
+
+        self.__set_properties()
+        self.__do_layout()
+
+        self.Bind(wx.EVT_BUTTON, self.apply, id=2)
+        # end wxGlade
+        self.parent = self.GetParent()
+        self.__init_values()
+
+    def __init_values(self):
+        self.volume.SetValue(self.parent.hal.speak_opt['volume'])
+        self.speed.SetValue(self.parent.hal.speak_opt['speed'])
+        self.gender.SetSelection(0 if self.parent.hal.speak_opt['gender'] else 1)
+        self.mute.SetValue(not self.parent.hal.speak)
+    
+    def __set_properties(self):
+        # begin wxGlade: HALOptions.__set_properties
+        self.SetTitle(_("HAL Options"))
+        self.SetSize((400, -1))
+        self.language.SetMinSize((-1, 21))
+        self.language.SetSelection(0)
+        self.gender.SetMinSize((-1, 60))
+        self.gender.SetSelection(0)
+        self.label_3.SetMinSize((42, -1))
+        self.volume.SetMinSize((-1, 50))
+        self.label_4.SetMinSize((42, -1))
+        self.speed.SetMinSize((-1, 50))
+        self.save_btn.Enable(False)
+        self.save_btn.Hide()
+        # end wxGlade
+
+    def __do_layout(self):
+        # begin wxGlade: HALOptions.__do_layout
+        sizer_7 = wx.BoxSizer(wx.VERTICAL)
+        sizer_8 = wx.BoxSizer(wx.VERTICAL)
+        sizer_15 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_14 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_13 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_10 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_11 = wx.BoxSizer(wx.VERTICAL)
+        sizer_12 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_12.Add(self.label_2, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_12.Add(self.language, 1, 0, 0)
+        sizer_11.Add(sizer_12, 0, wx.EXPAND, 0)
+        sizer_11.Add((0, 20), 0, wx.EXPAND, 0)
+        sizer_11.Add(self.mute, 0, 0, 0)
+        sizer_10.Add(sizer_11, 1, wx.EXPAND, 0)
+        sizer_10.Add(self.gender, 0, 0, 0)
+        sizer_8.Add(sizer_10, 0, wx.EXPAND, 0)
+        sizer_13.Add(self.label_3, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_13.Add(self.volume, 1, 0, 0)
+        sizer_8.Add(sizer_13, 0, wx.EXPAND, 0)
+        sizer_14.Add(self.label_4, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_14.Add(self.speed, 1, 0, 0)
+        sizer_8.Add(sizer_14, 0, wx.EXPAND, 0)
+        sizer_15.Add((0, 0), 1, wx.EXPAND, 0)
+        sizer_15.Add(self.apply_btn, 0, 0, 0)
+        sizer_15.Add(self.save_btn, 0, 0, 0)
+        sizer_8.Add(sizer_15, 0, wx.EXPAND, 0)
+        self.speech_tab.SetSizer(sizer_8)
+        self.options_tabs.AddPage(self.speech_tab, _("Speech"))
+        sizer_7.Add(self.options_tabs, 1, wx.EXPAND, 0)
+        self.SetSizer(sizer_7)
+        self.Layout()
+        # end wxGlade
+
+    def apply(self, event):  # wxGlade: HALOptions.<event_handler>
+        self.parent.hal.speak_opt['volume'] = self.volume.GetValue()
+        self.parent.hal.speak_opt['speed']  = self.speed.GetValue()
+        self.parent.hal.speak_opt['gender'] = not self.gender.GetSelection()
+        self.parent.hal.speak = not self.mute.GetValue()
+
+# end of class HALOptions
 class RedirectText(object):
     def __init__(self, textctrl):
         self.textctrl = textctrl
@@ -36,6 +127,7 @@ class MainWin(wx.Frame):
         self.mute = wx.CheckBox(self, 2, _("Mute"))
         self.stop_talking_btn = wx.Button(self, 3, _("Stop Talking!"))
         self.clear_out_btn = wx.Button(self, 4, _("Clear Output"))
+        self.options_btn = wx.Button(self, 5, _("&Options"))
 
         self.__set_properties()
         self.__do_layout()
@@ -45,6 +137,7 @@ class MainWin(wx.Frame):
         self.Bind(wx.EVT_CHECKBOX, self.mute_changed, id=2)
         self.Bind(wx.EVT_BUTTON, self.stop_talking, id=3)
         self.Bind(wx.EVT_BUTTON, self.clear_output, id=4)
+        self.Bind(wx.EVT_BUTTON, self.open_options, id=5)
         # end wxGlade
         thread = threading.Thread(target=self.start_hal)
         thread.daemon = True
@@ -64,6 +157,7 @@ class MainWin(wx.Frame):
         self.hal_title.SetMinSize((392, 119))
         self.hal_icon.SetMinSize((119, 119))
         self.input.SetFocus()
+        self.options_btn.Enable(False)
         # end wxGlade
 
     def __do_layout(self):
@@ -86,6 +180,8 @@ class MainWin(wx.Frame):
         sizer_5.Add(self.mute, 0, 0, 0)
         sizer_5.Add(self.stop_talking_btn, 0, 0, 0)
         sizer_5.Add(self.clear_out_btn, 0, 0, 0)
+        sizer_5.Add((0, 0), 1, wx.EXPAND, 0)
+        sizer_5.Add(self.options_btn, 0, wx.EXPAND, 0)
         sizer_2.Add(sizer_5, 0, wx.EXPAND, 0)
         sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
         self.SetSizer(sizer_1)
@@ -114,6 +210,7 @@ class MainWin(wx.Frame):
             halpro += ' '*(length-len(halpro))
         self.prompt = prompt
         self.halpro = halpro
+        self.options_btn.Enable(True)
 
     def Ask(self, event):  # wxGlade: MainWin.<event_handler>
         self.input.Enable(False)
@@ -152,6 +249,9 @@ class MainWin(wx.Frame):
                 time.sleep(0.05)
                 self.hal_icon.SetBitmap(self.normaleye)
             time.sleep(1)
+
+    def open_options(self, event):  # wxGlade: MainWin.<event_handler>
+        HALOptions(self).Show()
 
 # end of class MainWin
 class HALGUI(wx.App):

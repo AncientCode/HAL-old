@@ -42,8 +42,13 @@ def stop_speaking(handle):
     # else:
         # return handle
 
-def speak(text, block=True):
-    cmd = [espeak_path, '-v', 'en-us', text.encode('ascii', 'ignore')]
+# gender: True for male and False for female
+def speak(text, block=True, volume=100, speed=175, gender=True, lang='en-us'):
+    if volume not in xrange(201):
+        raise ValueError('volume must be between 0 and 200 inclusive')
+    if speed not in xrange(80, 451):
+        raise ValueError('speed must be between 80 and 450 inclusive')
+    cmd = [espeak_path, '-v', lang+('' if gender else '+f2'), '-a', str(volume), '-s', str(speed), text.encode('ascii', 'ignore')]
     si = subprocess.STARTUPINFO()
     si.dwFlags = subprocess.STARTF_USESHOWWINDOW
     si.dwFlags = subprocess.SW_HIDE

@@ -3,7 +3,7 @@ import sqlite3
 import os.path
 import HALapi
 
-db = sqlite3.connect(os.path.join(HALapi.datadir, 'element.db'))
+db = sqlite3.connect(os.path.join(HALapi.datadir, 'element.db'), check_same_thread=False)
 c = db.cursor()
 
 iupac_temp_name = {

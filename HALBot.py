@@ -88,7 +88,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.015'
+    version = '0.016'
     def __init__(self, username=None, path='data', write=False, speak=False):
         if username is None:
             if _user is None:
@@ -108,6 +108,7 @@ class HAL(object):
         self.macro = HALmacro(username)
         self.speak = speak
         self.sphandle = None
+        self.speak_opt = dict(volume=100, speed=175, gender=True, lang='en-us')
         self.data_folder = path
         self.debug_write = write
         
@@ -192,7 +193,7 @@ class HAL(object):
         answers = [self.macro.subst(answer) for answer in answers]
         if self.speak:
             HALspeak.stop_speaking(self.sphandle)
-            self.sphandle = HALspeak.speak(' '.join(answers), False)
+            self.sphandle = HALspeak.speak(' '.join(answers), False, **self.speak_opt)
         return answers
         #if is_foreign:
         #    return [language.translate(i, 'en', lang) for i in answers]

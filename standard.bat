@@ -12,8 +12,11 @@ cd standard
 mkdir data
 copy ..\data\*.hal data
 copy ..\data\*.chal data
+copy ..\data\element.db data
 del *.py
 copy ..\latest.txt Version.halconfig
+cp -r ..\plugins .
+cp ..\Buffering.png ..\Logo1.png ..\Normal.png .
 
 7za a HAL_SE_%VERSION%.7z *
 del ..\releases\HAL_SE_%VERSION%.7z
