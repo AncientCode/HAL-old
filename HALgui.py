@@ -122,7 +122,7 @@ class MainWin(wx.Frame):
         self.hal_title = wx.StaticBitmap(self, -1, wx.NullBitmap)
         self.hal_icon = wx.StaticBitmap(self, -1, wx.NullBitmap)
         self.output = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_WORDWRAP)
-        self.input = wx.TextCtrl(self, 5, "", style=wx.TE_PROCESS_ENTER)
+        self.input = wx.TextCtrl(self, 6, "", style=wx.TE_PROCESS_ENTER)
         self.ask_btn = wx.Button(self, 1, _("&Ask"))
         self.mute = wx.CheckBox(self, 2, _("Mute"))
         self.stop_talking_btn = wx.Button(self, 3, _("Stop Talking!"))
@@ -132,7 +132,6 @@ class MainWin(wx.Frame):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_TEXT_ENTER, self.input_enter, id=5)
         self.Bind(wx.EVT_BUTTON, self.Ask, id=1)
         self.Bind(wx.EVT_CHECKBOX, self.mute_changed, id=2)
         self.Bind(wx.EVT_BUTTON, self.stop_talking, id=3)
@@ -146,9 +145,20 @@ class MainWin(wx.Frame):
         self.normaleye = wx.Bitmap(os.path.join(get_main_dir(), 'Normal.png'), wx.BITMAP_TYPE_PNG)
         self.inverteye = wx.Bitmap(os.path.join(get_main_dir(), 'Buffering.png'), wx.BITMAP_TYPE_PNG)
         self.hal_icon.SetBitmap(self.normaleye)
+        
+        self.blink_lock = threading.Lock()
         thread = threading.Thread(target=self.blink)
         thread.start()
+        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
 
+    def OnCloseWindow(self, event):
+        try:
+            self.closewindowstarted
+        except AttributeError:
+            self.closewindowstarted = True
+            self.blink_lock.acquire()
+            self.Destroy()
+    
     def __set_properties(self):
         # begin wxGlade: MainWin.__set_properties
         self.SetTitle(_("HAL, the Heurisic ALgorithmic Computer"))
@@ -157,6 +167,7 @@ class MainWin(wx.Frame):
         self.hal_title.SetMinSize((392, 119))
         self.hal_icon.SetMinSize((119, 119))
         self.input.SetFocus()
+        self.ask_btn.Enable(False)
         self.options_btn.Enable(False)
         # end wxGlade
 
@@ -197,20 +208,17 @@ class MainWin(wx.Frame):
         self.hal = HAL(speak=True)
         if not os.path.exists(data):
             print 'Your need a full package with the data folder'
-            self.ask_btn.Enabled(False)
         print
         print '-HAL: Hello %s. I am HAL %s.'%(self.hal.user, self.hal.version)
         print
         prompt = '-%s:'%self.hal.user
         halpro = '-HAL:'
         length = max(len(prompt), len(halpro))
-        if len(prompt) < length:
-            prompt += ' '*(length-len(prompt))
-        if len(halpro) < length:
-            halpro += ' '*(length-len(halpro))
-        self.prompt = prompt
-        self.halpro = halpro
+        self.prompt = prompt.ljust(length)
+        self.halpro = halpro.ljust(length)
         self.options_btn.Enable(True)
+        self.ask_btn.Enable(True)
+        self.Bind(wx.EVT_TEXT_ENTER, self.input_enter, id=6)
 
     def Ask(self, event):  # wxGlade: MainWin.<event_handler>
         self.input.Enable(False)
@@ -244,11 +252,14 @@ class MainWin(wx.Frame):
     
     def blink(self):
         while True:
+            if not self.blink_lock.acquire(0):
+                break
             if not random.randint(0, 5):
                 self.hal_icon.SetBitmap(self.inverteye)
                 time.sleep(0.05)
                 self.hal_icon.SetBitmap(self.normaleye)
             time.sleep(1)
+            self.blink_lock.release()
 
     def open_options(self, event):  # wxGlade: MainWin.<event_handler>
         HALOptions(self).Show()

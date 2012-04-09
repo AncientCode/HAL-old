@@ -55,6 +55,8 @@ protected:
     static const regex space_normalize;
     static const string word_boundary;
     static const string rewildcard;
+    static const string boundary_begin;
+    static const string boundary_end;
     
     //void InitMacro(const string& username);
     //void InitWordSubst();

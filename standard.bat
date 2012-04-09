@@ -16,7 +16,8 @@ copy ..\data\element.db data
 del *.py
 copy ..\latest.txt Version.halconfig
 cp -r ..\plugins .
-cp ..\Buffering.png ..\Logo1.png ..\Normal.png .
+cp ..\Buffering.png ..\Logo_V1.png ..\Normal.png .
+cp ..\standard_updater.py updater.py
 
 7za a HAL_SE_%VERSION%.7z *
 del ..\releases\HAL_SE_%VERSION%.7z

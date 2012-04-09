@@ -33,14 +33,14 @@ class HALintel(HALBot):
         diff = difflib.SequenceMatcher(a=ques.upper(), isjunk=lambda x: x in self.junks)
         sorted = []
         for possible in array:
-            diff.set_seq2(possible[0])
+            diff.set_seq2(possible[0].replace('\\', ''))
             match = diff.ratio()
             sorted.append((match,) + possible)
         best = max(sorted, key=lambda a: a[0])
         return best
     def pick_ans(self, ques, best):
         match, pattern, thinkset, answers, groups = best
-        answers = [i.replace('^', r'\g<1>') for i in answers]
+        answers = [i.replace('^', r'\g<1>').replace('*', r'\g<1>') for i in answers]
         groups = [i.strip() for i in groups]
         filtered = []
         for answer in answers:
@@ -65,6 +65,7 @@ class HALintel(HALBot):
         #return re.sub(r'\g<([1-9][0-9]*?)>', lambda a: groups[int(a.group(1))], ans)
     def answer(self, question):
         best, other = self.Ask(question)
+        #print question, best, other
         if best:
             ans = self.pick_match(question, best)
             if ans[0] < 0.3:
@@ -88,7 +89,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.016'
+    version = '0.018'
     def __init__(self, username=None, path='data', write=False, speak=False):
         if username is None:
             if _user is None:
@@ -141,7 +142,7 @@ class HAL(object):
             print 'Failed to read', word_removal_path, 'for word removal!!!'
         else:
             for line in file:
-                regex = re.compile(re.escape(line.strip()), re.IGNORECASE)
+                regex = re.compile(r'\b'+re.escape(line.strip()+r'\b'), re.IGNORECASE)
                 self.remove.append(regex)
     
     def _clean_text(self, text):

@@ -18,6 +18,6 @@ setup(console=['HALcon.py', 'HALguicon.py'], windows=['HALgui.pyw'],
 )
 
 os.chdir('portable')
-os.system('ren HALgui.exe HAL.exe')
+os.system('ren HALcon.exe HAL.exe')
 
 open('python27.dll', 'wb').write(open('..\\python27.dll', 'rb').read())

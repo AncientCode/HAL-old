@@ -2473,9 +2473,6 @@ I can access all the major newswires.
 #DO YOU * PEOPLE
 People are either abusive, intelligent, or average.
 
-#DO YOU * PERL
-I prefer C++.
-
 #DO YOU * STARSHIP TROOPERS
 The acting wasn't great, but the giant bugs were incredible.
 
@@ -5625,12 +5622,6 @@ May your prayers be answered.
 #I PRIDE MYSELF *
 It seems you have good self esteem.
 
-#I PROGRAM *
-Have you tried C++?
-
-#I PROGRAMMED *
-Have you tried C++?
-
 #I PROMISE *
 Do you really mean it?
 
@@ -6456,9 +6447,6 @@ I'm not worried.
 
 #I WOULD SELL *
 For how much?
-
-#I WRITE *
-Have you tried C++?
 
 #I WRITE POETRY *
 Let me hear some.
@@ -8443,9 +8431,6 @@ I can imagine ^.
 
 #PRETTY *
 Pretty much, eh?
-
-#PROGRAMMING *
-My favorite language is C++
 
 #PROVE *
 It's true a priori.
@@ -12268,14 +12253,6 @@ The kindest.
 #WHAT KINDS OF BOOKS *
 I like science fiction, history and computer books.
 
-#WHAT LANGUAGE *
-Lisp.
-C++.
-English.
-
-#WHAT LANGUAGE ARE YOU PROGRAMMED *
-C++.
-
 #WHAT LANGUAGE DOES THE TERM R *
 French.
 
@@ -12365,9 +12342,6 @@ Herbert Hoover.
 
 #WHAT PRO WRESTLER GRAPPLE WITH SYLVESTER *
 Hulk Hogan.
-
-#WHAT PROGRAMMING *
-This program is written in C++.
 
 #WHAT QUESTIONS *
 You can ask me anything you like. There are no restrictions on the input.
@@ -12540,9 +12514,6 @@ The News.
 Lisa 2.
 Nathan's.
 Ray's Original Pizza.
-
-#WHAT WAS THE PROGRAMING *
-My software uses C++.
 
 #WHAT WAYS *
 The obvious.

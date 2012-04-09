@@ -1,7 +1,7 @@
-import os 
 import urllib2 
 from decimal import Decimal 
 import subprocess
+import os
 import sys
 
 format = 'http://dl.dropbox.com/u/67341745/HAL_PE_%.3f.7z' 
@@ -10,7 +10,8 @@ try:
    f = open("Version.halconfig")  
    version = current = Decimal(f.read()) 
 except IOError: 
-    version = current = Decimal('0.010') 
+
+  version = current = Decimal('0.010') 
 
 incre = Decimal('0.001') 
 while True: 
@@ -20,12 +21,12 @@ while True:
        version -= incre 
        break 
    else: 
-       u.close()     
+       u.close()
        version += incre 
 
-if version == current: 
-    subprocess.call(['HAL'])
-    raise SystemExit
+if version <= current: 
+    subprocess.Popen('HALgui.exe')
+    sys.exit(0)
 
 url = format % version 
 file_name = url.split('/')[-1] 
@@ -59,5 +60,5 @@ print '--Finished--'
 print 'Rebooting...'
 
 os.system(['clear','cls'][os.name == 'nt'])
-
-subprocess.call(['HAL'])
+subprocess.Popen('HALgui.exe')
+sys.exit(0)

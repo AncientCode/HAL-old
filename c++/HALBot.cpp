@@ -8,7 +8,9 @@
 #   ifndef WIN32_LEAN_AND_MEAN
 #       define WIN32_LEAN_AND_MEAN
 #   endif
+#   include <windows.h>
 #   include <wincrypt.h>
+#   pragma comment(lib, "user32.lib")
 #else
 #   include <ctime>
 #endif
@@ -40,6 +42,8 @@ const regex HALBot::space_normalize("\\s+", regex_constants::ECMAScript|regex_co
 const string HALBot::word_boundary("\\b");
 // .* to match blanks...
 const string HALBot::rewildcard("\\b(.+)\\b");
+const string HALBot::boundary_begin("(?:\\b|^)");
+const string HALBot::boundary_end("(?:\\b|$)");
 
 template<class sequence>
 void read_into_sequence(sequence& data, const string& file, const string& purpose, bool write=true) {
@@ -82,11 +86,21 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
             case '#':
                 // New Command
                 if (!key.empty()) {
-                    regex reg(word_boundary+regex_replace(key, wildcard2regex, string("\\b(.*)\\b"))+word_boundary,
-                              regex_constants::ECMAScript|regex_constants::icase/*|
-                              regex_constants::optimize*/);
-                    HALdataEntry entry(key, reg, replies, thinkset);
-                    data.push_back(entry);
+                    try {
+                        regex reg(boundary_begin+regex_replace(key, wildcard2regex, rewildcard)+boundary_end,
+                                  regex_constants::ECMAScript|regex_constants::icase/*|
+                                  regex_constants::optimize*/);
+                        HALdataEntry entry(key, reg, replies, thinkset);
+                        data.push_back(entry);
+                    } catch (regex_error) {
+                        string error = "Invalid Regex: "+key+" in file '"+*i+"', ignored!";
+#ifdef WIN32
+                        if (!write)
+                            MessageBox(NULL, error.c_str(), "Regex Error!", MB_ICONWARNING);
+                        else
+#endif
+                            cout << error << '\n';
+                    }
                     replies.clear();
                     //datalist.insert(key);
                 }
