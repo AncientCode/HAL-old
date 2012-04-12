@@ -1,118 +1,41 @@
-from getpass import getuser
+import re
+import imp
+import uuid
 import random
 import os.path
-import re
 import difflib
+import __builtin__
+from glob import glob
+from getpass import getuser
 
 from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
 import equation
 from HALwiki import HALwiki
-from HALapi import HALcannotHandle
+from HALapi import HALcannotHandle, get_main_dir
 from HALmacro import HALmacro
 #import language
 import HALspeak
+import traceback
 
 try:
     _user = getuser()
 except:
     _user = None
 
+__builtin__.IN_HAL = True
 
 # TODO: Combine multiple matches into one
 # i.e. 2 #HELLO sections will be combined into in pick_match()
 class HALintel(HALBot):
     junks = '!@#$%^()_~`./\\?,'
     regroups = re.compile(r'\\g<([1-9][0-9]*?)>')
-    def __init__(self, path, *args, **kwargs):
-        HALBot.__init__(self, path, *args, **kwargs)
+    def __init__(self, path, user, write, *args, **kwargs):
+        HALBot.__init__(self, path, user, write, *args, **kwargs)
         self.wiki = HALwiki(os.path.join(os.path.split(path)[0], 'clean.chal'))
-    def check(self, input):
-        return True
-    def pick_match(self, ques, array):
-        diff = difflib.SequenceMatcher(a=ques.upper(), isjunk=lambda x: x in self.junks)
-        sorted = []
-        for possible in array:
-            diff.set_seq2(possible[0].replace('\\', ''))
-            match = diff.ratio()
-            sorted.append((match,) + possible)
-        best = max(sorted, key=lambda a: a[0])
-        return best
-    def pick_ans(self, ques, best):
-        match, pattern, thinkset, answers, groups = best
-        answers = [i.replace('^', r'\g<1>').replace('*', r'\g<1>') for i in answers]
-        groups = [i.strip() for i in groups]
-        filtered = []
-        for answer in answers:
-            ids = [int(i) for i in self.regroups.findall(answer)]
-            is_ok = True
-            for id in ids:
-                if not (id < len(groups) and groups[id]):
-                    is_ok = False
-                    break
-            if not is_ok:
-                continue
-            filtered.append(answer)
-        answers = filtered
-        if not answers:
-            raise HALcannotHandle
-        answer = random.choice(answers)
-        return thinkset, answer, groups
-    def subst_groups(self, ans, groups):
-        #func = lambda a: groups[int(a.group(1))]
-        #print (ans, groups)
-        return self.regroups.sub(lambda a: groups[int(a.group(1))], ans)
-        #return re.sub(r'\g<([1-9][0-9]*?)>', lambda a: groups[int(a.group(1))], ans)
-    def answer(self, question):
-        best, other = self.Ask(question)
-        #print question, best, other
-        if best:
-            ans = self.pick_match(question, best)
-            if ans[0] < 0.3:
-                other.append(ans[1:])
-            else:
-                other = []
-        if other:
-            ans = self.pick_match(question, other)
-        try:
-            if not ans:
-                raise HALcannotHandle
-        except NameError:
-            # ans not defined
-            raise HALcannotHandle
-        thinkset, answer, groups = self.pick_ans(question, ans)
-        answer = self.subst_groups(answer, groups)
-        if answer[0] == '>':
-            return self.answer(answer[1:])
-        if '$HALWIKI$' in answer:
-            return self.wiki.getwiki(question)
-        return answer
-
-class HAL(object):
-    version = '0.018'
-    def __init__(self, username=None, path='data', write=False, speak=False):
-        if username is None:
-            if _user is None:
-                self.user = raw_input('Enter a username: ')
-            else:
-                self.user = _user
-        else:
-            self.user = username
-        self.running = True
-        self.handlers = [equation, HALintel(path, self.user, write)]
-        try:
-            with open(os.path.join(path, 'generic.chal')) as fp:
-                self.generic = [i.strip() for i in fp.readlines() if i.strip() and i[0] != '#']
-            self.generic.append("I can't seem to understand.")
-        except IOError:
-            self.generic = ["I have a problem with my brain, I can't think..."]
-        self.macro = HALmacro(username)
-        self.speak = speak
-        self.sphandle = None
-        self.speak_opt = dict(volume=100, speed=175, gender=True, lang='en-us')
         self.data_folder = path
         self.debug_write = write
-        
+    
         self._init_readable()
         self._init_remove()
     
@@ -142,8 +65,147 @@ class HAL(object):
             print 'Failed to read', word_removal_path, 'for word removal!!!'
         else:
             for line in file:
-                regex = re.compile(r'\b'+re.escape(line.strip()+r'\b'), re.IGNORECASE)
+                regex = re.compile(r'\b'+re.escape(line.strip())+r'\b', re.IGNORECASE)
                 self.remove.append(regex)
+    
+    def _readable(self, text):
+        for regex, replacement in self.readable.iteritems():
+            text = regex.sub(replacement, text)
+        return text
+    
+    def _remove(self, text):
+        for regex in self.remove:
+            text = regex.sub('', text)
+        return text
+    
+    def check(self, input):
+        return True
+    
+    def pick_match(self, ques, array):
+        diff = difflib.SequenceMatcher(a=ques.upper(), isjunk=lambda x: x in self.junks)
+        sorted = []
+        for possible in array:
+            diff.set_seq2(possible[0].replace('\\', ''))
+            match = diff.ratio()
+            sorted.append((match,) + possible)
+        best = max(sorted, key=lambda a: a[0])
+        return best
+    
+    def pick_ans(self, ques, best):
+        match, pattern, thinkset, answers, groups = best
+        answers = [i.replace('^', r'\g<1>').replace('*', r'\g<1>') for i in answers]
+        groups = [i.strip() for i in groups]
+        filtered = []
+        for answer in answers:
+            ids = [int(i) for i in self.regroups.findall(answer)]
+            is_ok = True
+            for id in ids:
+                if not (id < len(groups) and groups[id]):
+                    is_ok = False
+                    break
+            if not is_ok:
+                continue
+            filtered.append(answer)
+        answers = filtered
+        if not answers:
+            raise HALcannotHandle
+        answer = random.choice(answers)
+        return thinkset, answer, groups
+    
+    def subst_groups(self, ans, groups):
+        #func = lambda a: groups[int(a.group(1))]
+        #print (ans, groups)
+        return self.regroups.sub(lambda a: groups[int(a.group(1))], ans)
+        #return re.sub(r'\g<([1-9][0-9]*?)>', lambda a: groups[int(a.group(1))], ans)
+    
+    def answer(self, question, recur=0):
+        if recur > 3:
+            return question
+        #answers = []
+        #answers.append(self.Ask(question))
+        #answers.append(self.Ask(self._readable(question)))
+        #answers.append(self.Ask(self._remove(question)))
+        #answers.append(self.Ask(self._readable(self._remove(question))))
+        #best, other = zip(*answers)
+        #best  = reduce(lambda x, y: x+y, best)
+        #other = reduce(lambda x, y: x+y, other)
+        best, other = self.Ask(question)
+        #print question, best, other
+        if best:
+            ans = self.pick_match(question, best)
+            if ans[0] < 0.3:
+                other.append(ans[1:])
+            else:
+                other = []
+        if other:
+            ans = self.pick_match(question, other)
+        try:
+            if not ans:
+                raise HALcannotHandle
+        except NameError:
+            # ans not defined
+            raise HALcannotHandle
+        thinkset, answer, groups = self.pick_ans(question, ans)
+        answer = self.subst_groups(answer, groups)
+        if '|' in answer:
+            parts = [part.strip() for part in answer.split('|')]
+            for index, part in enumerate(parts):
+                #print part
+                if part[0] == '>':
+                    parts[index] = self.answer(answer[1:], recur=recur+1)
+            return ' '.join(parts)
+        if answer[0] == '>':
+            return self.answer(answer[1:], recur=recur+1)
+        if '$HALWIKI$' in answer:
+            return self.wiki.getwiki(question)
+        return answer
+
+class HAL(object):
+    version = '0.019'
+    def __init__(self, username=None, path='data', write=False, speak=False):
+        if username is None:
+            if _user is None:
+                self.user = raw_input('Enter a username: ')
+            else:
+                self.user = _user
+        else:
+            self.user = username
+        self.running = True
+        self.handlers = [equation, HALintel(path, self.user, write)]
+        try:
+            with open(os.path.join(path, 'generic.chal')) as fp:
+                self.generic = [i.strip() for i in fp.readlines() if i.strip() and i[0] != '#']
+            self.generic.append("I can't seem to understand.")
+        except IOError:
+            self.generic = ["I have a problem with my brain, I can't think..."]
+        self.macro = HALmacro(username)
+        self.speak = speak
+        self.sphandle = None
+        self.speak_opt = dict(volume=100, speed=175, gender=True, lang='en-us')
+        self.data_folder = path
+        self.debug_write = write
+        self._init_handler_plugin()
+    
+    def _init_handler_plugin(self):
+        # Plugin interface
+        dir = os.path.join(get_main_dir(), 'plugins/handler')
+        files = os.path.join(dir, '*.py')
+        files = [os.path.basename(i).replace('.py', '') for i in glob(files)]
+        for file in files:
+            try:
+                data = imp.find_module(file, [dir])
+                module = imp.load_module(str(uuid.uuid1()), *data)
+            except:
+                print 'Error in handler extension', file
+                traceback.print_exc()
+            else:
+                if not (hasattr(module, 'check') and callable(module.check)):
+                    print 'Error in handler extension %s: check() does NOT exist!'%file
+                    continue
+                if not (hasattr(module, 'answer') and callable(module.answer)):
+                    print 'Error in handler extension %s: check() does NOT exist!'%file
+                    continue
+                self.handlers.insert(0, module)
     
     def _clean_text(self, text):
         for regex, replacement in self.readable.iteritems():
@@ -174,7 +236,7 @@ class HAL(object):
             self.running = False
             return []
         
-        question = self._clean_text(question)
+        #question = self._clean_text(question)
         
         for sentence in sentence_split(question):
             handle = False

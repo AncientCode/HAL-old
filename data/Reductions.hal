@@ -76,11 +76,8 @@
 #DO YOU HAVE A RELIGION *
 >what religion are you
 
-#DO YOU KNOW ALICIA
->who is Alicia
-
-#DO YOU KNOW CASEY
->who is casey
+#DO YOU KNOW *
+>who is \g<1>
 
 #DOES THAT MEAN YOU ARE NOT
 >Are you not

@@ -20,3 +20,6 @@
 *.pyc
 /compact
 *.bak
+/HALupdater/obj
+/HALupdater/bin
+/HALupdater/test
