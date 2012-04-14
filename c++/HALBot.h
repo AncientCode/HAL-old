@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 
+typedef boost::fast_pool_allocator<char> char_pool;
 typedef boost::fast_pool_allocator<string> string_pool;
 //typedef forward_list<string, string_pool> HALanswerList;
 typedef list<string, string_pool> HALanswerList;
@@ -21,11 +22,10 @@ typedef vector<string> HALWordList;
 
 class HALBot {
 public:
-    HALBot() {}
-    HALBot(const string& path, bool write=false);
-    HALBot(const string& path, const string& username, bool write=false);
+    HALBot();
     void Initialize(const string& path, const string& username="", bool write=false);
     string Ask(const string& question);
+    string LoadFile(const string& filename);
     //void Learn(const string& question, const string& answer);
     //void Learn(const string& question, const HALanswerList& answer);
 #ifdef BUILD_PYTHON

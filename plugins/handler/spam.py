@@ -1,5 +1,5 @@
 import re
-import enchant
+import HALunspell
 import os.path
 import __builtin__
 
@@ -59,13 +59,15 @@ class SpamDetect:
         # Spell Checker
         word_count = len(words)
         count = 0
-        d = enchant.Dict("en_US")
         for word in words:
-            if d.check(word):
+            if HALunspell.check(word):
                 count += 1
-        error = 1-(count/word_count)
+        if word_count:
+            error = 1-(float(count)/word_count)
+        else:
+            error = 0
         #print count, word_count, error
-        if error > 0.2:
+        if error > 0.3:
             return 'too many non-existent words'
         
         # Passed all test, not a spam

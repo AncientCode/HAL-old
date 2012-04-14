@@ -11,7 +11,7 @@ setup(console=['HALcon.py', 'HALguicon.py'], windows=['HALgui.pyw'],
                   ('', ['Buffering.png', 'Logo_V1.png', 'Normal.png'])],
       options={
         'py2exe': {'ascii': False, 'dist_dir': 'portable', 'optimize': 2,
-                   'excludes': ['_ssl', 'unittest', 'doctest', 'inspect'],
+                   'excludes': ['_ssl', 'unittest', 'doctest', 'inspect', 'Tkinter'],
                    'includes': ['sqlite3'],
                    },
       }

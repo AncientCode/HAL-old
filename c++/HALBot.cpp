@@ -28,14 +28,6 @@ inline unsigned rngsource() {
 #endif
 }
 
-HALBot::HALBot(const string& path, bool write) {
-    this->Initialize(path, "", write);
-}
-
-HALBot::HALBot(const string& path, const string& username, bool write) {
-    this->Initialize(path, username, write);
-}
-
 const regex HALBot::wildcard2regex("\\s*\\*\\s*", regex_constants::ECMAScript|regex_constants::optimize);
 const regex HALBot::caret_replace("\\^", regex_constants::ECMAScript|regex_constants::optimize);
 const regex HALBot::space_normalize("\\s+", regex_constants::ECMAScript|regex_constants::optimize);
@@ -61,9 +53,9 @@ void read_into_sequence(sequence& data, const string& file, const string& purpos
             data.push_back(line);
 }
 
-void HALBot::Initialize(const string& path, const string& username, bool write) {
+HALBot::HALBot() {
     // Initialize the data structure
-    HALanswerList replies;
+    /*HALanswerList replies;
     string key, thinkset;
     list<string> files;
     //GetDirContents(path, files);
@@ -88,8 +80,7 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
                 if (!key.empty()) {
                     try {
                         regex reg(boundary_begin+regex_replace(key, wildcard2regex, rewildcard)+boundary_end,
-                                  regex_constants::ECMAScript|regex_constants::icase/*|
-                                  regex_constants::optimize*/);
+                                  regex_constants::ECMAScript|regex_constants::icase);
                         HALdataEntry entry(key, reg, replies, thinkset);
                         data.push_back(entry);
                     } catch (regex_error) {
@@ -124,13 +115,59 @@ void HALBot::Initialize(const string& path, const string& username, bool write) 
     }
 
     if (write)
-        cout << flush;
+        cout << flush;*/
     
     // Learning File
     //learn_file.open(path+"\\learn.dat", ios_base::out|ios_base::app);
     
     // Initialize RNG
     rng.seed(rngsource());
+}
+
+string HALBot::LoadFile(const string& filename) {
+    fstream file(filename);
+    if (!file.is_open())
+        return "Can't open file "+filename;
+    HALanswerList replies;
+    string key, thinkset;
+    string error;
+    char temp[1024];
+    while (file.getline(temp, 1024, '\n')) {
+        switch (temp[0]) {
+        case '%':
+            // New Thinkset
+            thinkset = temp+1;
+            break;
+        case '#':
+            // New Command
+            if (!key.empty()) {
+                try {
+                    regex reg(boundary_begin+regex_replace(key, wildcard2regex, rewildcard)+boundary_end,
+                              regex_constants::ECMAScript|regex_constants::icase/*|
+                              regex_constants::optimize*/);
+                    HALdataEntry entry(key, reg, replies, thinkset);
+                    data.push_back(entry);
+                } catch (regex_error) {
+                    error += "Invalid Regex: "+key+" in file '"+filename+"', ignored!"+'\n';
+                }
+                replies.clear();
+                //datalist.insert(key);
+            }
+            key = temp+1;
+            if (key[0] == '_') {
+                key[0] = '.';
+                key[1] = '*';
+            }
+            break;
+        case '\0':
+            break;
+        default:
+            //replies.push_front(temp);
+            replies.push_back(temp);
+        }
+    }
+    file.close();
+    return error;
 }
 
 void trim(string& str) {

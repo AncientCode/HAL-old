@@ -1,4 +1,5 @@
 import re
+import sys
 import imp
 import uuid
 import random
@@ -25,19 +26,52 @@ except:
 
 __builtin__.IN_HAL = True
 
+# Initialization
+__framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
+sys.path.append(__framework_dir)
+del __framework_dir
+def _module_filter(name):
+    if not os.path.exists(name):
+        return False
+    if name[-3:].lower() == '.py':
+        return os.path.basename(name)[:-3]
+    elif os.path.isdir(name) and os.path.isfile(os.path.join(name, '__init__.py')):
+        return os.path.basename(name)
+#__framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
+#__frameworks = filter(bool, map(__module_filter, glob(os.path.join(__framework_dir, '*'))))
+#print __frameworks
+#for __framework in __frameworks:
+#    try:
+#        imp.load_module(__framework, imp.find_module(__framework, [__framework_dir]))
+#    except:
+#        print 'Error in framework extension', __framework
+#        traceback.print_exc()
+#del __module_filter, __framework_dir, __frameworks, __framework
+
 # TODO: Combine multiple matches into one
 # i.e. 2 #HELLO sections will be combined into in pick_match()
 class HALintel(HALBot):
     junks = '!@#$%^()_~`./\\?,'
     regroups = re.compile(r'\\g<([1-9][0-9]*?)>')
     def __init__(self, path, user, write, *args, **kwargs):
-        HALBot.__init__(self, path, user, write, *args, **kwargs)
+        HALBot.__init__(self)
+        #HALBot.__init__(self, path, user, write, *args, **kwargs)
+        
+        for file in glob(os.path.join(path, '*.hal')):
+            print 'Parsing File %s...'%file
+            error = self.load(file)
+            if error:
+                print error.strip()
+        
         self.wiki = HALwiki(os.path.join(os.path.split(path)[0], 'clean.chal'))
         self.data_folder = path
         self.debug_write = write
     
         self._init_readable()
         self._init_remove()
+    
+    def load(self, file):
+        return self.LoadFile(file)
     
     def _init_readable(self):
         self.readable = {}
@@ -161,7 +195,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.019'
+    version = '0.020'
     def __init__(self, username=None, path='data', write=False, speak=False):
         if username is None:
             if _user is None:
@@ -187,10 +221,20 @@ class HAL(object):
         self._init_handler_plugin()
     
     def _init_handler_plugin(self):
+        #__framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
+        #__frameworks = filter(bool, map(__module_filter, glob(os.path.join(__framework_dir, '*'))))
+        #print __frameworks
+        #for __framework in __frameworks:
+        #    try:
+        #        imp.load_module(__framework, imp.find_module(__framework, [__framework_dir]))
+        #    except:
+        #        print 'Error in framework extension', __framework
+        #        traceback.print_exc()
         # Plugin interface
         dir = os.path.join(get_main_dir(), 'plugins/handler')
-        files = os.path.join(dir, '*.py')
-        files = [os.path.basename(i).replace('.py', '') for i in glob(files)]
+        #files = os.path.join(dir, '*.py')
+        #files = [os.path.basename(i).replace('.py', '') for i in glob(files)]
+        files = filter(bool, map(_module_filter, glob(os.path.join(dir, '*'))))
         for file in files:
             try:
                 data = imp.find_module(file, [dir])

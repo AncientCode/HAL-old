@@ -10,10 +10,10 @@ BOOST_PYTHON_MODULE(HALnative) {
     def("check_bracket", isSolvable);
     def("bracket_multiply", AddMultiplication);
     
-    class_<HALBot, boost::noncopyable>("HALBot", init<const std::string&, const std::string&>())
-        .def(init<const std::string&, const std::string&, bool>())
+    class_<HALBot, boost::noncopyable>("HALBot")
         //.def("Ask", &HALBot::Ask)
         .def("Ask", &HALBot::pyAsk)
+        .def("LoadFile", &HALBot::LoadFile)
         .add_property("thinkset", &HALBot::pyGetThinkSet, &HALBot::pySetThinkSet)
     ;
 }
