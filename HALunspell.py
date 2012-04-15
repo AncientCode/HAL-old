@@ -1,10 +1,12 @@
 import os.path
 import hunspell
 
+import HALapi
+
 all = ['check', 'suggest', 'analyze', 'stem', 'filter_words', 'check_all',
        'check_all', 'suggest_all', 'suggest_list']
 
-__plugin_dir = os.path.dirname(__file__)
+__plugin_dir = HALapi.datadir
 __hobj = hunspell.HunSpell(os.path.join(__plugin_dir, 'en_US.dic'), os.path.join(__plugin_dir, 'en_US.aff'))
 __proper_letters = 'abcdefghijklmnopqrstuvwxyz '
 

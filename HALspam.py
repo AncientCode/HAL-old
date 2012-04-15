@@ -1,7 +1,8 @@
 import re
-import HALunspell
 import os.path
-import __builtin__
+
+import HALunspell
+import HALapi
 
 class SpamDetect:
     vowels = 'aeiouy'
@@ -73,15 +74,14 @@ class SpamDetect:
         # Passed all test, not a spam
         return False
 
-if hasattr(__builtin__, 'IN_HAL') and __builtin__.IN_HAL:
-    import random
-    __plugin_dir = os.path.join(os.path.dirname(__file__), 'spam')
-    __global_instance = SpamDetect(__plugin_dir)
-    __answers = [i.strip() for i in open(os.path.join(__plugin_dir, 'responses.spam'))]
-    def check(input):
-        return __global_instance.check(input)
-    def answer(input):
-        return random.choice(__answers)
+import random
+__plugin_dir = os.path.join(HALapi.datadir, 'spam')
+__global_instance = SpamDetect(__plugin_dir)
+__answers = [i.strip() for i in open(os.path.join(__plugin_dir, 'responses.spam'))]
+def check(input):
+    return __global_instance.check(input)
+def answer(input):
+    return random.choice(__answers)
 
 if __name__ == '__main__':
     detect = SpamDetect(os.path.join(os.path.dirname(__file__), 'spam'))

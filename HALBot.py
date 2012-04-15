@@ -5,6 +5,7 @@ import uuid
 import random
 import os.path
 import difflib
+import traceback
 import __builtin__
 from glob import glob
 from getpass import getuser
@@ -17,7 +18,7 @@ from HALapi import HALcannotHandle, get_main_dir
 from HALmacro import HALmacro
 #import language
 import HALspeak
-import traceback
+import HALspam
 
 try:
     _user = getuser()
@@ -30,6 +31,7 @@ __builtin__.IN_HAL = True
 __framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
 sys.path.append(__framework_dir)
 del __framework_dir
+
 def _module_filter(name):
     if not os.path.exists(name):
         return False
@@ -37,16 +39,6 @@ def _module_filter(name):
         return os.path.basename(name)[:-3]
     elif os.path.isdir(name) and os.path.isfile(os.path.join(name, '__init__.py')):
         return os.path.basename(name)
-#__framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
-#__frameworks = filter(bool, map(__module_filter, glob(os.path.join(__framework_dir, '*'))))
-#print __frameworks
-#for __framework in __frameworks:
-#    try:
-#        imp.load_module(__framework, imp.find_module(__framework, [__framework_dir]))
-#    except:
-#        print 'Error in framework extension', __framework
-#        traceback.print_exc()
-#del __module_filter, __framework_dir, __frameworks, __framework
 
 # TODO: Combine multiple matches into one
 # i.e. 2 #HELLO sections will be combined into in pick_match()
@@ -58,7 +50,8 @@ class HALintel(HALBot):
         #HALBot.__init__(self, path, user, write, *args, **kwargs)
         
         for file in glob(os.path.join(path, '*.hal')):
-            print 'Parsing File %s...'%file
+            if write:
+                print 'Parsing File %s...'%file
             error = self.load(file)
             if error:
                 print error.strip()
@@ -66,6 +59,7 @@ class HALintel(HALBot):
         self.wiki = HALwiki(os.path.join(os.path.split(path)[0], 'clean.chal'))
         self.data_folder = path
         self.debug_write = write
+        self.vars = {}
     
         self._init_readable()
         self._init_remove()
@@ -147,10 +141,9 @@ class HALintel(HALBot):
         return thinkset, answer, groups
     
     def subst_groups(self, ans, groups):
-        #func = lambda a: groups[int(a.group(1))]
-        #print (ans, groups)
+        # For <sset<>> to work
+        groups = [i.replace('<', '').replace('>', '') for i in groups]
         return self.regroups.sub(lambda a: groups[int(a.group(1))], ans)
-        #return re.sub(r'\g<([1-9][0-9]*?)>', lambda a: groups[int(a.group(1))], ans)
     
     def answer(self, question, recur=0):
         if recur > 3:
@@ -187,11 +180,31 @@ class HALintel(HALBot):
                 #print part
                 if part[0] == '>':
                     parts[index] = self.answer(answer[1:], recur=recur+1)
-            return ' '.join(parts)
+            answer = ' '.join(parts)
         if answer[0] == '>':
-            return self.answer(answer[1:], recur=recur+1)
+            answer = self.answer(answer[1:], recur=recur+1)
         if '$HALWIKI$' in answer:
             return self.wiki.getwiki(question)
+        return self.clean_answer(answer)
+    
+    reget = re.compile(r'get\(([A-Za-z_][A-Za-z0-9_]*)\)')
+    resset = re.compile(r'sset\((?:\[((?:[A-Za-z_][A-Za-z0-9_]*,?)+)\]|([A-Za-z_][A-Za-z0-9_]*)),(.*?)\)')
+    reslient = re.compile(r'<[Ss].*?>')
+    def clean_answer(self, answer):
+        # <get<>>
+        answer = self.reget.sub(string=answer, repl=lambda m: self.vars.get(m.group(1), ''))
+        # <sset<><>>
+        def sset(m):
+            names = m.group(1)
+            if names is None:
+                names = m.group(2)
+            names = [i.strip() for i in names.split(',')]
+            value = m.group(3).strip()
+            for name in names:
+                self.vars[name] = value
+            return value
+        answer = self.resset.sub(sset, answer)
+        answer = self.reslient.sub('', answer)
         return answer
 
 class HAL(object):
@@ -205,7 +218,7 @@ class HAL(object):
         else:
             self.user = username
         self.running = True
-        self.handlers = [equation, HALintel(path, self.user, write)]
+        self.handlers = [equation, HALintel(path, self.user, write), HALspam]
         try:
             with open(os.path.join(path, 'generic.chal')) as fp:
                 self.generic = [i.strip() for i in fp.readlines() if i.strip() and i[0] != '#']
@@ -221,15 +234,6 @@ class HAL(object):
         self._init_handler_plugin()
     
     def _init_handler_plugin(self):
-        #__framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
-        #__frameworks = filter(bool, map(__module_filter, glob(os.path.join(__framework_dir, '*'))))
-        #print __frameworks
-        #for __framework in __frameworks:
-        #    try:
-        #        imp.load_module(__framework, imp.find_module(__framework, [__framework_dir]))
-        #    except:
-        #        print 'Error in framework extension', __framework
-        #        traceback.print_exc()
         # Plugin interface
         dir = os.path.join(get_main_dir(), 'plugins/handler')
         #files = os.path.join(dir, '*.py')
@@ -237,6 +241,7 @@ class HAL(object):
         files = filter(bool, map(_module_filter, glob(os.path.join(dir, '*'))))
         for file in files:
             try:
+                print 'Loading extension "%s"...'%file
                 data = imp.find_module(file, [dir])
                 module = imp.load_module(str(uuid.uuid1()), *data)
             except:
