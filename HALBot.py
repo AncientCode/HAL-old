@@ -174,11 +174,13 @@ class HALintel(HALBot):
             raise HALcannotHandle
         thinkset, answer, groups = self.pick_ans(question, ans)
         answer = self.subst_groups(answer, groups)
+        if not answer:
+            raise HALcannotHandle
         if '|' in answer:
             parts = [part.strip() for part in answer.split('|')]
             for index, part in enumerate(parts):
                 #print part
-                if part[0] == '>':
+                if part and part[0] == '>':
                     parts[index] = self.answer(answer[1:], recur=recur+1)
             answer = ' '.join(parts)
         if answer[0] == '>':
@@ -208,8 +210,8 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.020'
-    def __init__(self, username=None, path='data', write=False, speak=False):
+    version = '0.021'
+    def __init__(self, username=None, path=os.path.join(get_main_dir(), 'data'), write=False, speak=False):
         if username is None:
             if _user is None:
                 self.user = raw_input('Enter a username: ')

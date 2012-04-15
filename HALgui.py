@@ -16,6 +16,7 @@ from HALBot import HAL
 # begin wxGlade: extracode
 # end wxGlade
 
+class Done(Exception): pass
 
 class HALOptions(wx.Dialog):
     def __init__(self, *args, **kwds):
@@ -119,12 +120,10 @@ class MainWin(wx.Frame):
         # begin wxGlade: MainWin.__init__
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
-        self.hal_title = wx.StaticBitmap(self, -1, wx.NullBitmap)
-        self.hal_icon = wx.StaticBitmap(self, -1, wx.NullBitmap)
+        self.label_1 = wx.StaticText(self, -1, _("HAL"), style=wx.ALIGN_CENTRE)
         self.output = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_WORDWRAP)
         self.input = wx.TextCtrl(self, 6, "", style=wx.TE_PROCESS_ENTER)
         self.ask_btn = wx.Button(self, 1, _("&Ask"))
-        self.mute = wx.CheckBox(self, 2, _("Mute"))
         self.stop_talking_btn = wx.Button(self, 3, _("Stop Talking!"))
         self.clear_out_btn = wx.Button(self, 4, _("Clear Output"))
         self.options_btn = wx.Button(self, 5, _("&Options"))
@@ -133,43 +132,29 @@ class MainWin(wx.Frame):
         self.__do_layout()
 
         self.Bind(wx.EVT_BUTTON, self.Ask, id=1)
-        self.Bind(wx.EVT_CHECKBOX, self.mute_changed, id=2)
         self.Bind(wx.EVT_BUTTON, self.stop_talking, id=3)
         self.Bind(wx.EVT_BUTTON, self.clear_output, id=4)
         self.Bind(wx.EVT_BUTTON, self.open_options, id=5)
         # end wxGlade
+        font = wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, 'Consolas')
+        self.output.SetFont(font)
+        self.input.SetFont(font)
         thread = threading.Thread(target=self.start_hal)
         thread.daemon = True
         thread.start()
-        self.hal_title.SetBitmap(wx.Bitmap(os.path.join(get_main_dir(), 'Logo_V1.png'), wx.BITMAP_TYPE_PNG))
-        self.normaleye = wx.Bitmap(os.path.join(get_main_dir(), 'Normal.png'), wx.BITMAP_TYPE_PNG)
-        self.inverteye = wx.Bitmap(os.path.join(get_main_dir(), 'Buffering.png'), wx.BITMAP_TYPE_PNG)
-        self.hal_icon.SetBitmap(self.normaleye)
-        
-        self.blink_lock = threading.Lock()
-        thread = threading.Thread(target=self.blink)
-        thread.start()
-        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
-
-    def OnCloseWindow(self, event):
-        try:
-            self.closewindowstarted
-        except AttributeError:
-            self.closewindowstarted = True
-            self.blink_lock.acquire()
-            self.Destroy()
     
     def __set_properties(self):
         # begin wxGlade: MainWin.__set_properties
-        self.SetTitle(_("HAL, the Heurisic ALgorithmic Computer"))
+        self.SetTitle(_("HAL"))
         self.SetSize((700, 530))
         self.SetBackgroundColour(wx.Colour(240, 240, 240))
-        self.hal_title.SetMinSize((392, 119))
-        self.hal_icon.SetMinSize((119, 119))
+        self.label_1.SetForegroundColour(wx.Colour(0, 0, 255))
+        self.label_1.SetFont(wx.Font(20, wx.MODERN, wx.NORMAL, wx.BOLD, 0, ""))
         self.input.SetFocus()
         self.ask_btn.Enable(False)
         self.options_btn.Enable(False)
         # end wxGlade
+        self.label_1.SetFont(wx.Font(25, wx.MODERN, wx.NORMAL, wx.BOLD, 0, "Consolas"))
 
     def __do_layout(self):
         # begin wxGlade: MainWin.__do_layout
@@ -178,17 +163,12 @@ class MainWin(wx.Frame):
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_6.Add(self.hal_title, 0, 0, 0)
-        sizer_6.Add((0, 119), 1, 0, 0)
-        sizer_6.Add(self.hal_icon, 0, 0, 0)
-        sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
+        sizer_1.Add(self.label_1, 0, wx.EXPAND, 0)
         sizer_3.Add(self.output, 1, wx.EXPAND, 0)
         sizer_4.Add(self.input, 1, wx.EXPAND, 0)
         sizer_4.Add(self.ask_btn, 0, 0, 0)
         sizer_3.Add(sizer_4, 0, wx.EXPAND, 0)
         sizer_2.Add(sizer_3, 1, wx.EXPAND, 0)
-        sizer_5.Add(self.mute, 0, 0, 0)
         sizer_5.Add(self.stop_talking_btn, 0, 0, 0)
         sizer_5.Add(self.clear_out_btn, 0, 0, 0)
         sizer_5.Add((0, 0), 1, wx.EXPAND, 0)
@@ -205,34 +185,43 @@ class MainWin(wx.Frame):
         print '[SYSTEM]', 'Booted on', get_system_info(), '[/SYSTEM]'
         print
         print 'Loading data files...'
-        self.hal = HAL(speak=True)
+        self.hal = HAL(speak=True, write=True)
         if not os.path.exists(data):
             print 'Your need a full package with the data folder'
-        print
-        print '-HAL: Hello %s. I am HAL %s.'%(self.hal.user, self.hal.version)
-        print
         prompt = '-%s:'%self.hal.user
         halpro = '-HAL:'
         length = max(len(prompt), len(halpro))
         self.prompt = prompt.ljust(length)
         self.halpro = halpro.ljust(length)
+        print
+        print self.halpro, 'Hello %s. I am HAL %s.'%(self.hal.user, self.hal.version)
+        print
         self.options_btn.Enable(True)
         self.ask_btn.Enable(True)
+        self.working = True
         self.Bind(wx.EVT_TEXT_ENTER, self.input_enter, id=6)
 
     def Ask(self, event):  # wxGlade: MainWin.<event_handler>
         self.input.Enable(False)
+        self.working = True
         input = self.input.GetValue()
-        print self.prompt, input
-        for i in self.hal.ask(input.encode('utf-8')):
-            print self.halpro, i
-        if not self.hal.running:
-            print hal.shutdown()
-            self.hal.running = True
-        print
-        self.input.Clear()
-        self.input.Enable(True)
-        self.input.SetFocus()
+        try:
+            if not input.strip():
+                event.Skip()
+                raise Done
+            print self.prompt, input
+            for i in self.hal.ask(input.encode('utf-8')):
+                print self.halpro, i
+            if not self.hal.running:
+                print hal.shutdown()
+                self.hal.running = True
+            print
+            raise Done
+        except Done:
+            self.working = False
+            self.input.Clear()
+            self.input.Enable(True)
+            self.input.SetFocus()
 
     def mute_changed(self, event):  # wxGlade: MainWin.<event_handler>
         if self.mute.IsChecked():
@@ -248,6 +237,8 @@ class MainWin(wx.Frame):
         self.output.Clear()
 
     def input_enter(self, event):  # wxGlade: MainWin.<event_handler>
+        if self.working:
+            event.Skip()
         self.Ask(event)
     
     def blink(self):
