@@ -23,6 +23,14 @@ def main_is_frozen():
             hasattr(sys, "importers") # old py2exe
             or imp.is_frozen("__main__")) # tools/freeze
 
+def module_filter(name):
+    if not os.path.exists(name):
+        return False
+    if name[-3:].lower() == '.py':
+        return os.path.basename(name)[:-3]
+    elif os.path.isdir(name) and os.path.isfile(os.path.join(name, '__init__.py')):
+        return os.path.basename(name)
+
 class HALException(Exception): pass
 class HALcannotHandle(HALException): pass
 

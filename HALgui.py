@@ -121,6 +121,7 @@ class MainWin(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.label_1 = wx.StaticText(self, -1, _("HAL"), style=wx.ALIGN_CENTRE)
+        self.datetime = wx.TextCtrl(self, -1, _("Date: (Unknown)\nTime: (Unknown)"), style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.output = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_WORDWRAP)
         self.input = wx.TextCtrl(self, 6, "", style=wx.TE_PROCESS_ENTER)
         self.ask_btn = wx.Button(self, 1, _("&Ask"))
@@ -142,6 +143,27 @@ class MainWin(wx.Frame):
         thread = threading.Thread(target=self.start_hal)
         thread.daemon = True
         thread.start()
+        
+        self.time_lock = threading.Lock()
+        thread = threading.Thread(target=self.timer)
+        thread.start()
+        self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
+
+    def OnCloseWindow(self, event):
+        try:
+            self.closewindowstarted
+        except AttributeError:
+            self.closewindowstarted = True
+            self.time_lock.acquire()
+            self.Destroy()
+    
+    def timer(self):
+        while True:
+            if not self.time_lock.acquire(0):
+                break
+            self.datetime.SetValue(time.strftime('Date: %B %d, %Y\nTime: %H:%M:%S'))
+            time.sleep(1)
+            self.time_lock.release()
     
     def __set_properties(self):
         # begin wxGlade: MainWin.__set_properties
@@ -150,6 +172,7 @@ class MainWin(wx.Frame):
         self.SetBackgroundColour(wx.Colour(240, 240, 240))
         self.label_1.SetForegroundColour(wx.Colour(0, 0, 255))
         self.label_1.SetFont(wx.Font(20, wx.MODERN, wx.NORMAL, wx.BOLD, 0, ""))
+        self.datetime.SetMinSize((150, 40))
         self.input.SetFocus()
         self.ask_btn.Enable(False)
         self.options_btn.Enable(False)
@@ -163,7 +186,10 @@ class MainWin(wx.Frame):
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_1.Add(self.label_1, 0, wx.EXPAND, 0)
+        sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_6.Add(self.label_1, 1, wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_6.Add(self.datetime, 0, 0, 0)
+        sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
         sizer_3.Add(self.output, 1, wx.EXPAND, 0)
         sizer_4.Add(self.input, 1, wx.EXPAND, 0)
         sizer_4.Add(self.ask_btn, 0, 0, 0)
@@ -240,17 +266,6 @@ class MainWin(wx.Frame):
         if self.working:
             event.Skip()
         self.Ask(event)
-    
-    def blink(self):
-        while True:
-            if not self.blink_lock.acquire(0):
-                break
-            if not random.randint(0, 5):
-                self.hal_icon.SetBitmap(self.inverteye)
-                time.sleep(0.05)
-                self.hal_icon.SetBitmap(self.normaleye)
-            time.sleep(1)
-            self.blink_lock.release()
 
     def open_options(self, event):  # wxGlade: MainWin.<event_handler>
         HALOptions(self).Show()

@@ -14,11 +14,13 @@ from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
 import equation
 from HALwiki import HALwiki
-from HALapi import HALcannotHandle, get_main_dir
+from HALapi import HALcannotHandle, get_main_dir, module_filter
+
 from HALmacro import HALmacro
 #import language
 import HALspeak
 import HALspam
+import HALtran
 
 try:
     _user = getuser()
@@ -31,14 +33,6 @@ __builtin__.IN_HAL = True
 __framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
 sys.path.append(__framework_dir)
 del __framework_dir
-
-def _module_filter(name):
-    if not os.path.exists(name):
-        return False
-    if name[-3:].lower() == '.py':
-        return os.path.basename(name)[:-3]
-    elif os.path.isdir(name) and os.path.isfile(os.path.join(name, '__init__.py')):
-        return os.path.basename(name)
 
 # TODO: Combine multiple matches into one
 # i.e. 2 #HELLO sections will be combined into in pick_match()
@@ -210,7 +204,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.021'
+    version = '0.023'
     def __init__(self, username=None, path=os.path.join(get_main_dir(), 'data'), write=False, speak=False):
         if username is None:
             if _user is None:
@@ -220,14 +214,15 @@ class HAL(object):
         else:
             self.user = username
         self.running = True
-        self.handlers = [equation, HALintel(path, self.user, write), HALspam]
+        self.intel = HALintel(path, self.user, write)
+        self.handlers = [equation, self.intel, HALspam]
         try:
             with open(os.path.join(path, 'generic.chal')) as fp:
                 self.generic = [i.strip() for i in fp.readlines() if i.strip() and i[0] != '#']
             self.generic.append("I can't seem to understand.")
         except IOError:
             self.generic = ["I have a problem with my brain, I can't think..."]
-        self.macro = HALmacro(username)
+        self.macro = HALmacro(self, username, write)
         self.speak = speak
         self.sphandle = None
         self.speak_opt = dict(volume=100, speed=175, gender=True, lang='en-us')
@@ -235,12 +230,15 @@ class HAL(object):
         self.debug_write = write
         self._init_handler_plugin()
     
+    def load(self, file):
+        self.intel.load(file)
+    
     def _init_handler_plugin(self):
         # Plugin interface
         dir = os.path.join(get_main_dir(), 'plugins/handler')
         #files = os.path.join(dir, '*.py')
         #files = [os.path.basename(i).replace('.py', '') for i in glob(files)]
-        files = filter(bool, map(_module_filter, glob(os.path.join(dir, '*'))))
+        files = filter(bool, map(module_filter, glob(os.path.join(dir, '*'))))
         for file in files:
             try:
                 print 'Loading extension "%s"...'%file
@@ -277,20 +275,20 @@ class HAL(object):
         #    question = language.translate(question, lang).encode('utf-8')
         
         if question is None:
-            return []
+            return
         
-        check = check_blank(question)
-        if check is not None:
-            return [check]
+        #check = check_blank(question)
+        #if check is not None:
+        #    return [check]
         
         if check_for_end(question):
             self.running = False
-            return []
+            return
         
         #question = self._clean_text(question)
         
         for sentence in sentence_split(question):
-            handle = False
+            answer = None
             for handler in self.handlers:
                 if handler.check(sentence):
                     try:
@@ -298,17 +296,19 @@ class HAL(object):
                     except HALcannotHandle:
                         continue
                     else:
-                        answers.append(ans)
-                        handle = True
+                        answer = ans
                         break
-            if not handle:
-                answers.append(random.choice(self.generic))
+            if answer is None:
+                answer = random.choice(self.generic)
+            answer = self.macro.subst(answer)
+            lang, inter, answer = HALtran.transform(answer)
+            yield answer
+            answers.append(answer)
         #answers = [self.macro.subst(answer) for answer in answers]
-        answers = [self.macro.subst(answer) for answer in answers]
         if self.speak:
             HALspeak.stop_speaking(self.sphandle)
             self.sphandle = HALspeak.speak(' '.join(answers), False, **self.speak_opt)
-        return answers
+        #return answers
         #if is_foreign:
         #    return [language.translate(i, 'en', lang) for i in answers]
         #else:

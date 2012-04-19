@@ -3,7 +3,8 @@ import sqlite3
 import os.path
 import HALapi
 
-db = sqlite3.connect(os.path.join(HALapi.datadir, 'element.db'), check_same_thread=False)
+__dir = os.path.dirname(__file__)
+db = sqlite3.connect(os.path.join(__dir, 'element.db'), check_same_thread=False)
 c = db.cursor()
 
 iupac_temp_name = {
@@ -75,3 +76,5 @@ extended = {
     re.compile('\$ENAMEFNUM<(.*?)>\$'): get_element_name_from_num,
     re.compile('\$EWEIGHT<(.*?)>\$'): get_atomic_weight,
 }
+
+halfiles = [os.path.join(__dir, 'element.hal')]

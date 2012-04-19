@@ -3,45 +3,21 @@ import imp
 import time
 import uuid
 import random
-import socket
-import urllib2
 import os.path
+import datetime
 import traceback
 from glob import glob
 from getpass import getuser
 
-from HALapi import get_main_dir
-
-def get_ip():
-    try:
-        return urllib2.urlopen('http://automation.whatismyip.com/n09230945.asp').read().strip()
-    except urllib2.HTTPError:
-        return socket.gethostbyname(socket.gethostname())
-
-def get_location():
-    page = urllib2.urlopen('http://www.tracemyip.org').read().replace('&nbsp;', '')
-    recity = re.compile('<td valign="top" class="tID_01"><b>Hub City:</b>(.*?)<br>', re.S)
-    reloc = re.compile('<td class="tID_01"><b>State:</b></td>(.*?)</tr>', re.S)
-    reclean = re.compile('<.*?>') 
-    city = reclean.sub('', recity.search(page).group(1).replace(' ', '')).strip()
-    location = reclean.sub('', reloc.search(page).group(1).replace(' ', '')).strip()
-    return '%s, %s'%(city, location)
+from HALapi import get_main_dir, module_filter
 
 class HALmacro(object):
-    redate = re.compile(r'\$DATE\$')
-    retime = re.compile(r'\$TIME\$')
-    redatetime = re.compile(r'\$DATETIME\$')
-    reisotime  = re.compile(r'\$ISOTIME\$')
-    readvdate  = re.compile(r'\$DATE\+(-?[0-9]+?)\$')
-    readvtime  = re.compile(r'\$TIME\+(-?[0-9]+?)\$')
-    readvdtime = re.compile(r'\$DATETIME\+(-?[0-9]+?)\$')
-    readvitime = re.compile(r'\$ISOTIME\+(-?[0-9]+?)\$')
-    rerandint  = re.compile(r'\$RANDINT@(-?[0-9]+?)~(-?[0-9]+?)\$')
-    def __init__(self, user=None):
+    rerandint = re.compile(r'\$RANDINT@(-?[0-9]+?)~(-?[0-9]+?)\$')
+    halbday = datetime.date(1998, 3, 9)
+    def __init__(self, parent, user=None, write=False):
         self.basic = {
             '$USERNAME$'      : user if user is not None else getuser(),
             '$USER$'          : user if user is not None else getuser(),
-            '$AGE$'           : str(random.randint(15, 40)),
             '$GENDER$'        : 'male',
             '$GENUS$'         : 'robot',
             '$SPECIES$'       : 'chatterbot',
@@ -53,26 +29,20 @@ class HALmacro(object):
             '$BOTMASTER$'     : 'creator',
             '$WEBSITE$'       : 'dev.halbot.co.cc',
             '$RELIGION$'      : 'atheist',
-            '$IP$'            : get_ip(),
-            '$LOCATION$'      : get_location(),
+            '$BIRTHDAY$'      : self.halbday.strftime('%B %d, %Y'),
+            '$AGE$'           : lambda: str((datetime.date.today()-self.halbday).days//365),
         }
         self.extended = {
-            self.redate:      lambda m: time.strftime('%B %d, %Y'),
-            self.retime:      lambda m: time.strftime('%H:%M:%S'),
-            self.redatetime:  lambda m: time.strftime('%H:%M:%S on %B %d, %Y'),
-            self.reisotime:   lambda m: time.strftime('%Y-%m-%dT%H:%M:%S'),
-            self.readvdate:   lambda m: time.strftime('%B %d, %Y', time.localtime(time.time()+int(m.group(1)))),
-            self.readvtime:   lambda m: time.strftime('%H:%M:%S',  time.localtime(time.time()+int(m.group(1)))),
-            self.readvdtime:  lambda m: time.strftime('%H:%M:%S on %B %d, %Y', time.localtime(time.time()+int(m.group(1)))),
-            self.readvitime:  lambda m: time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(time.time()+int(m.group(1)))),
             self.rerandint:   lambda m: str(random.randint(int(m.group(1)), int(m.group(2)))),
         }
+        self.hal = parent
         
         # Plugin interface
         dir = os.path.join(get_main_dir(), 'plugins/macro')
-        files = os.path.join(dir, '*.py')
-        files = [os.path.basename(i).replace('.py', '') for i in glob(files)]
+        files = filter(bool, map(module_filter, glob(os.path.join(dir, '*'))))
         for file in files:
+            if write:
+                print 'Loading macro extension "%s"...'%file
             try:
                 data = imp.find_module(file, [dir])
                 module = imp.load_module(str(uuid.uuid1()), *data)
@@ -80,6 +50,9 @@ class HALmacro(object):
                     self.basic.update(module.basic)
                 if hasattr(module, 'extended'):
                     self.extended.update(module.extended)
+                if hasattr(module, 'halfiles'):
+                    for file in module.halfiles:
+                        self.hal.load(file)
             except:
                 print 'Error in macro extension', file
                 traceback.print_exc()
@@ -93,7 +66,7 @@ class HALmacro(object):
         if '$' in input:
             self.update_basic()
             for macro, replacement in self.basic.iteritems():
-                input = input.replace(macro, replacement)
+                input = input.replace(macro, replacement() if callable(replacement) else replacement)
         if input[:2] == '@@':
             self.update_extended()
             input = input[2:]
