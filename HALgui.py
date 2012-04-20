@@ -25,8 +25,6 @@ class HALOptions(wx.Dialog):
         wx.Dialog.__init__(self, *args, **kwds)
         self.options_tabs = wx.Notebook(self, -1, style=0)
         self.speech_tab = wx.Panel(self.options_tabs, -1)
-        self.label_2 = wx.StaticText(self.speech_tab, -1, _("Language: "))
-        self.language = wx.Choice(self.speech_tab, -1, choices=[_("English")])
         self.mute = wx.CheckBox(self.speech_tab, 1, _("Mute"))
         self.gender = wx.RadioBox(self.speech_tab, -1, _("Gender"), choices=[_("Male"), _("Female")], majorDimension=0, style=wx.RA_SPECIFY_ROWS)
         self.label_3 = wx.StaticText(self.speech_tab, -1, _("Volume: "))
@@ -54,8 +52,6 @@ class HALOptions(wx.Dialog):
         # begin wxGlade: HALOptions.__set_properties
         self.SetTitle(_("HAL Options"))
         self.SetSize((400, -1))
-        self.language.SetMinSize((-1, 21))
-        self.language.SetSelection(0)
         self.gender.SetMinSize((-1, 60))
         self.gender.SetSelection(0)
         self.label_3.SetMinSize((42, -1))
@@ -75,10 +71,6 @@ class HALOptions(wx.Dialog):
         sizer_13 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_10 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_11 = wx.BoxSizer(wx.VERTICAL)
-        sizer_12 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_12.Add(self.label_2, 0, wx.ALIGN_CENTER_VERTICAL, 0)
-        sizer_12.Add(self.language, 1, 0, 0)
-        sizer_11.Add(sizer_12, 0, wx.EXPAND, 0)
         sizer_11.Add((0, 20), 0, wx.EXPAND, 0)
         sizer_11.Add(self.mute, 0, 0, 0)
         sizer_10.Add(sizer_11, 1, wx.EXPAND, 0)
@@ -127,6 +119,7 @@ class MainWin(wx.Frame):
         self.ask_btn = wx.Button(self, 1, _("&Ask"))
         self.stop_talking_btn = wx.Button(self, 3, _("Stop Talking!"))
         self.clear_out_btn = wx.Button(self, 4, _("Clear Output"))
+        self.save_btn = wx.Button(self, 7, _("Save Output"))
         self.options_btn = wx.Button(self, 5, _("&Options"))
 
         self.__set_properties()
@@ -135,6 +128,7 @@ class MainWin(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.Ask, id=1)
         self.Bind(wx.EVT_BUTTON, self.stop_talking, id=3)
         self.Bind(wx.EVT_BUTTON, self.clear_output, id=4)
+        self.Bind(wx.EVT_BUTTON, self.save_output, id=7)
         self.Bind(wx.EVT_BUTTON, self.open_options, id=5)
         # end wxGlade
         font = wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, 'Consolas')
@@ -197,6 +191,7 @@ class MainWin(wx.Frame):
         sizer_2.Add(sizer_3, 1, wx.EXPAND, 0)
         sizer_5.Add(self.stop_talking_btn, 0, 0, 0)
         sizer_5.Add(self.clear_out_btn, 0, 0, 0)
+        sizer_5.Add(self.save_btn, 0, 0, 0)
         sizer_5.Add((0, 0), 1, wx.EXPAND, 0)
         sizer_5.Add(self.options_btn, 0, wx.EXPAND, 0)
         sizer_2.Add(sizer_5, 0, wx.EXPAND, 0)
@@ -219,6 +214,7 @@ class MainWin(wx.Frame):
         length = max(len(prompt), len(halpro))
         self.prompt = prompt.ljust(length)
         self.halpro = halpro.ljust(length)
+        self.output.SetValue('')
         print
         print self.halpro, 'Hello %s. I am HAL %s.'%(self.hal.user, self.hal.version)
         print
@@ -269,6 +265,16 @@ class MainWin(wx.Frame):
 
     def open_options(self, event):  # wxGlade: MainWin.<event_handler>
         HALOptions(self).Show()
+
+    def save_output(self, event):  # wxGlade: MainWin.<event_handler>
+        dialog = wx.FileDialog(self, "Save Output...", "", "",
+                               "Text File (*.txt)|*.txt", wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
+
+        if dialog.ShowModal() == wx.ID_CANCEL:
+            return
+        
+        with open(dialog.GetPath(), 'w') as f:
+            f.write(self.output.GetValue())
 
 # end of class MainWin
 class HALGUI(wx.App):

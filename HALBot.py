@@ -204,7 +204,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.023'
+    version = '0.024'
     def __init__(self, username=None, path=os.path.join(get_main_dir(), 'data'), write=False, speak=False):
         if username is None:
             if _user is None:
@@ -229,6 +229,7 @@ class HAL(object):
         self.data_folder = path
         self.debug_write = write
         self._init_handler_plugin()
+        self.semantics = False
     
     def load(self, file):
         self.intel.load(file)
@@ -301,7 +302,8 @@ class HAL(object):
             if answer is None:
                 answer = random.choice(self.generic)
             answer = self.macro.subst(answer)
-            lang, inter, answer = HALtran.transform(answer)
+            if self.semantics:
+                lang, inter, answer = HALtran.transform(answer)
             yield answer
             answers.append(answer)
         #answers = [self.macro.subst(answer) for answer in answers]
