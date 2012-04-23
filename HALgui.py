@@ -156,6 +156,10 @@ class MainWin(wx.Frame):
             if not self.time_lock.acquire(0):
                 break
             self.datetime.SetValue(time.strftime('Date: %B %d, %Y\nTime: %H:%M:%S'))
+            if hasattr(self, 'lasttalk') and not self.working and time.time()-self.lasttalk > 60:
+                print self.halpro, self.hal.autotalk()
+                print
+                self.lasttalk = time.time()
             time.sleep(1)
             self.time_lock.release()
     
@@ -222,6 +226,7 @@ class MainWin(wx.Frame):
         self.ask_btn.Enable(True)
         self.working = True
         self.Bind(wx.EVT_TEXT_ENTER, self.input_enter, id=6)
+        self.lasttalk = time.time()
 
     def Ask(self, event):  # wxGlade: MainWin.<event_handler>
         self.input.Enable(False)
@@ -235,7 +240,7 @@ class MainWin(wx.Frame):
             for i in self.hal.ask(input.encode('utf-8')):
                 print self.halpro, i
             if not self.hal.running:
-                print hal.shutdown()
+                print self.halpro, self.hal.shutdown()
                 self.hal.running = True
             print
             raise Done
@@ -244,6 +249,7 @@ class MainWin(wx.Frame):
             self.input.Clear()
             self.input.Enable(True)
             self.input.SetFocus()
+        self.lasttalk = time.time()
 
     def mute_changed(self, event):  # wxGlade: MainWin.<event_handler>
         if self.mute.IsChecked():

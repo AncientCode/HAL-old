@@ -11,7 +11,7 @@ def get_main_dir():
 
 def get_system_info():
     if os.name == 'nt':
-        ver, sp, build, type = platform.win32_ver()
+        ver, build, sp, type = platform.win32_ver()
         arch = platform.machine()
         pyver = platform.python_version()
         impl = platform.python_implementation()
@@ -36,3 +36,11 @@ class HALcannotHandle(HALException): pass
 
 maindir = get_main_dir()
 datadir = os.path.join(maindir, 'data')
+
+def clean_string(text):
+    proper_letters = ' 0123456789abcdefghijklmnopqrstuvwxyz'
+    letters = bytearray()
+    for letter in text.lower():
+        if letter in proper_letters:
+            letters.append(letter)
+    return str(letters)

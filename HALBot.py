@@ -9,14 +9,16 @@ import traceback
 import __builtin__
 from glob import glob
 from getpass import getuser
+from collections import deque
 
 from HALformat import check_blank, check_for_end, sentence_split
 from HALnative import HALBot
-import equation
 from HALwiki import HALwiki
-from HALapi import HALcannotHandle, get_main_dir, module_filter
-
+from HALapi import HALcannotHandle, get_main_dir, module_filter, clean_string
+from HALname import rndname
 from HALmacro import HALmacro
+
+import equation
 #import language
 import HALspeak
 import HALspam
@@ -204,7 +206,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.024'
+    version = '0.025'
     def __init__(self, username=None, path=os.path.join(get_main_dir(), 'data'), write=False, speak=False):
         if username is None:
             if _user is None:
@@ -229,7 +231,13 @@ class HAL(object):
         self.data_folder = path
         self.debug_write = write
         self._init_handler_plugin()
+        self._init_autotalk()
+        self._init_repetition()
         self.semantics = False
+        self.rndname = True
+        
+        self.previn = deque(maxlen=100)
+        self.prevout = deque(maxlen=100)
     
     def load(self, file):
         self.intel.load(file)
@@ -257,6 +265,22 @@ class HAL(object):
                     continue
                 self.handlers.insert(0, module)
     
+    def _init_autotalk(self):
+        try:
+            self.autotalkdb = [i.strip() for i in open(os.path.join(self.data_folder, 'auto.chal'))]
+        except IOError:
+            pass
+    
+    def _init_repetition(self):
+        try:
+            self.repetitiondb = [i.strip() for i in open(os.path.join(self.data_folder, 'repeat.chal'))]
+            self.repetitiondb = filter(lambda x: x and x[0] != '#', self.repetitiondb)
+        except IOError:
+            self.repetitiondb = ['Was my answer not clear enough?']
+    
+    def autotalk(self):
+        return random.choice(self.autotalkdb)
+    
     def _clean_text(self, text):
         for regex, replacement in self.readable.iteritems():
             text = regex.sub(replacement, text)
@@ -268,8 +292,14 @@ class HAL(object):
         return 'Goodbye, %s. I enjoyed talking to you.'%self.user
     
     def ask(self, question):
-        answers = []
+        # Repetition
+        if self.previn and clean_string(question) == clean_string(self.previn[0]):
+            res = random.choice(self.repetitiondb)
+            res = res.replace('----', "'%s'"%' '.join(self.prevout[0]))
+            yield self.macro.subst(res)
+            return
         
+        answers = []
         #lang = language.detect_lang(question)
         #is_foreign = lang is not None and lang != 'en'
         #if is_foreign:
@@ -304,12 +334,16 @@ class HAL(object):
             answer = self.macro.subst(answer)
             if self.semantics:
                 lang, inter, answer = HALtran.transform(answer)
+            if self.rndname:
+                answer = rndname(answer, self.user)
             yield answer
             answers.append(answer)
         #answers = [self.macro.subst(answer) for answer in answers]
         if self.speak:
             HALspeak.stop_speaking(self.sphandle)
             self.sphandle = HALspeak.speak(' '.join(answers), False, **self.speak_opt)
+        self.previn.appendleft(question)
+        self.prevout.appendleft(answers)
         #return answers
         #if is_foreign:
         #    return [language.translate(i, 'en', lang) for i in answers]

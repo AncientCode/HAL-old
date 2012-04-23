@@ -25,4 +25,16 @@ $HALWIKI$
 #WHERE
 $HALWIKI$
 
+#WHAT DID I JUST SAY
+@@You said "<index(0, user)>".
+
+#WHAT DID YOU JUST SAY
+@@I said "<index(0, bot)>".
+
+#WHAT DID I SAY * INPUTS AGO
+@@You said "<index(\g<1>, user)>".
+
+#WHAT DID YOU SAY * INPUTS AGO
+@@I said "<index(\g<1>, bot)>".
+
 #NULL

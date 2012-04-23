@@ -13,7 +13,9 @@ from HALapi import get_main_dir, module_filter
 
 class HALmacro(object):
     rerandint = re.compile(r'\$RANDINT@(-?[0-9]+?)~(-?[0-9]+?)\$')
-    halbday = datetime.date(1998, 3, 9)
+    rebotprev = re.compile(r'<index\(([0-9]{1,2}),\s*bot\)>')
+    reusrprev = re.compile(r'<index\(([0-9]{1,2}),\s*user\)>')
+    halbday = datetime.date(1997, 12, 12)
     def __init__(self, parent, user=None, write=False):
         self.basic = {
             '$USERNAME$'      : user if user is not None else getuser(),
@@ -33,7 +35,9 @@ class HALmacro(object):
             '$AGE$'           : lambda: str((datetime.date.today()-self.halbday).days//365),
         }
         self.extended = {
-            self.rerandint:   lambda m: str(random.randint(int(m.group(1)), int(m.group(2)))),
+            self.rerandint: lambda m: str(random.randint(int(m.group(1)), int(m.group(2)))),
+            self.rebotprev: lambda m: ' '.join(self.hal.prevout[int(m.group(1))]) if int(m.group(1)) < len(self.hal.prevout) else '',
+            self.reusrprev: lambda m: self.hal.previn[int(m.group(1))] if int(m.group(1)) < len(self.hal.previn) else '',
         }
         self.hal = parent
         

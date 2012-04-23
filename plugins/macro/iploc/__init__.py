@@ -12,15 +12,21 @@ def get_ip():
 def get_location():
     page = urllib2.urlopen('http://www.tracemyip.org').read().replace('&nbsp;', '')
     recity = re.compile('<td valign="top" class="tID_01"><b>Hub City:</b>(.*?)<br>', re.S)
+    recoun = re.compile('<td class="tID_01"><b>Country:</b>(.*?)</table>', re.S)
     reloc = re.compile('<td class="tID_01"><b>State:</b></td>(.*?)</tr>', re.S)
     reclean = re.compile('<.*?>') 
     city = reclean.sub('', recity.search(page).group(1).replace(' ', '')).strip()
     location = reclean.sub('', reloc.search(page).group(1).replace(' ', '')).strip()
-    return '%s, %s'%(city, location)
+    country = reclean.sub('', recoun.search(page).group(1).replace(' ', '')).strip()
+    return city, location, country
 
+city, location, country = get_location()
 basic = {
     '$IP$'      : get_ip(),
-    '$LOCATION$': get_location()
+    '$LOCATION$': '%s, %s, %s'%(city, location, country),
+    '$CITY$'    : city,
+    '$PROVINCE$': location,
+    '$COUNTRY$' : country,
 }
 
 halfiles = [os.path.join(os.path.dirname(__file__), 'iploc.hal')]
