@@ -1,3 +1,5 @@
+from __future__ import division
+
 import re
 import sys
 import imp
@@ -17,8 +19,10 @@ from HALwiki import HALwiki
 from HALapi import HALcannotHandle, get_main_dir, module_filter, clean_string
 from HALname import rndname
 from HALmacro import HALmacro
+from HALequation import HALequation
+from HALlingual import translate, detect_lang
+from HALunspell import check_all
 
-import equation
 #import language
 import HALspeak
 import HALspam
@@ -35,6 +39,10 @@ __builtin__.IN_HAL = True
 __framework_dir = os.path.join(get_main_dir(), 'plugins/frameworks')
 sys.path.append(__framework_dir)
 del __framework_dir
+
+def ratio_correct(input):
+    size, words, correct = check_all(input)
+    return len(filter(bool, correct))/size
 
 # TODO: Combine multiple matches into one
 # i.e. 2 #HELLO sections will be combined into in pick_match()
@@ -206,7 +214,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.025'
+    version = '0.026'
     def __init__(self, username=None, path=os.path.join(get_main_dir(), 'data'), write=False, speak=False):
         if username is None:
             if _user is None:
@@ -217,7 +225,8 @@ class HAL(object):
             self.user = username
         self.running = True
         self.intel = HALintel(path, self.user, write)
-        self.handlers = [equation, self.intel, HALspam]
+        self.math = HALequation(write)
+        self.handlers = [self.math, self.intel, HALspam]
         try:
             with open(os.path.join(path, 'generic.chal')) as fp:
                 self.generic = [i.strip() for i in fp.readlines() if i.strip() and i[0] != '#']
@@ -238,6 +247,7 @@ class HAL(object):
         
         self.previn = deque(maxlen=100)
         self.prevout = deque(maxlen=100)
+        self.lastlang = 'en'
     
     def load(self, file):
         self.intel.load(file)
@@ -300,8 +310,22 @@ class HAL(object):
             return
         
         answers = []
-        #lang = language.detect_lang(question)
-        #is_foreign = lang is not None and lang != 'en'
+        lang = detect_lang(question, self.lastlang)
+        if lang is None:
+            lang = self.lastlang
+        print 'Language:', lang
+        print 'Last Language:', self.lastlang
+        if lang != self.lastlang:
+            tran = translate(question, lang).encode('utf-8')
+            lasttran = translate(question, self.lastlang).encode('utf-8')
+            lang, prob, tran = max([(lang, ratio_correct(tran), tran),
+                                    (self.lastlang, ratio_correct(lasttran), lasttran)],
+                                   key=lambda x: x[1])
+            question = tran
+            print 'Chosen:', lang, 'prob:', prob
+        print 'Question:', question
+
+        is_foreign = lang != 'en'
         #if is_foreign:
         #    question = language.translate(question, lang).encode('utf-8')
         
@@ -336,6 +360,9 @@ class HAL(object):
                 lang, inter, answer = HALtran.transform(answer)
             if self.rndname:
                 answer = rndname(answer, self.user)
+            if is_foreign:
+                print 'Answer:', answer
+                answer = translate(answer, 'en', lang)
             yield answer
             answers.append(answer)
         #answers = [self.macro.subst(answer) for answer in answers]

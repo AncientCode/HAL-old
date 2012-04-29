@@ -1,6 +1,7 @@
 import sys
 import os.path
 import platform
+import datetime
 
 def get_main_dir():
     if main_is_frozen():
@@ -37,10 +38,19 @@ class HALcannotHandle(HALException): pass
 maindir = get_main_dir()
 datadir = os.path.join(maindir, 'data')
 
-def clean_string(text):
-    proper_letters = ' 0123456789abcdefghijklmnopqrstuvwxyz'
+def clean_string(text, proper_letters=None):
+    if proper_letters is None:
+        proper_letters = ' 0123456789abcdefghijklmnopqrstuvwxyz'
     letters = bytearray()
     for letter in text.lower():
         if letter in proper_letters:
             letters.append(letter)
     return str(letters)
+
+def age_from_dob(dob):
+    today = datetime.date.today()
+    day = today.replace(year=dob.year)
+    age = today.year - dob.year
+    if dob > day:
+        age -= 1
+    return age

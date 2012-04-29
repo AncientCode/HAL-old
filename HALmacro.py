@@ -9,7 +9,7 @@ import traceback
 from glob import glob
 from getpass import getuser
 
-from HALapi import get_main_dir, module_filter
+from HALapi import get_main_dir, module_filter, age_from_dob
 
 class HALmacro(object):
     rerandint = re.compile(r'\$RANDINT@(-?[0-9]+?)~(-?[0-9]+?)\$')
@@ -32,7 +32,7 @@ class HALmacro(object):
             '$WEBSITE$'       : 'dev.halbot.co.cc',
             '$RELIGION$'      : 'atheist',
             '$BIRTHDAY$'      : self.halbday.strftime('%B %d, %Y'),
-            '$AGE$'           : lambda: str((datetime.date.today()-self.halbday).days//365),
+            '$AGE$'           : lambda: str(age_from_dob(self.halbday)),
         }
         self.extended = {
             self.rerandint: lambda m: str(random.randint(int(m.group(1)), int(m.group(2)))),
@@ -70,7 +70,7 @@ class HALmacro(object):
         if '$' in input:
             self.update_basic()
             for macro, replacement in self.basic.iteritems():
-                input = input.replace(macro, replacement() if callable(replacement) else replacement)
+                input = input.replace(macro, (replacement() if callable(replacement) else replacement))
         if input[:2] == '@@':
             self.update_extended()
             input = input[2:]

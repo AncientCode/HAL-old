@@ -1,0 +1,4 @@
+#SAY * IN *
+@@<translate(\g<1>, en, \g<2>)>
+
+#NULL

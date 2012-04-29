@@ -1,0 +1,8 @@
+#WHAT IS THE CAPITAL OF *
+@@The capital of $PROPERNAME<\g<1>>$ is $CAPITAL<\g<1>>$.
+
+#WHAT IS THE CAPITAL OF MY CURRENT COUNTRY
+@@The capital of $COUNTRY$ is $CAPITAL<$COUNTRY$>$.
+@@The capital of your country is $CAPITAL<$COUNTRY$>$.
+
+#NULL

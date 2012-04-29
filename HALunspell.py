@@ -23,6 +23,7 @@ def stem(word):
     return __hobj.stem(word)
 
 def filter_words(text):
+    letters = []
     for letter in text.lower():
         if letter in __proper_letters:
             letters.append(letter)
