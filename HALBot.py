@@ -25,6 +25,7 @@ from HALunspell import check_all
 
 #import language
 import HALspeak
+import HALadvspeak
 import HALspam
 import HALtran
 
@@ -214,7 +215,7 @@ class HALintel(HALBot):
         return answer
 
 class HAL(object):
-    version = '0.026'
+    version = '0.027'
     def __init__(self, username=None, path=os.path.join(get_main_dir(), 'data'), write=False, speak=False):
         if username is None:
             if _user is None:
@@ -235,6 +236,7 @@ class HAL(object):
             self.generic = ["I have a problem with my brain, I can't think..."]
         self.macro = HALmacro(self, username, write)
         self.speak = speak
+        self.advspeak = False
         self.sphandle = None
         self.speak_opt = dict(volume=100, speed=175, gender=True, lang='en-us')
         self.data_folder = path
@@ -301,6 +303,12 @@ class HAL(object):
     def shutdown(self):
         return 'Goodbye, %s. I enjoyed talking to you.'%self.user
     
+    def do_speech(self, text):
+        if self.speak:
+            engine = HALadvspeak if self.advspeak else HALspeak
+            engine.stop_speaking(self.sphandle)
+            self.sphandle = engine.speak(text, False, **self.speak_opt)
+    
     def ask(self, question):
         # Repetition
         if self.previn and clean_string(question) == clean_string(self.previn[0]):
@@ -313,8 +321,8 @@ class HAL(object):
         lang = detect_lang(question, self.lastlang)
         if lang is None:
             lang = self.lastlang
-        print 'Language:', lang
-        print 'Last Language:', self.lastlang
+        #print 'Language:', lang
+        #print 'Last Language:', self.lastlang
         if lang != self.lastlang:
             tran = translate(question, lang).encode('utf-8')
             lasttran = translate(question, self.lastlang).encode('utf-8')
@@ -322,8 +330,8 @@ class HAL(object):
                                     (self.lastlang, ratio_correct(lasttran), lasttran)],
                                    key=lambda x: x[1])
             question = tran
-            print 'Chosen:', lang, 'prob:', prob
-        print 'Question:', question
+            #print 'Chosen:', lang, 'prob:', prob
+        #print 'Question:', question
 
         is_foreign = lang != 'en'
         #if is_foreign:
@@ -361,14 +369,12 @@ class HAL(object):
             if self.rndname:
                 answer = rndname(answer, self.user)
             if is_foreign:
-                print 'Answer:', answer
+                #print 'Answer:', answer
                 answer = translate(answer, 'en', lang)
             yield answer
             answers.append(answer)
         #answers = [self.macro.subst(answer) for answer in answers]
-        if self.speak:
-            HALspeak.stop_speaking(self.sphandle)
-            self.sphandle = HALspeak.speak(' '.join(answers), False, **self.speak_opt)
+        self.do_speech(' '.join(answers))
         self.previn.appendleft(question)
         self.prevout.appendleft(answers)
         #return answers

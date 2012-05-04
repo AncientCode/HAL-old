@@ -25,6 +25,7 @@ class HALOptions(wx.Dialog):
         wx.Dialog.__init__(self, *args, **kwds)
         self.options_tabs = wx.Notebook(self, -1, style=0)
         self.speech_tab = wx.Panel(self.options_tabs, -1)
+        self.advspeak = wx.CheckBox(self.speech_tab, -1, _("Use Advanced Speech Engine"))
         self.mute = wx.CheckBox(self.speech_tab, 1, _("Mute"))
         self.gender = wx.RadioBox(self.speech_tab, -1, _("Gender"), choices=[_("Male"), _("Female")], majorDimension=0, style=wx.RA_SPECIFY_ROWS)
         self.label_3 = wx.StaticText(self.speech_tab, -1, _("Volume: "))
@@ -47,6 +48,7 @@ class HALOptions(wx.Dialog):
         self.speed.SetValue(self.parent.hal.speak_opt['speed'])
         self.gender.SetSelection(0 if self.parent.hal.speak_opt['gender'] else 1)
         self.mute.SetValue(not self.parent.hal.speak)
+        self.advspeak.SetValue(self.parent.hal.advspeak)
     
     def __set_properties(self):
         # begin wxGlade: HALOptions.__set_properties
@@ -71,7 +73,7 @@ class HALOptions(wx.Dialog):
         sizer_13 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_10 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_11 = wx.BoxSizer(wx.VERTICAL)
-        sizer_11.Add((0, 20), 0, wx.EXPAND, 0)
+        sizer_11.Add(self.advspeak, 0, 0, 0)
         sizer_11.Add(self.mute, 0, 0, 0)
         sizer_10.Add(sizer_11, 1, wx.EXPAND, 0)
         sizer_10.Add(self.gender, 0, 0, 0)
@@ -98,6 +100,7 @@ class HALOptions(wx.Dialog):
         self.parent.hal.speak_opt['speed']  = self.speed.GetValue()
         self.parent.hal.speak_opt['gender'] = not self.gender.GetSelection()
         self.parent.hal.speak = not self.mute.GetValue()
+        self.parent.hal.advspeak = self.advspeak.GetValue()
 
 # end of class HALOptions
 class RedirectText(object):
@@ -157,9 +160,11 @@ class MainWin(wx.Frame):
                 break
             self.datetime.SetValue(time.strftime('Date: %B %d, %Y\nTime: %H:%M:%S'))
             if hasattr(self, 'lasttalk') and not self.working and time.time()-self.lasttalk > 60:
-                print self.halpro, self.hal.autotalk()
+                msg = self.hal.autotalk()
+                print self.halpro, msg
                 print
                 self.lasttalk = time.time()
+                self.hal.do_speech(msg)
             time.sleep(1)
             self.time_lock.release()
     
@@ -219,7 +224,6 @@ class MainWin(wx.Frame):
         self.prompt = prompt.ljust(length)
         self.halpro = halpro.ljust(length)
         self.output.SetValue('')
-        print
         print self.halpro, 'Hello %s. I am HAL %s.'%(self.hal.user, self.hal.version)
         print
         self.options_btn.Enable(True)

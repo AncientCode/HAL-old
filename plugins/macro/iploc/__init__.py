@@ -3,6 +3,8 @@ import socket
 import urllib2
 import os.path
 
+import HALsharedData
+
 def get_ip():
     try:
         return urllib2.urlopen('http://automation.whatismyip.com/n09230945.asp').read().strip()
@@ -28,5 +30,10 @@ basic = {
     '$PROVINCE$': location,
     '$COUNTRY$' : country,
 }
+
+HALsharedData.location = '%s, %s, %s'%(city, location, country)
+HALsharedData.city = city
+HALsharedData.province = location
+HALsharedData.country = country
 
 halfiles = [os.path.join(os.path.dirname(__file__), 'iploc.hal')]

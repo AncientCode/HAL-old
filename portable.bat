@@ -11,7 +11,6 @@ if not exist espeak cp -r ..\espeak espeak
 copy ..\latest.txt Version.halconfig
 rm -rf plugins
 cp -r ..\plugins .
-cp -f ..\data\element.db data
 cp -r ..\data\spam data
 
 7za a HAL_PE_%VERSION%.7z *

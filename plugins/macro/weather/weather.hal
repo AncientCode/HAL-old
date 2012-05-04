@@ -1,0 +1,40 @@
+#WHAT IS THE WEATHER NOW
+@@$currentconditions$
+
+#HOW IS THE WEATHER NOW
+@@$currentconditions$
+
+#HOW IS THE WEATHER
+@@$currentconditions$
+
+#HOW IS THE WEATHER IN *
+@@$currentconditions(\g<1>)$
+
+#HOW IS THE WEATHER NOW IN *
+@@$currentconditions(\g<1>)$
+
+#HOW IS THE WEATHER TODAY
+@@$forecast(today)$
+
+#WHAT IS THE WEATHER TODAY
+@@$forecast(today)$
+
+#HOW IS THE WEATHER TOMORROW
+@@$forecast(tom)$
+
+#WHAT IS THE WEATHER TOMORROW
+@@$forecast(tom)$
+
+#HOW IS THE WEATHER TODAY IN *
+@@$forecast(today, \g<1>)$
+
+#WHAT IS THE WEATHER TODAY IN *
+@@$forecast(today, \g<1>)$
+
+#HOW IS THE WEATHER TOMORROW IN *
+@@$forecast(tom, \g<1>)$
+
+#WHAT IS THE WEATHER TOMORROW IN *
+@@$forecast(tom, \g<1>)$
+
+#NULL

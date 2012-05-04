@@ -58,18 +58,18 @@ class SpamDetect:
                 return 'too many repeated letters'
         
         # Spell Checker
-        word_count = len(words)
-        count = 0
-        for word in words:
-            if HALunspell.check(word):
-                count += 1
-        if word_count:
-            error = 1-(float(count)/word_count)
-        else:
-            error = 0
+        #word_count = len(words)
+        #count = 0
+        #for word in words:
+        #    if HALunspell.check(word):
+        #        count += 1
+        #if word_count:
+        #    error = 1-(float(count)/word_count)
+        #else:
+        #    error = 0
         #print count, word_count, error
-        if error > 0.3:
-            return 'too many non-existent words'
+        #if error > 0.3:
+        #    return 'too many non-existent words'
         
         # Passed all test, not a spam
         return False

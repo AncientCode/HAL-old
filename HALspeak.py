@@ -29,6 +29,9 @@ def stop_speaking(handle):
         handle.terminate()
     except OSError:
         pass
+    except AttributeError:
+        # Wrong Handle...
+        pass
 
 # def speak(text, block=True):
     # cmd = [espeak_path, '-v', 'en-us']
