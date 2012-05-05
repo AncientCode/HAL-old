@@ -106,16 +106,24 @@ class HALOptions(wx.Dialog):
         self.parent.hal.advspeak = self.advspeak.GetValue()
 
 # end of class HALOptions
-class RedirectText(object):
-    def __init__(self, textctrl, id, frame):
-        self.textctrl = textctrl
-        self.thread_id = id
-        self.frame = frame
-    def write(self, string):
-        if threading.current_thread() is self.thread_id:
+if os.name == 'nt':
+    # On Windows is ok to acess a TextCtrl from multiple threads
+    class RedirectText(object):
+        def __init__(self, textctrl, id, frame):
+            self.textctrl = textctrl
+        def write(self, string):
             self.textctrl.AppendText(string)
-        else:
-            wx.PostEvent(self.frame, GuiPrintEvent(string=string))
+else:
+    class RedirectText(object):
+        def __init__(self, textctrl, id, frame):
+            self.textctrl = textctrl
+            self.thread_id = id
+            self.frame = frame
+        def write(self, string):
+            if threading.current_thread() is self.thread_id:
+                self.textctrl.AppendText(string)
+            else:
+                wx.PostEvent(self.frame, GuiPrintEvent(string=string))
 
 class MainWin(wx.Frame):
     def __init__(self, *args, **kwds):
