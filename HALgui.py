@@ -8,6 +8,7 @@ import time
 import random
 import os.path
 import threading
+import wx.lib.newevent
 
 from HALmain import get_main_dir, get_system_info
 from HALspeak import stop_speaking
@@ -15,6 +16,8 @@ from HALBot import HAL
 
 # begin wxGlade: extracode
 # end wxGlade
+
+GuiPrintEvent, EVT_GUI_PRINT_EVENT = wx.lib.newevent.NewEvent()
 
 class Done(Exception): pass
 
@@ -104,11 +107,15 @@ class HALOptions(wx.Dialog):
 
 # end of class HALOptions
 class RedirectText(object):
-    def __init__(self, textctrl):
+    def __init__(self, textctrl, id, frame):
         self.textctrl = textctrl
-        self.max_row = 500
+        self.thread_id = id
+        self.frame = frame
     def write(self, string):
-        self.textctrl.AppendText(string)
+        if threading.current_thread() is self.thread_id:
+            self.textctrl.AppendText(string)
+        else:
+            wx.PostEvent(self.frame, GuiPrintEvent(string=string))
 
 class MainWin(wx.Frame):
     def __init__(self, *args, **kwds):
@@ -145,7 +152,11 @@ class MainWin(wx.Frame):
         thread = threading.Thread(target=self.timer)
         thread.start()
         self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
+        self.Bind(EVT_GUI_PRINT_EVENT, self.ThreadPrint)
 
+    def ThreadPrint(self, event):
+        self.output.AppendText(event.string)
+    
     def OnCloseWindow(self, event):
         try:
             self.closewindowstarted
@@ -181,6 +192,7 @@ class MainWin(wx.Frame):
         self.options_btn.Enable(False)
         # end wxGlade
         self.label_1.SetFont(wx.Font(25, wx.MODERN, wx.NORMAL, wx.BOLD, 0, "Consolas"))
+        sys.stdout = RedirectText(self.output, threading.current_thread(), self)
 
     def __do_layout(self):
         # begin wxGlade: MainWin.__do_layout
@@ -211,7 +223,6 @@ class MainWin(wx.Frame):
     
     def start_hal(self):
         data = os.path.join(get_main_dir(), 'data')
-        sys.stdout = RedirectText(self.output)
         print '[SYSTEM]', 'Booted on', get_system_info(), '[/SYSTEM]'
         print
         print 'Loading data files...'
