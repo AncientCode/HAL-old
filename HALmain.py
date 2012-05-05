@@ -5,8 +5,15 @@ import os
 import codecs
 from HALapi import get_main_dir, get_system_info
 
+# Windows doesn't have readline, but it's usefule on linux,
+# as the console doesn't do editing like windows
+try:
+    import readline
+except ImportError:
+    pass
+
 def main(data=None):
-    sys.stdout = codecs.getwriter('mbcs')(sys.stdout, 'replace')
+    sys.stdout = codecs.getwriter('mbcs' if os.name == 'nt' else 'utf-8')(sys.stdout, 'replace')
     if data is None:
         data = os.path.join(get_main_dir(), 'data')
     if not os.path.exists(data):

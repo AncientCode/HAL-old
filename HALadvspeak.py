@@ -3,8 +3,11 @@ __builtin__._HAL_ADV_SPEAK__REGISTERED_ = True
 
 from urllib import urlencode
 import threading
-import pydshow
 import time
+try:
+    import pydshow
+except ImportError:
+    pass
 
 langmap = {
     'en-us': 'ukenglish',

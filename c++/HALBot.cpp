@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "HALBot.h"
-#include "helper.h"
-#include "exception.h"
-#include "console.h"
+//#include "helper.h"
+//#include "exception.h"
+//#include "console.h"
 
 #ifdef WIN32
 #   ifndef WIN32_LEAN_AND_MEAN

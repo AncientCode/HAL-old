@@ -17,6 +17,14 @@ def get_system_info():
         pyver = platform.python_version()
         impl = platform.python_implementation()
         return 'Windows {ver} {sp}, NT {build} on {arch} Python {pyver} ({impl}).'.format(ver=ver, sp=sp, build=build, arch=arch, pyver=pyver, impl=impl)
+    elif os.name == 'posix':
+        distro = platform.linux_distribution()
+        distro = '{0} {2} {1}'.format(*distro)
+        return '{name} ({distro}) {sysver}, Python {pyver} ({impl})'.format(name=platform.system(),
+                                                                            distro=distro,
+                                                                            sysver=platform.release(),
+                                                                            pyver=platform.python_version(),
+                                                                            impl=platform.python_implementation())
 
 def main_is_frozen():
     import imp

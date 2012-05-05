@@ -11,6 +11,12 @@ from glob import glob
 
 from HALapi import get_main_dir, module_filter, HALcannotHandle
 
+# Some version of gmpy2 doesn't have pow()
+try:
+    gmpy2.pow(2, 10)
+except (AttributeError, TypeError):
+    gmpy2.pow = lambda x, y: x**y
+
 gmpy2.context().precision = 256
 
 math_list = ['acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'cosh', 'exp', 'floor', 'fmod', 'hypot', 'modf', 'pow', 'sin', 'sinh', 'sqrt', 'tan', 'tanh']

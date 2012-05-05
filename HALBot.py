@@ -304,7 +304,8 @@ class HAL(object):
         return 'Goodbye, %s. I enjoyed talking to you.'%self.user
     
     def do_speech(self, text):
-        if self.speak:
+        # Note that linux can't do speech for now
+        if os.name == 'nt' and self.speak:
             engine = HALadvspeak if self.advspeak else HALspeak
             engine.stop_speaking(self.sphandle)
             self.sphandle = engine.speak(text, False, **self.speak_opt)

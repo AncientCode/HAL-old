@@ -15,14 +15,9 @@ stdafx.obj: stdafx.h stdafx.cpp
 .cpp.obj::
 	$(CC) $(CFLAGS) /c $< /Yustdafx.h /Fpstdafx.pch
 
-equation.obj: equation.cpp
-	$(CC) $(CFLAGS) /c $**
+HALBot.cpp: HALBot.h stdafx.h
 
-console.cpp: console.h stdafx.h
-equation.cpp: equation.h stdafx.h
-HALBot.cpp: HALBot.h helper.h exception.h console.h stdafx.h
-
-HALnative.pyd: HALBot.obj console.obj equation.obj stdafx.obj HALnative.obj
+HALnative.pyd: HALBot.obj stdafx.obj HALnative.obj
 	$(CC) $(CFLAGS) /YuHALintel.pch /Fe$@ $** $(LIBS)
 
 ..\HALnative.pyd: HALnative.pyd
