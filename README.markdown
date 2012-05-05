@@ -7,6 +7,34 @@ it is, and even answer questions with information retrieved from Wikipedia.
 We have released three versions of HAL, which you can download from our
 website at http://dev.halbot.co.cc.
 
+HAL on Windows
+--------------
+
+Download a pre-packaged version from the website and install it. Enjoy.
+
+HAL on Linux
+------------
+
+1. Read the "Requirements" section
+2. You need to clone the git repository, then compile the c++ directory using
+linux.mak. `make -f linux.mak`
+3. Now run `python HALcon.py` in the root directory of HAL.
+4. If you got exceptions, try fixing them, and submit as patches.
+
+Note that I have only tested it on Ubuntu 12.04 LTS.
+
+Requirements
+------------
+
+The requirement only applies if you are downloading the git version,
+Windows users are adviced to download the pre-build packages, unless
+they need to develop HAL.
+
+1. boost_python, boost_regex (only if used with GCC) On Ubuntu:
+`sudo apt-get install libboost-dev libboost-python-dev libboost-regex-dev`
+2. gmpy2, from http://code.google.com/p/gmpy/.
+3. pyephem (for weather plugin).
+
 The HAL License
 ---------------
 
@@ -56,4 +84,4 @@ new revised law that (1) expands the statement "fullest extent of the law"
 to encompass an infinite duration of infinite punishments and (2) exacts
 said punishments upon all parties (related or non-related).
 
-                                                  -- from the syck library
+-- from the syck library
