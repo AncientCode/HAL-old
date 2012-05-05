@@ -149,9 +149,10 @@ class MainWin(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.save_output, id=7)
         self.Bind(wx.EVT_BUTTON, self.open_options, id=5)
         # end wxGlade
-        font = wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, 'Consolas')
-        self.output.SetFont(font)
-        self.input.SetFont(font)
+        if os.name == 'nt':
+            font = wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, self.font_name)
+            self.output.SetFont(font)
+            self.input.SetFont(font)
         thread = threading.Thread(target=self.start_hal)
         thread.daemon = True
         thread.start()
@@ -199,7 +200,8 @@ class MainWin(wx.Frame):
         self.ask_btn.Enable(False)
         self.options_btn.Enable(False)
         # end wxGlade
-        self.label_1.SetFont(wx.Font(25, wx.MODERN, wx.NORMAL, wx.BOLD, 0, "Consolas"))
+        if os.name == 'nt':
+            self.label_1.SetFont(wx.Font(25, wx.MODERN, wx.NORMAL, wx.BOLD, 0, 'Consolas'))
         sys.stdout = RedirectText(self.output, threading.current_thread(), self)
 
     def __do_layout(self):
