@@ -6,9 +6,10 @@ import datetime
 def get_main_dir():
     if main_is_frozen():
         return os.path.dirname(sys.executable)
-    for dirname in sys.path:
-        if os.path.exists(os.path.join(dirname, __file__)):
-            return dirname
+    #for dirname in sys.path:
+    #    if os.path.exists(os.path.join(dirname, __file__)):
+    #        return dirname
+    return os.path.dirname(__file__)
 
 def get_system_info():
     if os.name == 'nt':

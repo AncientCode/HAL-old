@@ -1,8 +1,9 @@
 CC=gcc
 CXX=g++ -std=gnu++0x
-CFLAGS=-I/usr/include/python2.7
+PYVER:=$(shell pyversions -i)
+CFLAGS=-I/usr/include/$(PYVER) $(HAL_ENVCFLAGS)
 CXXFLAGS=-DBUILD_PYTHON $(CFLAGS)
-LIBS=-lpython2.7 -lboost_python -lboost_regex
+LIBS=-l$(PYVER) -lboost_python -lboost_regex
 
 all: HALnative.so ../HALnative.so hunspell.so ../hunspell.so
 
