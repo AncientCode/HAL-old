@@ -1,3 +1,5 @@
+WARNING: This is an old version, a rewrite is in process!
+
 The HAL Engine
 ==============
 
